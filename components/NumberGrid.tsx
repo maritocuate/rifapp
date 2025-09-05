@@ -14,8 +14,8 @@ const GridFrame = styled(Box)(({ theme }) => ({
   background:
     'linear-gradient(145deg, #ffd700 0%, #ffed4e 25%, #ffd700 50%, #b8860b 75%, #ffd700 100%)',
   borderRadius: '20px',
-  padding: '8px',
-  animation: 'glow 3s ease-in-out infinite alternate',
+  padding: '6px',
+  boxShadow: '0 0 20px rgba(255, 215, 0, 0.3), inset 0 0 20px rgba(255, 215, 0, 0.1)',
   position: 'relative',
 }))
 
@@ -35,7 +35,6 @@ const NumberButton = styled(Box)<{ selected: boolean }>(({ theme, selected }) =>
   cursor: 'pointer',
   borderRadius: '12px',
   position: 'relative',
-  transition: 'all 0.3s ease',
   background: selected
     ? 'linear-gradient(145deg, #ffd700, #ffed4e)'
     : 'linear-gradient(145deg, #4a0e4e, #2d1b69)',
