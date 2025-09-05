@@ -2,9 +2,11 @@
 
 import styled from '@emotion/styled'
 import { Box, Container, useMediaQuery, useTheme } from '@mui/material'
+import { useState } from 'react'
 import NumberGrid from '@/components/NumberGrid'
 import NumberGridMobile from '@/components/NumberGridMobile'
 import MainTitle from '@/components/MainTitle'
+import TotalPopup from '@/components/SelectionPopup'
 
 const PageContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -25,13 +27,23 @@ const ContentWrapper = styled(Container)(({ theme }) => ({
 const DynamicPageClient = () => {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+  const [selectedNumbers, setSelectedNumbers] = useState<Set<number>>(new Set())
+
+  const handleSelectionChange = (newSelection: Set<number>) => {
+    setSelectedNumbers(newSelection)
+  }
 
   return (
     <PageContainer className="geometric-bg">
       <ContentWrapper maxWidth="lg">
         <MainTitle className="glow-text">Rifa Colonial Sape Divertida</MainTitle>
-        {isMobile ? <NumberGridMobile /> : <NumberGrid />}
+        {isMobile ? (
+          <NumberGridMobile onSelectionChange={handleSelectionChange} />
+        ) : (
+          <NumberGrid onSelectionChange={handleSelectionChange} />
+        )}
       </ContentWrapper>
+      <TotalPopup selectedCount={selectedNumbers.size} />
     </PageContainer>
   )
 }

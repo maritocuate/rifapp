@@ -2,7 +2,7 @@
 
 import { styled } from '@mui/material/styles'
 import { Box, Grid, Typography } from '@mui/material'
-import { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 const GridContainer = styled(Box)(({ theme }) => ({
   maxWidth: '800px',
@@ -63,7 +63,11 @@ const NumberText = styled(Typography)<{ selected: boolean }>(({ theme, selected 
   userSelect: 'none',
 }))
 
-const NumberGrid: React.FC = () => {
+interface NumberGridProps {
+  onSelectionChange?: (selectedNumbers: Set<number>) => void
+}
+
+const NumberGrid: React.FC<NumberGridProps> = ({ onSelectionChange }) => {
   const [selectedNumbers, setSelectedNumbers] = useState<Set<number>>(new Set())
 
   const handleNumberClick = (num: number) => {
@@ -77,6 +81,11 @@ const NumberGrid: React.FC = () => {
       return newSet
     })
   }
+
+  // Use useEffect to notify parent when selectedNumbers changes
+  useEffect(() => {
+    onSelectionChange?.(selectedNumbers)
+  }, [selectedNumbers, onSelectionChange])
 
   const numbers = Array.from({ length: 100 }, (_, i) => i + 1)
 
