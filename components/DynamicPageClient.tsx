@@ -4,6 +4,7 @@ import styled from '@emotion/styled'
 import { Box, Container, useMediaQuery, useTheme } from '@mui/material'
 import NumberGrid from '@/components/NumberGrid'
 import NumberGridMobile from '@/components/NumberGridMobile'
+import MainTitle from '@/components/MainTitle'
 
 const PageContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -28,6 +29,7 @@ const DynamicPageClient = () => {
   return (
     <PageContainer className="geometric-bg">
       <ContentWrapper maxWidth="lg">
+        <MainTitle className="glow-text">Rifa Colonial Sape Divertida</MainTitle>
         {isMobile ? <NumberGridMobile /> : <NumberGrid />}
       </ContentWrapper>
     </PageContainer>

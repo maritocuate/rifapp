@@ -22,7 +22,7 @@ const GridFrame = styled(Box)(({ theme }) => ({
 const GridInner = styled(Box)(({ theme }) => ({
   background: 'linear-gradient(145deg, #2d1b69, #1a0033)',
   borderRadius: '12px',
-  padding: '15px',
+  padding: '6px',
   position: 'relative',
 }))
 
@@ -84,7 +84,7 @@ const NumberGridMobile: React.FC = () => {
     <GridContainer>
       <GridFrame>
         <GridInner>
-          <Grid container spacing={0}>
+          <Grid container spacing={0.3}>
             {numbers.map((num) => (
               <Grid size={{ xs: 2.4 }} key={num}>
                 <NumberButton

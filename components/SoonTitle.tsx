@@ -2,21 +2,11 @@
 
 import { styled } from '@mui/material/styles'
 import { Typography, Box } from '@mui/material'
+import MainTitle from '@/components/MainTitle'
 
 const TitleContainer = styled(Box)(({ theme }) => ({
   textAlign: 'center',
   position: 'relative',
-}))
-
-const MainTitle = styled(Typography)(({ theme }) => ({
-  fontFamily: "'Cinzel', serif",
-  fontWeight: 700,
-  fontSize: 'clamp(2.5rem, 8vw, 5rem)',
-  background: 'linear-gradient(145deg, #ffd700 0%, #ffed4e 30%, #ffd700 60%, #b8860b 100%)',
-  WebkitBackgroundClip: 'text',
-  WebkitTextFillColor: 'transparent',
-  position: 'relative',
-  animation: 'pulse 3s ease-in-out infinite',
 }))
 
 const Description = styled(Typography)(({ theme }) => ({

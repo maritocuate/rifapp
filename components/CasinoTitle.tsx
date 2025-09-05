@@ -1,25 +1,14 @@
-'use client';
+'use client'
 
-import { styled } from '@mui/material/styles';
-import { Typography, Box } from '@mui/material';
+import { styled } from '@mui/material/styles'
+import { Typography, Box } from '@mui/material'
+import MainTitle from '@/components/MainTitle'
 
 const TitleContainer = styled(Box)(({ theme }) => ({
   textAlign: 'center',
   marginBottom: '3rem',
   position: 'relative',
-}));
-
-const MainTitle = styled(Typography)(({ theme }) => ({
-  fontFamily: "'Cinzel', serif",
-  fontWeight: 700,
-  fontSize: 'clamp(2.5rem, 8vw, 5rem)',
-  background: 'linear-gradient(145deg, #ffd700 0%, #ffed4e 30%, #ffd700 60%, #b8860b 100%)',
-  WebkitBackgroundClip: 'text',
-  WebkitTextFillColor: 'transparent',
-  marginBottom: '1rem',
-  position: 'relative',
-  animation: 'pulse 3s ease-in-out infinite',
-}));
+}))
 
 const SubTitle = styled(Typography)(({ theme }) => ({
   fontFamily: "'Orbitron', monospace",
@@ -29,7 +18,7 @@ const SubTitle = styled(Typography)(({ theme }) => ({
   textTransform: 'uppercase',
   letterSpacing: '0.2em',
   marginBottom: '0.5rem',
-}));
+}))
 
 const Description = styled(Typography)(({ theme }) => ({
   fontFamily: "'Orbitron', monospace",
@@ -39,21 +28,19 @@ const Description = styled(Typography)(({ theme }) => ({
   maxWidth: '600px',
   margin: '0 auto',
   lineHeight: 1.6,
-}));
+}))
 
 const CasinoTitle: React.FC = () => {
   return (
     <TitleContainer>
       <SubTitle>Welcome to</SubTitle>
-      <MainTitle className="glow-text">
-        GOLDEN NUMBERS
-      </MainTitle>
+      <MainTitle className="glow-text">GOLDEN NUMBERS</MainTitle>
       <Description>
-        Choose your lucky numbers and feel the thrill of the game. 
-        Every number holds the promise of fortune!
+        Choose your lucky numbers and feel the thrill of the game. Every number holds the promise of
+        fortune!
       </Description>
     </TitleContainer>
-  );
-};
+  )
+}
 
-export default CasinoTitle;
+export default CasinoTitle
