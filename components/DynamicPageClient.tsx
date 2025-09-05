@@ -1,8 +1,9 @@
 'use client'
 
 import styled from '@emotion/styled'
-import { Box, Container } from '@mui/material'
+import { Box, Container, useMediaQuery, useTheme } from '@mui/material'
 import NumberGrid from '@/components/NumberGrid'
+import NumberGridMobile from '@/components/NumberGridMobile'
 
 const PageContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -21,10 +22,13 @@ const ContentWrapper = styled(Container)(({ theme }) => ({
 }))
 
 const DynamicPageClient = () => {
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+
   return (
     <PageContainer className="geometric-bg">
       <ContentWrapper maxWidth="lg">
-        <NumberGrid />
+        {isMobile ? <NumberGridMobile /> : <NumberGrid />}
       </ContentWrapper>
     </PageContainer>
   )
