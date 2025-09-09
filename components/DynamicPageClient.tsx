@@ -6,7 +6,7 @@ import { useState } from 'react'
 import NumberGrid from '@/components/NumberGrid'
 import NumberGridMobile from '@/components/NumberGridMobile'
 import MainTitle from '@/components/MainTitle'
-import TotalPopup from '@/components/SelectionPopup'
+import {TotalPopup} from '@/components/TotalPopup'
 
 const PageContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -33,6 +33,10 @@ const DynamicPageClient = () => {
     setSelectedNumbers(newSelection)
   }
 
+  const handleConfirmSelection = () => {
+    alert(`Has seleccionado ${selectedNumbers.size} números por un total de $${selectedNumbers.size * 5}`)
+  }
+
   return (
     <PageContainer className="geometric-bg">
       <ContentWrapper maxWidth="lg">
@@ -43,7 +47,10 @@ const DynamicPageClient = () => {
           <NumberGrid onSelectionChange={handleSelectionChange} />
         )}
       </ContentWrapper>
-      <TotalPopup selectedCount={selectedNumbers.size} />
+      <TotalPopup 
+        selectedCount={selectedNumbers.size} 
+        onButtonClick={handleConfirmSelection}
+      />
     </PageContainer>
   )
 }
