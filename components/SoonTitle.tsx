@@ -10,7 +10,7 @@ const TitleContainer = styled(Box)(({ theme }) => ({
 }))
 
 const Description = styled(Typography)(({ theme }) => ({
-  fontFamily: "'Cinzel', serif",
+  fontFamily: 'var(--font-cinzel), serif',
   fontWeight: 300,
   fontSize: 'clamp(0.9rem, 2.5vw, 1.2rem)',
   color: 'rgba(255, 215, 0, 0.8)',

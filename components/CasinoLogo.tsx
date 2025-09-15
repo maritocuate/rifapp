@@ -31,7 +31,7 @@ const LogoInner = styled(Box)(({ theme }) => ({
 }));
 
 const LogoText = styled(Typography)(({ theme }) => ({
-  fontFamily: "'Cinzel', serif",
+  fontFamily: 'var(--font-cinzel), serif',
   fontWeight: 700,
   fontSize: '2rem',
   background: 'linear-gradient(145deg, #ffd700, #ffed4e)',

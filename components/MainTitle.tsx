@@ -9,7 +9,7 @@ interface MainTitleProps {
 }
 
 const StyledMainTitle = styled(Typography)(({ theme }) => ({
-  fontFamily: "'Cinzel', serif",
+  fontFamily: 'var(--font-cinzel), serif',
   fontWeight: 700,
   lineHeight: 1.2,
   fontSize: 'clamp(2.5rem, 8vw, 5rem)',

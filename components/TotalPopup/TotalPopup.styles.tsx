@@ -44,7 +44,7 @@ export const PopupContainer = styled(Box, {
 }))
 
 export const AmountText = styled(Typography)(({ theme }) => ({
-  fontFamily: "'Orbitron', monospace",
+  fontFamily: 'var(--font-orbitron), monospace',
   fontWeight: 900,
   fontSize: '1.5rem',
   color: '#2d1b69',
@@ -54,7 +54,7 @@ export const AmountText = styled(Typography)(({ theme }) => ({
 }))
 
 export const LabelText = styled(Typography)(({ theme }) => ({
-  fontFamily: "'Orbitron', monospace",
+  fontFamily: 'var(--font-orbitron), monospace',
   fontWeight: 600,
   fontSize: '0.8rem',
   color: '#2d1b69',
@@ -64,7 +64,7 @@ export const LabelText = styled(Typography)(({ theme }) => ({
 }))
 
 export const ActionButton = styled(Button)(({ theme }) => ({
-  fontFamily: "'Orbitron', monospace",
+  fontFamily: 'var(--font-orbitron), monospace',
   fontWeight: 700,
   fontSize: '0.9rem',
   color: '#ffed4e',

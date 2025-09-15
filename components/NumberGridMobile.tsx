@@ -55,7 +55,7 @@ const NumberButton = styled(Box)<{ selected: boolean }>(({ theme, selected }) =>
 }))
 
 const NumberText = styled(Typography)<{ selected: boolean }>(({ theme, selected }) => ({
-  fontFamily: "'Orbitron', monospace",
+  fontFamily: 'var(--font-orbitron), monospace',
   fontWeight: 900,
   fontSize: '1.1rem',
   color: selected ? '#2d1b69' : '#ffd700',

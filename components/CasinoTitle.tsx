@@ -11,7 +11,7 @@ const TitleContainer = styled(Box)(({ theme }) => ({
 }))
 
 const SubTitle = styled(Typography)(({ theme }) => ({
-  fontFamily: "'Orbitron', monospace",
+  fontFamily: 'var(--font-orbitron), monospace',
   fontWeight: 400,
   fontSize: 'clamp(1rem, 3vw, 1.5rem)',
   color: '#ffd700',
@@ -21,7 +21,7 @@ const SubTitle = styled(Typography)(({ theme }) => ({
 }))
 
 const Description = styled(Typography)(({ theme }) => ({
-  fontFamily: "'Orbitron', monospace",
+  fontFamily: 'var(--font-orbitron), monospace',
   fontWeight: 300,
   fontSize: 'clamp(0.9rem, 2.5vw, 1.2rem)',
   color: 'rgba(255, 215, 0, 0.8)',

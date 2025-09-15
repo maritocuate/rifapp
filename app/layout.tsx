@@ -1,8 +1,23 @@
 import './globals.css'
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Inter, Cinzel, Orbitron } from 'next/font/google'
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ 
+  subsets: ['latin'],
+  variable: '--font-inter'
+})
+
+const cinzel = Cinzel({ 
+  subsets: ['latin'], 
+  weight: ['400', '600', '700'],
+  variable: '--font-cinzel'
+})
+
+const orbitron = Orbitron({ 
+  subsets: ['latin'], 
+  weight: ['400', '700', '900'],
+  variable: '--font-orbitron'
+})
 
 export const metadata: Metadata = {
   title: 'Riffita App',
@@ -12,15 +27,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Orbitron:wght@400;700;900&display=swap"
-          rel="stylesheet"
-        />
-      </head>
-      <body className={inter.className}>{children}</body>
+      <body className={`${inter.variable} ${cinzel.variable} ${orbitron.variable}`}>{children}</body>
     </html>
   )
 }
