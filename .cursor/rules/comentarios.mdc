@@ -1,0 +1,5 @@
+---
+description: no ingresar comentarios en la generación de código.
+globs:
+alwaysApply: true
+---

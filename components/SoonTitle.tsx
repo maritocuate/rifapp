@@ -1,5 +1,3 @@
-'use client'
-
 import { styled } from '@mui/material/styles'
 import { Typography, Box } from '@mui/material'
 import MainTitle from '@/components/MainTitle'
