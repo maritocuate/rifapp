@@ -7,9 +7,8 @@ export const PopupContainer = styled(Box, {
   isVisible: boolean
   isExiting: boolean
 }>(({ theme, isVisible, isExiting }) => ({
-  position: 'fixed',
+  position: 'sticky',
   bottom: '25px',
-  left: '27px',
   width: '130px',
   background: 'rgba(255, 215, 0, 0.9)',
   borderRadius: '15px',
@@ -20,11 +19,13 @@ export const PopupContainer = styled(Box, {
   minWidth: '120px',
   textAlign: 'center',
   animation: isExiting ? 'slideOut 0.3s ease-in forwards' : 'slideIn 0.3s ease-out',
+  alignSelf: 'flex-start',
+  marginTop: 'auto',
+  flexShrink: 0,
 
   [theme.breakpoints.up('md')]: {
     padding: '35px 20px',
     width: '170px',
-    left: 'calc(50% - 580px)',
   },
 
   '@keyframes slideIn': {
