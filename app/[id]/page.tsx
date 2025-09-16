@@ -1,11 +1,11 @@
-import DynamicPageClient from '@/components/DynamicPageClient'
+import NumberBoard from '@/app/[id]/NumberBoard'
 
 export async function generateStaticParams() {
   return [{ id: '2' }]
 }
 
 const DynamicPage = () => {
-  return <DynamicPageClient />
+  return <NumberBoard />
 }
 
 export default DynamicPage

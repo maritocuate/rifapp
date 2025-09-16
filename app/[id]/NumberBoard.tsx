@@ -6,7 +6,7 @@ import { useState } from 'react'
 import NumberGrid from '@/components/NumberGrid'
 import NumberGridMobile from '@/components/NumberGridMobile'
 import MainTitle from '@/components/MainTitle'
-import {TotalPopup} from '@/components/TotalPopup'
+import {TotalPopup} from './TotalPopup'
 
 const PageContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -24,7 +24,7 @@ const ContentWrapper = styled(Container)(({ theme }) => ({
   textAlign: 'center',
 }))
 
-const DynamicPageClient = () => {
+const NumberBoard = () => {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
   const [selectedNumbers, setSelectedNumbers] = useState<Set<number>>(new Set())
@@ -55,4 +55,4 @@ const DynamicPageClient = () => {
   )
 }
 
-export default DynamicPageClient
+export default NumberBoard
