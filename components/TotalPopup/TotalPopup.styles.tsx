@@ -8,8 +8,9 @@ export const PopupContainer = styled(Box, {
   isExiting: boolean
 }>(({ theme, isVisible, isExiting }) => ({
   position: 'fixed',
-  bottom: '30px',
-  left: '30px',
+  bottom: '25px',
+  left: '27px',
+  width: '130px',
   background: 'rgba(255, 215, 0, 0.9)',
   borderRadius: '15px',
   padding: '15px 20px',
@@ -19,6 +20,12 @@ export const PopupContainer = styled(Box, {
   minWidth: '120px',
   textAlign: 'center',
   animation: isExiting ? 'slideOut 0.3s ease-in forwards' : 'slideIn 0.3s ease-out',
+
+  [theme.breakpoints.up('md')]: {
+    padding: '35px 20px',
+    width: '170px',
+    left: 'calc(50% - 580px)',
+  },
 
   '@keyframes slideIn': {
     from: {
@@ -81,5 +88,9 @@ export const ActionButton = styled(Button)(({ theme }) => ({
   
   '&:hover': {
     background: 'linear-gradient(145deg,rgb(94, 22, 99),rgb(73, 54, 138))',
+  },
+
+  [theme.breakpoints.up('md')]: {
+    bottom: '-35px',
   },
 }))
