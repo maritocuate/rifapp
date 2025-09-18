@@ -26,6 +26,9 @@ export const PopupContainer = styled(Box, {
   [theme.breakpoints.up('md')]: {
     padding: '35px 20px',
     width: '170px',
+    position: 'absolute',
+    left: 'calc(50% - 580px)',
+    bottom: 'calc(50% - 100px)',
   },
 
   '@keyframes slideIn': {
