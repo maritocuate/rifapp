@@ -3,9 +3,10 @@
 import { useAuth } from '@/contexts/AuthContext'
 import { AuthModal } from '@/components/auth/AuthModal'
 import { UserMenu } from '@/components/auth/UserMenu'
+import { RafflesList } from '@/components/RafflesList'
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
-import { LogIn, Plus, Shield, Users, Zap, Share2, DollarSign } from 'lucide-react'
+import { Plus, Share2, DollarSign } from 'lucide-react'
 import { styled } from '@mui/material/styles'
 import { Box, Container, Typography, useMediaQuery, useTheme } from '@mui/material'
 import { CaretCircleRightIcon, UserIcon } from '@phosphor-icons/react'
@@ -192,59 +193,6 @@ const ListsContainer = styled(Box)(({ theme }) => ({
   },
 }))
 
-const ListSection = styled(Box)(({ theme }) => ({
-  background: 'linear-gradient(145deg, rgba(255, 215, 0, 0.08), rgba(255, 215, 0, 0.03))',
-  borderRadius: '15px',
-  border: '1px solid rgba(255, 215, 0, 0.2)',
-  padding: '1.5rem',
-  backdropFilter: 'blur(10px)',
-}))
-
-const ListTitle = styled(Typography)(({ theme }) => ({
-  fontFamily: 'var(--font-cinzel), serif',
-  fontWeight: 600,
-  fontSize: '1.3rem',
-  color: '#ffd700',
-  textShadow: '0 0 10px rgba(255, 215, 0, 0.8)',
-  marginBottom: '1.5rem',
-  textAlign: 'center',
-}))
-
-const ListItem = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  padding: '0.75rem 0',
-  borderBottom: '1px solid rgba(255, 215, 0, 0.1)',
-  
-  '&:last-child': {
-    borderBottom: 'none',
-  },
-  
-  '&:hover': {
-    background: 'rgba(255, 215, 0, 0.05)',
-    borderRadius: '8px',
-    padding: '0.75rem',
-    margin: '0 -0.75rem',
-  },
-}))
-
-const RifaName = styled(Typography)(({ theme }) => ({
-  fontFamily: 'var(--font-orbitron), monospace',
-  fontSize: '0.9rem',
-  color: '#ffffff',
-  textShadow: '0 0 5px rgba(255, 255, 255, 0.3)',
-  flex: 1,
-  marginRight: '1rem',
-}))
-
-const RifaStats = styled(Typography)(({ theme }) => ({
-  fontFamily: 'var(--font-orbitron), monospace',
-  fontSize: '0.8rem',
-  color: '#ffd700',
-  textShadow: '0 0 5px rgba(255, 215, 0, 0.5)',
-  fontWeight: 600,
-}))
 
 export default function Home() {
   const { user } = useAuth()
@@ -308,69 +256,14 @@ export default function Home() {
         </FeaturesContainer>
 
         <ListsContainer>
-          <ListSection>
-            <ListTitle>Últimas Rifas Creadas</ListTitle>
-            <ListItem>
-              <RifaName>Rifa iPhone 15 Pro Max</RifaName>
-              <RifaStats>Hace 2h</RifaStats>
-            </ListItem>
-            <ListItem>
-              <RifaName>PlayStation 5 + 2 Juegos</RifaName>
-              <RifaStats>Hace 5h</RifaStats>
-            </ListItem>
-            <ListItem>
-              <RifaName>Laptop Gaming RTX 4070</RifaName>
-              <RifaStats>Hace 1d</RifaStats>
-            </ListItem>
-            <ListItem>
-              <RifaName>Bicicleta Eléctrica Premium</RifaName>
-              <RifaStats>Hace 2d</RifaStats>
-            </ListItem>
-            <ListItem>
-              <RifaName>Smart TV 65&quot; 4K</RifaName>
-              <RifaStats>Hace 3d</RifaStats>
-            </ListItem>
-            <ListItem>
-              <RifaName>Consola Nintendo Switch OLED</RifaName>
-              <RifaStats>Hace 4d</RifaStats>
-            </ListItem>
-            <ListItem>
-              <RifaName>Tablet iPad Pro 12.9&quot;</RifaName>
-              <RifaStats>Hace 5d</RifaStats>
-            </ListItem>
-          </ListSection>
-
-          <ListSection>
-            <ListTitle>Por Finalizar</ListTitle>
-            <ListItem>
-              <RifaName>MacBook Air M2 13&quot;</RifaName>
-              <RifaStats>98/100</RifaStats>
-            </ListItem>
-            <ListItem>
-              <RifaName>Motorola Edge 40 Pro</RifaName>
-              <RifaStats>95/100</RifaStats>
-            </ListItem>
-            <ListItem>
-              <RifaName>AirPods Pro 2da Gen</RifaName>
-              <RifaStats>92/100</RifaStats>
-            </ListItem>
-            <ListItem>
-              <RifaName>Xbox Series X + Game Pass</RifaName>
-              <RifaStats>89/100</RifaStats>
-            </ListItem>
-            <ListItem>
-              <RifaName>Reloj Apple Watch Ultra</RifaName>
-              <RifaStats>87/100</RifaStats>
-            </ListItem>
-            <ListItem>
-              <RifaName>Monitor Gaming 27&quot; 144Hz</RifaName>
-              <RifaStats>85/100</RifaStats>
-            </ListItem>
-            <ListItem>
-              <RifaName>Audífonos Sony WH-1000XM5</RifaName>
-              <RifaStats>83/100</RifaStats>
-            </ListItem>
-          </ListSection>
+          <RafflesList 
+            type="recent" 
+            title="Últimas Rifas Creadas" 
+          />
+          <RafflesList 
+            type="almostFinished" 
+            title="Por Finalizar" 
+          />
         </ListsContainer>
       </ContentWrapper>
 
