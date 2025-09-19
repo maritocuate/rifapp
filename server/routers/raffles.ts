@@ -59,13 +59,32 @@ export const rafflesRouter = router({
       throw new Error(`Error al obtener rifas por finalizar: ${error.message}`)
     }
 
-    // Simular números disponibles (en una implementación real esto vendría de otra tabla)
-    const rafflesWithStats = raffles?.map(raffle => ({
-      ...raffle,
-      // Simular estadísticas (esto debería venir de una tabla de números)
-      totalNumbers: 100,
-      soldNumbers: Math.floor(Math.random() * 20) + 80, // Entre 80-99 números vendidos
-    })) || []
+    // Obtener estadísticas reales de tickets vendidos
+    const rafflesWithStats = await Promise.all(
+      raffles?.map(async (raffle) => {
+        const { data: tickets, error: ticketsError } = await ctx.supabase
+          .from('tickets')
+          .select('is_sold')
+          .eq('raffle_id', raffle.id)
+
+        if (ticketsError) {
+          console.error(`Error obteniendo tickets para rifa ${raffle.id}:`, ticketsError)
+          return {
+            ...raffle,
+            totalNumbers: 100,
+            soldNumbers: 0,
+          }
+        }
+
+        const soldNumbers = tickets?.filter(ticket => ticket.is_sold).length || 0
+
+        return {
+          ...raffle,
+          totalNumbers: 100,
+          soldNumbers,
+        }
+      }) || []
+    )
 
     return rafflesWithStats
   }),
@@ -90,6 +109,30 @@ export const rafflesRouter = router({
       }
 
       return raffle
+    }),
+
+  // Obtener estadísticas de tickets de una rifa
+  getTicketStats: publicProcedure
+    .input(z.object({ raffleId: z.string().uuid() }))
+    .query(async ({ ctx, input }) => {
+      const { data: tickets, error } = await ctx.supabase
+        .from('tickets')
+        .select('is_sold')
+        .eq('raffle_id', input.raffleId)
+
+      if (error) {
+        throw new Error(`Error al obtener estadísticas de tickets: ${error.message}`)
+      }
+
+      const soldNumbers = tickets?.filter(ticket => ticket.is_sold).length || 0
+      const totalNumbers = 100 // Asumiendo que todas las rifas tienen 100 números
+
+      return {
+        totalNumbers,
+        soldNumbers,
+        availableNumbers: totalNumbers - soldNumbers,
+        soldPercentage: Math.round((soldNumbers / totalNumbers) * 100),
+      }
     }),
 
   // Crear una nueva rifa
