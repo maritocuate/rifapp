@@ -30,17 +30,8 @@ const FormTitle = styled(Typography)(({ theme }) => ({
   WebkitBackgroundClip: 'text',
   WebkitTextFillColor: 'transparent',
   textAlign: 'center',
-  marginBottom: '0.5rem',
+  marginBottom: '1rem',
   textShadow: '0 0 10px rgba(255, 215, 0, 0.8), 0 0 20px rgba(255, 215, 0, 0.6), 0 0 30px rgba(255, 215, 0, 0.4)',
-}))
-
-const FormDescription = styled(Typography)(({ theme }) => ({
-  fontFamily: 'var(--font-orbitron), monospace',
-  fontSize: '1rem',
-  color: '#ffffff',
-  textAlign: 'center',
-  marginBottom: '2rem',
-  textShadow: '0 0 5px rgba(255, 255, 255, 0.3)',
 }))
 
 const StyledLabel = styled(Label)(({ theme }) => ({
@@ -161,9 +152,6 @@ export function LoginForm({ onToggleMode }: LoginFormProps) {
   return (
     <FormContainer>
       <FormTitle>Iniciar Sesión</FormTitle>
-      <FormDescription>
-        Ingresa tus credenciales para acceder a tu cuenta
-      </FormDescription>
       
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
         {error && (

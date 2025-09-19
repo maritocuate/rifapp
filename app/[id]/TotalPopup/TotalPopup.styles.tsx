@@ -6,10 +6,10 @@ export const PopupContainer = styled(Box, {
 })<{
   isVisible: boolean
   isExiting: boolean
-}>(({ theme, isVisible, isExiting }) => ({
+}>(({ theme, isExiting }) => ({
   position: 'sticky',
   bottom: '25px',
-  width: '130px',
+  width: '160px',
   background: 'rgba(255, 215, 0, 0.9)',
   borderRadius: '15px',
   padding: '15px 20px',
