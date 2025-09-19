@@ -3,6 +3,7 @@ import { gsap } from 'gsap'
 
 interface UseTotalPopupProps {
   selectedCount: number
+  numberCost: number
 }
 
 interface UseTotalPopupReturn {
@@ -13,7 +14,7 @@ interface UseTotalPopupReturn {
   isMounted: boolean
 }
 
-const useTotalPopup = ({ selectedCount }: UseTotalPopupProps): UseTotalPopupReturn => {
+const useTotalPopup = ({ selectedCount, numberCost }: UseTotalPopupProps): UseTotalPopupReturn => {
   const [isVisible, setIsVisible] = useState(false)
   const [isExiting, setIsExiting] = useState(false)
   const [isMounted, setIsMounted] = useState(false)
@@ -27,7 +28,7 @@ const useTotalPopup = ({ selectedCount }: UseTotalPopupProps): UseTotalPopupRetu
   useEffect(() => {
     if (!isMounted) return
 
-    const totalAmount = selectedCount * 5
+    const totalAmount = selectedCount * numberCost
 
     if (selectedCount > 0) {
       setIsVisible(true)
@@ -62,7 +63,7 @@ const useTotalPopup = ({ selectedCount }: UseTotalPopupProps): UseTotalPopupRetu
     }
   }, [selectedCount, isVisible, isMounted])
 
-  const totalAmount = selectedCount * 5
+  const totalAmount = selectedCount * numberCost
 
   return {
     isVisible,

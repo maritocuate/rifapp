@@ -7,11 +7,12 @@ import { useTotalPopup } from './useTotalPopup'
 
 interface Props {
   selectedCount: number
+  numberCost: number
   onButtonClick?: () => void
 }
 
-const TotalPopup: React.FC<Props> = ({ selectedCount, onButtonClick }) => {
-  const { isVisible, isExiting, totalAmount, amountTextRef, isMounted } = useTotalPopup({ selectedCount })
+const TotalPopup: React.FC<Props> = ({ selectedCount, numberCost, onButtonClick }) => {
+  const { isVisible, isExiting, totalAmount, amountTextRef, isMounted } = useTotalPopup({ selectedCount, numberCost })
   if (!isMounted || !isVisible) return null
 
   return (

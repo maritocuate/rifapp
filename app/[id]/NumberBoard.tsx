@@ -71,7 +71,8 @@ const NumberBoard = ({ raffleId }: NumberBoardProps) => {
   }
 
   const handleConfirmSelection = () => {
-    alert(`Has seleccionado ${selectedNumbers.size} números por un total de $${selectedNumbers.size * 5}`)
+    const totalCost = selectedNumbers.size * (raffle.number_cost || 0)
+    alert(`Has seleccionado ${selectedNumbers.size} números por un total de $${totalCost}`)
   }
 
   // Mostrar loading mientras se cargan los datos
@@ -114,6 +115,61 @@ const NumberBoard = ({ raffleId }: NumberBoardProps) => {
       <ContentWrapper maxWidth="lg">
         <MainTitle className="glow-text">{raffle.title}</MainTitle>
         
+        {/* Información de la rifa */}
+        <Box sx={{ 
+          margin: '1.5rem 0',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          flexWrap: 'wrap',
+          gap: '1rem',
+          fontSize: '1.1rem',
+          color: 'rgba(255, 255, 255, 0.8)',
+          textShadow: '0 0 5px rgba(255, 255, 255, 0.2)',
+        }}>
+          <Box sx={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            gap: '0.5rem',
+            color: '#FFD700',
+            fontWeight: '500',
+          }}>
+            💰 ${raffle.number_cost || 0} por número
+          </Box>
+          
+          <Box sx={{ 
+            color: 'rgba(255, 255, 255, 0.6)',
+            fontSize: '1.2rem',
+          }}>
+            |
+          </Box>
+          
+          <Box sx={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            gap: '0.5rem',
+            color: 'rgba(255, 255, 255, 0.9)',
+          }}>
+            👤 {raffle.profiles?.username || "Organizador"}
+          </Box>
+          
+          <Box sx={{ 
+            color: 'rgba(255, 255, 255, 0.6)',
+            fontSize: '1.2rem',
+          }}>
+            |
+          </Box>
+          
+          <Box sx={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            gap: '0.5rem',
+            color: 'rgba(255, 255, 255, 0.9)',
+          }}>
+            🎫 {ticketStats?.soldNumbers || 0} números vendidos
+          </Box>
+        </Box>
+        
         <GridSection>
           {isMobile ? (
             <NumberGridMobile 
@@ -130,6 +186,7 @@ const NumberBoard = ({ raffleId }: NumberBoardProps) => {
           )}
           <TotalPopup 
             selectedCount={selectedNumbers.size} 
+            numberCost={raffle.number_cost || 0}
             onButtonClick={handleConfirmSelection}
           />
         </GridSection>
