@@ -9,6 +9,7 @@ import MainTitle from '@/components/MainTitle'
 import EventDetails from '@/components/EventDetails'
 import {TotalPopup} from './TotalPopup'
 import { trpc } from '@/client/trpc'
+import Image from 'next/image'
 
 const PageContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -25,6 +26,16 @@ const ContentWrapper = styled(Container)(({ theme }) => ({
   zIndex: 1,
   maxWidth: '1200px',
   textAlign: 'center',
+}))
+
+const LogoContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  padding: '3rem 0',
+  marginBottom: '1rem',
+  position: 'relative',
+  filter: 'drop-shadow(0 0 15px rgba(255, 215, 0, 0.2)) drop-shadow(0 0 10px rgba(255, 215, 0, 0.2)) drop-shadow(0 0 15px rgba(255, 215, 0, 0.1))',
 }))
 
 const GridSection = styled(Box)(({ theme }) => ({
@@ -68,7 +79,20 @@ const NumberBoard = ({ raffleId }: NumberBoardProps) => {
     return (
       <PageContainer className="geometric-bg">
         <ContentWrapper maxWidth="lg">
-          <MainTitle className="glow-text">Cargando rifa...</MainTitle>
+          <LogoContainer>
+            <Image
+              src="/images/logo-md.png"
+              alt="Riffita"
+              width={400}
+              height={120}
+              priority
+              style={{
+                width: 'clamp(250px, 15vw, 400px)',
+                height: 'auto',
+                maxWidth: '100%',
+              }}
+            />
+          </LogoContainer>
         </ContentWrapper>
       </PageContainer>
     )
