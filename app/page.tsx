@@ -10,6 +10,7 @@ import { Plus, Share2, DollarSign } from 'lucide-react'
 import { styled } from '@mui/material/styles'
 import { Box, Container, Typography, useMediaQuery, useTheme } from '@mui/material'
 import { CaretCircleRightIcon, UserIcon } from '@phosphor-icons/react'
+import Image from 'next/image'
 
 const PageContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -35,18 +36,14 @@ const HeaderWrapper = styled(Box)(({ theme }) => ({
   zIndex: 10,
 }))
 
-const MainTitle = styled(Typography)(({ theme }) => ({
-  fontFamily: 'var(--font-cinzel), serif',
-  fontWeight: 700,
-  lineHeight: 1,
-  fontSize: 'clamp(2.5rem, 8vw, 5rem)',
-  background: 'linear-gradient(145deg, #ffd700 0%, #ffed4e 30%, #ffd700 60%, #b8860b 100%)',
-  WebkitBackgroundClip: 'text',
-  WebkitTextFillColor: 'transparent',
+const LogoContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
   padding: '3rem 0',
   marginBottom: '1rem',
   position: 'relative',
-  textShadow: '0 0 10px rgba(255, 215, 0, 0.8), 0 0 20px rgba(255, 215, 0, 0.6), 0 0 30px rgba(255, 215, 0, 0.4)',
+  filter: 'drop-shadow(0 0 15px rgba(255, 215, 0, 0.2)) drop-shadow(0 0 10px rgba(255, 215, 0, 0.2)) drop-shadow(0 0 15px rgba(255, 215, 0, 0.1))',
 }))
 
 const Subtitle = styled(Typography)(({ theme }) => ({
@@ -218,7 +215,20 @@ export default function Home() {
       </HeaderWrapper>
       
       <ContentWrapper maxWidth="lg">
-        <MainTitle className="glow-text">Riffita</MainTitle>
+        <LogoContainer>
+          <Image
+            src="/images/logo3-md.png"
+            alt="Riffita"
+            width={400}
+            height={120}
+            priority
+            style={{
+              width: 'clamp(250px, 17vw, 400px)',
+              height: 'auto',
+              maxWidth: '100%',
+            }}
+          />
+        </LogoContainer>
         
         <Subtitle>
           Crea y gestiona rifas online de forma fácil, segura y transparente. 
