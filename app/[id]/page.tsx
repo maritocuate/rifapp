@@ -4,8 +4,15 @@ export async function generateStaticParams() {
   return [{ id: '2' }]
 }
 
-const DynamicPage = () => {
-  return <NumberBoard />
+interface DynamicPageProps {
+  params: Promise<{
+    id: string
+  }>
+}
+
+const DynamicPage = async ({ params }: DynamicPageProps) => {
+  const { id } = await params
+  return <NumberBoard raffleId={id} />
 }
 
 export default DynamicPage

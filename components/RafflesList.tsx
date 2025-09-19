@@ -3,6 +3,7 @@
 import { trpc } from '@/client/trpc'
 import { styled } from '@mui/material/styles'
 import { Box, Typography, Skeleton } from '@mui/material'
+import { useRouter } from 'next/navigation'
 
 const ListSection = styled(Box)(({ theme }) => ({
   background: 'linear-gradient(145deg, rgba(255, 215, 0, 0.08), rgba(255, 215, 0, 0.03))',
@@ -28,16 +29,20 @@ const ListItem = styled(Box)(({ theme }) => ({
   alignItems: 'center',
   padding: '0.75rem 0',
   borderBottom: '1px solid rgba(255, 215, 0, 0.1)',
+  cursor: 'pointer',
+  transition: 'all 0.2s ease-in-out',
   
   '&:last-child': {
     borderBottom: 'none',
   },
   
   '&:hover': {
-    background: 'rgba(255, 215, 0, 0.05)',
+    background: 'rgba(255, 215, 0, 0.1)',
     borderRadius: '8px',
     padding: '0.75rem',
     margin: '0 -0.75rem',
+    transform: 'translateX(4px)',
+    boxShadow: '0 0 15px rgba(255, 215, 0, 0.2)',
   },
 }))
 
@@ -93,11 +98,16 @@ interface RafflesListProps {
 }
 
 export function RafflesList({ type, title }: RafflesListProps) {
+  const router = useRouter()
   const { data: recentRaffles, isLoading: isLoadingRecent } = trpc.raffles.getAll.useQuery()
   const { data: almostFinishedRaffles, isLoading: isLoadingAlmostFinished } = trpc.raffles.getAlmostFinished.useQuery()
 
   const raffles = type === 'recent' ? recentRaffles : almostFinishedRaffles
   const isLoading = type === 'recent' ? isLoadingRecent : isLoadingAlmostFinished
+
+  const handleRaffleClick = (raffleId: string) => {
+    router.push(`/${raffleId}`)
+  }
 
   if (isLoading) {
     return (
@@ -151,7 +161,10 @@ export function RafflesList({ type, title }: RafflesListProps) {
     <ListSection>
       <ListTitle>{title}</ListTitle>
       {raffles.slice(0, 7).map((raffle) => (
-        <ListItem key={raffle.id}>
+        <ListItem 
+          key={raffle.id}
+          onClick={() => handleRaffleClick(raffle.id)}
+        >
           <RifaName>{raffle.title}</RifaName>
           <RifaStats>
             {type === 'recent' 

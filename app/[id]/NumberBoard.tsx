@@ -8,6 +8,7 @@ import NumberGridMobile from '@/components/NumberGridMobile'
 import MainTitle from '@/components/MainTitle'
 import EventDetails from '@/components/EventDetails'
 import {TotalPopup} from './TotalPopup'
+import { trpc } from '@/client/trpc'
 
 const PageContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -40,10 +41,18 @@ const GridSection = styled(Box)(({ theme }) => ({
   },
 }))
 
-const NumberBoard = () => {
+interface NumberBoardProps {
+  raffleId: string
+}
+
+const NumberBoard = ({ raffleId }: NumberBoardProps) => {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
   const [selectedNumbers, setSelectedNumbers] = useState<Set<number>>(new Set())
+  
+  // Obtener datos de la rifa
+  const { data: raffle, isLoading: isLoadingRaffle } = trpc.raffles.getById.useQuery({ id: raffleId })
+  const { data: ticketStats, isLoading: isLoadingStats } = trpc.raffles.getTicketStats.useQuery({ raffleId })
 
   const handleSelectionChange = (newSelection: Set<number>) => {
     setSelectedNumbers(newSelection)
@@ -53,10 +62,32 @@ const NumberBoard = () => {
     alert(`Has seleccionado ${selectedNumbers.size} números por un total de $${selectedNumbers.size * 5}`)
   }
 
+  // Mostrar loading mientras se cargan los datos
+  if (isLoadingRaffle || isLoadingStats) {
+    return (
+      <PageContainer className="geometric-bg">
+        <ContentWrapper maxWidth="lg">
+          <MainTitle className="glow-text">Cargando rifa...</MainTitle>
+        </ContentWrapper>
+      </PageContainer>
+    )
+  }
+
+  // Mostrar error si no se encuentra la rifa
+  if (!raffle) {
+    return (
+      <PageContainer className="geometric-bg">
+        <ContentWrapper maxWidth="lg">
+          <MainTitle className="glow-text">Rifa no encontrada</MainTitle>
+        </ContentWrapper>
+      </PageContainer>
+    )
+  }
+
   return (
     <PageContainer className="geometric-bg">
       <ContentWrapper maxWidth="lg">
-        <MainTitle className="glow-text">Rifa Colonial Sape Divertida</MainTitle>
+        <MainTitle className="glow-text">{raffle.title}</MainTitle>
         
         <GridSection>
           {isMobile ? (
@@ -71,9 +102,9 @@ const NumberBoard = () => {
         </GridSection>
         
         <EventDetails
-          description="¡Participa en nuestra emocionante rifa colonial! Un evento único donde podrás ganar increíbles premios mientras disfrutas de la mejor experiencia de entretenimiento. Cada número tiene la oportunidad de llevarse el gran premio."
-          prize="$10,000 USD + Cena para 2 personas en el mejor restaurante de la ciudad"
-          authorNickname="CasinoMaster"
+          description={raffle.description || "¡Participa en nuestra emocionante rifa! Un evento único donde podrás ganar increíbles premios mientras disfrutas de la mejor experiencia de entretenimiento. Cada número tiene la oportunidad de llevarse el gran premio."}
+          prize={raffle.prize_description || "Premio especial"}
+          authorNickname={raffle.profiles?.username || "Organizador"}
           authorAvatar=""
         />
       </ContentWrapper>
