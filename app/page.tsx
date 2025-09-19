@@ -231,8 +231,8 @@ export default function Home() {
         </LogoContainer>
         
         <Subtitle>
-          Crea y gestiona rifas online de forma fácil, segura y transparente. 
-          La plataforma definitiva para organizar sorteos digitales con total confianza.
+          Creá rifas y sorteos online de forma fácil.
+          Participá en los sorteos de forma segura y transparente.
         </Subtitle>
         
         <ButtonContainer>
@@ -247,7 +247,7 @@ export default function Home() {
             <FeatureIcon>
               <Plus className="h-5 w-5 text-yellow-400" />
             </FeatureIcon>
-            <FeatureText>Crea tu rifa</FeatureText>
+            <FeatureText>Crea</FeatureText>
           </FeatureItem>
           
           <FeatureItem>

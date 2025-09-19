@@ -25,8 +25,8 @@ const orbitron = Orbitron({
 })
 
 export const metadata: Metadata = {
-  title: 'Riffita App',
-  description: 'Crea tu rifa online!',
+  title: 'Riffita: Sorteos online',
+  description: 'Crea tu sorteo online!',
   viewport: 'width=device-width, initial-scale=1',
   robots: 'index, follow',
   icons: {
