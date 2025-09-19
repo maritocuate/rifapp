@@ -53,6 +53,7 @@ const NumberBoard = ({ raffleId }: NumberBoardProps) => {
   // Obtener datos de la rifa
   const { data: raffle, isLoading: isLoadingRaffle } = trpc.raffles.getById.useQuery({ id: raffleId })
   const { data: ticketStats, isLoading: isLoadingStats } = trpc.raffles.getTicketStats.useQuery({ raffleId })
+  const { data: soldNumbers, isLoading: isLoadingSoldNumbers } = trpc.raffles.getSoldNumbers.useQuery({ raffleId })
 
   const handleSelectionChange = (newSelection: Set<number>) => {
     setSelectedNumbers(newSelection)
@@ -63,7 +64,7 @@ const NumberBoard = ({ raffleId }: NumberBoardProps) => {
   }
 
   // Mostrar loading mientras se cargan los datos
-  if (isLoadingRaffle || isLoadingStats) {
+  if (isLoadingRaffle || isLoadingStats || isLoadingSoldNumbers) {
     return (
       <PageContainer className="geometric-bg">
         <ContentWrapper maxWidth="lg">
@@ -91,9 +92,17 @@ const NumberBoard = ({ raffleId }: NumberBoardProps) => {
         
         <GridSection>
           {isMobile ? (
-            <NumberGridMobile onSelectionChange={handleSelectionChange} />
+            <NumberGridMobile 
+              onSelectionChange={handleSelectionChange} 
+              soldNumbers={soldNumbers || []} 
+              prizeImageUrl={raffle.prize_image_url}
+            />
           ) : (
-            <NumberGrid onSelectionChange={handleSelectionChange} />
+            <NumberGrid 
+              onSelectionChange={handleSelectionChange} 
+              soldNumbers={soldNumbers || []} 
+              prizeImageUrl={raffle.prize_image_url}
+            />
           )}
           <TotalPopup 
             selectedCount={selectedNumbers.size} 
