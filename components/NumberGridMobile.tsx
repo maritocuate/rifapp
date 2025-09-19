@@ -3,6 +3,7 @@
 import { styled } from '@mui/material/styles'
 import { Box, Grid, Typography } from '@mui/material'
 import React, { useState, useEffect } from 'react'
+import { LimitModal } from './LimitModal'
 
 const GridContainer = styled(Box)(({ theme }) => ({
   maxWidth: '400px',
@@ -93,6 +94,7 @@ interface NumberGridMobileProps {
 
 const NumberGridMobile: React.FC<NumberGridMobileProps> = ({ onSelectionChange, soldNumbers = [], prizeImageUrl }) => {
   const [selectedNumbers, setSelectedNumbers] = useState<Set<number>>(new Set())
+  const [showLimitModal, setShowLimitModal] = useState(false)
 
   const handleNumberClick = (num: number) => {
     // No permitir seleccionar números vendidos
@@ -103,8 +105,14 @@ const NumberGridMobile: React.FC<NumberGridMobileProps> = ({ onSelectionChange, 
     setSelectedNumbers((prev) => {
       const newSet = new Set(prev)
       if (newSet.has(num)) {
+        // Si ya está seleccionado, lo deseleccionamos
         newSet.delete(num)
       } else {
+        // Si no está seleccionado, verificamos el límite de 10
+        if (newSet.size >= 10) {
+          setShowLimitModal(true) // Mostrar el popup de límite
+          return prev // No agregamos el número si ya tenemos 10
+        }
         newSet.add(num)
       }
       return newSet
@@ -144,6 +152,11 @@ const NumberGridMobile: React.FC<NumberGridMobileProps> = ({ onSelectionChange, 
           </Grid>
         </GridInner>
       </GridFrame>
+      
+      <LimitModal 
+        isOpen={showLimitModal} 
+        onClose={() => setShowLimitModal(false)} 
+      />
     </GridContainer>
   )
 }

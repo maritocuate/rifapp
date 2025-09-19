@@ -3,6 +3,7 @@
 import { styled } from '@mui/material/styles'
 import { Box, Grid, Typography } from '@mui/material'
 import React, { useState, useEffect } from 'react'
+import { LimitModal } from './LimitModal'
 
 const GridContainer = styled(Box)(({ theme }) => ({
   maxWidth: '800px',
@@ -99,9 +100,9 @@ interface NumberGridProps {
 
 const NumberGrid: React.FC<NumberGridProps> = ({ onSelectionChange, soldNumbers = [], prizeImageUrl }) => {
   const [selectedNumbers, setSelectedNumbers] = useState<Set<number>>(new Set())
+  const [showLimitModal, setShowLimitModal] = useState(false)
 
   const handleNumberClick = (num: number) => {
-    // No permitir seleccionar números vendidos
     if (soldNumbers.includes(num)) {
       return
     }
@@ -111,6 +112,10 @@ const NumberGrid: React.FC<NumberGridProps> = ({ onSelectionChange, soldNumbers 
       if (newSet.has(num)) {
         newSet.delete(num)
       } else {
+        if (newSet.size >= 10) {
+          setShowLimitModal(true)
+          return prev
+        }
         newSet.add(num)
       }
       return newSet
@@ -150,6 +155,11 @@ const NumberGrid: React.FC<NumberGridProps> = ({ onSelectionChange, soldNumbers 
           </Grid>
         </GridInner>
       </GridFrame>
+      
+      <LimitModal 
+        isOpen={showLimitModal} 
+        onClose={() => setShowLimitModal(false)} 
+      />
     </GridContainer>
   )
 }

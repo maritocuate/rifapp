@@ -169,7 +169,7 @@ const NumberBoard = ({ raffleId }: NumberBoardProps) => {
             gap: '0.5rem',
             color: 'rgba(255, 255, 255, 0.9)',
           }}>
-            🎫 {ticketStats?.soldNumbers || 0} números vendidos
+            🎫 {100 - (ticketStats?.soldNumbers || 0)} números disponibles
           </Box>
         </Box>
         
@@ -197,8 +197,6 @@ const NumberBoard = ({ raffleId }: NumberBoardProps) => {
         <EventDetails
           description={raffle.description || "¡Participa en nuestra emocionante rifa! Un evento único donde podrás ganar increíbles premios mientras disfrutas de la mejor experiencia de entretenimiento. Cada número tiene la oportunidad de llevarse el gran premio."}
           prize={raffle.prize_description || "Premio especial"}
-          authorNickname={raffle.profiles?.username || "Organizador"}
-          authorAvatar=""
         />
       </ContentWrapper>
     </PageContainer>

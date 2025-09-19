@@ -1,7 +1,9 @@
 'use client'
 
 import { styled } from '@mui/material/styles'
-import { Box, Typography, Avatar, useMediaQuery, useTheme } from '@mui/material'
+import { Box, Typography } from '@mui/material'
+import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 
 const DetailsContainer = styled(Box)(({ theme }) => ({
   marginTop: '3rem',
@@ -46,66 +48,47 @@ const PrizeText = styled(Typography)(({ theme }) => ({
   textShadow: '0 0 15px rgba(255, 215, 0, 0.6)',
 }))
 
-const AuthorSection = styled(Box)(({ theme }) => ({
+const SeparatorLine = styled(Box)(({ theme }) => ({
+  width: '100%',
+  height: '1px',
+  background: 'linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.5), transparent)',
+  margin: '2rem 0 1rem 0',
+}))
+
+const HomeLogoContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
-  alignItems: 'center',
   justifyContent: 'center',
-  gap: '1rem',
-  padding: '1rem',
-  background: 'linear-gradient(145deg, rgba(45, 27, 105, 0.8), rgba(26, 0, 51, 0.8))',
-  borderRadius: '15px',
-  border: '1px solid rgba(255, 215, 0, 0.3)',
+  alignItems: 'center',
+  marginTop: '2rem',
+  cursor: 'pointer',
+  transition: 'all 0.3s ease',
+  opacity: 0.7,
+  '&:hover': {
+    opacity: 1,
+    transform: 'scale(1.05)',
+    filter: 'drop-shadow(0 0 10px rgba(255, 215, 0, 0.5))',
+  },
 }))
 
-const AuthorAvatar = styled(Avatar)(({ theme }) => ({
-  width: '60px',
-  height: '60px',
-  border: '3px solid #ffd700',
-  boxShadow: '0 0 15px rgba(255, 215, 0, 0.5)',
-  background: 'linear-gradient(145deg, #ffd700, #ffed4e)',
-}))
-
-const AuthorInfo = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'flex-start',
-}))
-
-const AuthorLabel = styled(Typography)(({ theme }) => ({
-  fontFamily: 'var(--font-orbitron), monospace',
-  fontSize: '0.9rem',
-  color: '#ffd700',
-  opacity: 0.8,
-  marginBottom: '0.25rem',
-}))
-
-const AuthorName = styled(Typography)(({ theme }) => ({
-  fontFamily: 'var(--font-cinzel), serif',
-  fontWeight: 600,
-  fontSize: '1.2rem',
-  color: '#ffffff',
-  textShadow: '0 0 10px rgba(255, 255, 255, 0.5)',
-}))
 
 interface EventDetailsProps {
   description: string
   prize: string
-  authorNickname: string
-  authorAvatar?: string
 }
 
 const EventDetails: React.FC<EventDetailsProps> = ({
   description,
-  prize,
-  authorNickname,
-  authorAvatar
+  prize
 }) => {
-  const theme = useTheme()
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+  const router = useRouter()
+
+  const handleGoHome = () => {
+    router.push('/')
+  }
 
   return (
     <DetailsContainer>
-      <SectionTitle>Detalles del Evento</SectionTitle>
+      <SectionTitle>Detalles del Sorteo</SectionTitle>
       
       <DescriptionText>
         {description}
@@ -115,18 +98,21 @@ const EventDetails: React.FC<EventDetailsProps> = ({
         🏆 Premio: {prize}
       </PrizeText>
       
-      <AuthorSection>
-        <AuthorAvatar 
-          src={authorAvatar} 
-          alt={authorNickname}
-        >
-          {authorNickname.charAt(0).toUpperCase()}
-        </AuthorAvatar>
-        <AuthorInfo>
-          <AuthorLabel>Organizador</AuthorLabel>
-          <AuthorName>{authorNickname}</AuthorName>
-        </AuthorInfo>
-      </AuthorSection>
+      <SeparatorLine />
+      
+      <HomeLogoContainer onClick={handleGoHome}>
+        <Image
+          src="/images/logo3-md.png"
+          alt="Riffita - Volver al inicio"
+          width={120}
+          height={36}
+          style={{
+            width: 'auto',
+            height: '40px',
+            maxWidth: '100%',
+          }}
+        />
+      </HomeLogoContainer>
     </DetailsContainer>
   )
 }
