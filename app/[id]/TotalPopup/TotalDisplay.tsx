@@ -3,6 +3,7 @@ import { ShoppingCartIcon } from '@phosphor-icons/react'
 import { AmountText, LabelText, ActionButton } from './TotalPopup.styles'
 import { useAuth } from '@/contexts/AuthContext'
 import { AuthModal } from '@/components/auth/AuthModal'
+import { formatPrice } from '@/lib/utils'
 
 interface TotalDisplayProps {
   totalAmount: number
@@ -33,7 +34,7 @@ export const TotalDisplay: React.FC<TotalDisplayProps> = ({
   return (
     <>
       <LabelText>Total</LabelText>
-      <AmountText ref={amountTextRef}>${totalAmount}</AmountText>
+      <AmountText ref={amountTextRef}>${formatPrice(totalAmount)}</AmountText>
       <ActionButton onClick={handleCheckout}>
         <ShoppingCartIcon size={20} weight="bold" />
       </ActionButton>

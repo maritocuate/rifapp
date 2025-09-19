@@ -61,7 +61,7 @@ const useTotalPopup = ({ selectedCount, numberCost }: UseTotalPopupProps): UseTo
 
       return () => clearTimeout(timer)
     }
-  }, [selectedCount, isVisible, isMounted])
+  }, [selectedCount, numberCost, isVisible, isMounted])
 
   const totalAmount = selectedCount * numberCost
 

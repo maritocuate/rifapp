@@ -19,7 +19,9 @@ const GridFrame = styled(Box)(({ theme }) => ({
   position: 'relative',
 }))
 
-const GridInner = styled(Box)<{ prizeImageUrl?: string }>(({ theme, prizeImageUrl }) => ({
+const GridInner = styled(Box, {
+  shouldForwardProp: (prop) => prop !== 'prizeImageUrl',
+})<{ prizeImageUrl?: string }>(({ theme, prizeImageUrl }) => ({
   background: prizeImageUrl 
     ? `linear-gradient(rgba(45, 27, 105, 0.8), rgba(26, 0, 51, 0.8)), url(${prizeImageUrl})`
     : 'linear-gradient(145deg, #2d1b69, #1a0033)',
@@ -31,7 +33,9 @@ const GridInner = styled(Box)<{ prizeImageUrl?: string }>(({ theme, prizeImageUr
   position: 'relative',
 }))
 
-const NumberButton = styled(Box)<{ selected: boolean; sold: boolean }>(({ theme, selected, sold }) => ({
+const NumberButton = styled(Box, {
+  shouldForwardProp: (prop) => prop !== 'selected' && prop !== 'sold',
+})<{ selected: boolean; sold: boolean }>(({ theme, selected, sold }) => ({
   width: '70px',
   height: '70px',
   display: 'flex',
@@ -72,7 +76,9 @@ const NumberButton = styled(Box)<{ selected: boolean; sold: boolean }>(({ theme,
   },
 }))
 
-const NumberText = styled(Typography)<{ selected: boolean; sold: boolean }>(({ theme, selected, sold }) => ({
+const NumberText = styled(Typography, {
+  shouldForwardProp: (prop) => prop !== 'selected' && prop !== 'sold',
+})<{ selected: boolean; sold: boolean }>(({ theme, selected, sold }) => ({
   fontFamily: 'var(--font-orbitron), monospace',
   fontWeight: 900,
   fontSize: '1.5rem',

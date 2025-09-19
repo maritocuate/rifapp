@@ -10,6 +10,7 @@ import EventDetails from '@/components/EventDetails'
 import {TotalPopup} from './TotalPopup'
 import { trpc } from '@/client/trpc'
 import Image from 'next/image'
+import { formatPrice } from '@/lib/utils'
 
 const PageContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -72,7 +73,7 @@ const NumberBoard = ({ raffleId }: NumberBoardProps) => {
 
   const handleConfirmSelection = () => {
     const totalCost = selectedNumbers.size * (raffle.number_cost || 0)
-    alert(`Has seleccionado ${selectedNumbers.size} números por un total de $${totalCost}`)
+    alert(`Has seleccionado ${selectedNumbers.size} números por un total de $${formatPrice(totalCost)}`)
   }
 
   // Mostrar loading mientras se cargan los datos
@@ -134,7 +135,7 @@ const NumberBoard = ({ raffleId }: NumberBoardProps) => {
             color: '#FFD700',
             fontWeight: '500',
           }}>
-            💰 ${raffle.number_cost || 0} por número
+            💰 ${formatPrice(raffle.number_cost || 0)} por número
           </Box>
           
           <Box sx={{ 
