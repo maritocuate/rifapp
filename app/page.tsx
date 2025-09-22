@@ -11,6 +11,7 @@ import { styled } from '@mui/material/styles'
 import { Box, Container, Typography, useMediaQuery, useTheme } from '@mui/material'
 import { CaretCircleRightIcon, UserIcon } from '@phosphor-icons/react'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 
 const PageContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -196,6 +197,15 @@ export default function Home() {
   const [showAuthModal, setShowAuthModal] = useState(false)
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+  const router = useRouter()
+
+  const handleCreateRaffle = () => {
+    if (user) {
+      router.push('/make')
+    } else {
+      setShowAuthModal(true)
+    }
+  }
 
   return (
     <PageContainer className="geometric-bg">
@@ -236,7 +246,7 @@ export default function Home() {
         </Subtitle>
         
         <ButtonContainer>
-          <PrimaryButton size="lg">
+          <PrimaryButton size="lg" onClick={handleCreateRaffle}>
             Crear Rifa
             <CaretCircleRightIcon className="ml-4 h-5 w-5" />
           </PrimaryButton>
@@ -254,14 +264,14 @@ export default function Home() {
             <FeatureIcon>
               <Share2 className="h-5 w-5 text-yellow-400" />
             </FeatureIcon>
-            <FeatureText>Compartila</FeatureText>
+            <FeatureText>Comparte</FeatureText>
           </FeatureItem>
           
           <FeatureItem>
             <FeatureIcon>
               <DollarSign className="h-5 w-5 text-yellow-400" />
             </FeatureIcon>
-            <FeatureText>Cobrá!</FeatureText>
+            <FeatureText>Cobra!</FeatureText>
           </FeatureItem>
         </FeaturesContainer>
 

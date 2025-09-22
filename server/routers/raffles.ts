@@ -162,17 +162,37 @@ export const rafflesRouter = router({
       description: z.string().optional(),
       prize_description: z.string().optional(),
       prize_image_url: z.string().url().optional(),
+      number_cost: z.number().min(1, 'El costo por número debe ser mayor a 0'),
       author_id: z.string().uuid(),
     }))
     .mutation(async ({ ctx, input }) => {
       const { data: raffle, error } = await ctx.supabase
         .from('raffles')
-        .insert(input)
+        .insert({
+          ...input,
+          status: 'activo', // Establecer como activa por defecto
+        })
         .select()
         .single()
 
       if (error) {
         throw new Error(`Error al crear rifa: ${error.message}`)
+      }
+
+      // Crear los 100 tickets para la rifa
+      const tickets = Array.from({ length: 100 }, (_, index) => ({
+        raffle_id: raffle.id,
+        number: index.toString().padStart(2, '0'),
+        is_sold: false,
+      }))
+
+      const { error: ticketsError } = await ctx.supabase
+        .from('tickets')
+        .insert(tickets)
+
+      if (ticketsError) {
+        console.error('Error creando tickets:', ticketsError)
+        // No lanzamos error aquí para no fallar la creación de la rifa
       }
 
       return raffle
