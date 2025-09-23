@@ -4,6 +4,7 @@ import { useAuth } from '@/contexts/AuthContext'
 import { AuthModal } from '@/components/auth/AuthModal'
 import { UserMenu } from '@/components/auth/UserMenu'
 import { RafflesList } from '@/components/RafflesList'
+import Footer from '@/components/Footer'
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Plus, Share2, DollarSign } from 'lucide-react'
@@ -16,10 +17,7 @@ import { useRouter } from 'next/navigation'
 const PageContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
-  justifyContent: 'center',
-  alignItems: 'center',
   minHeight: '100vh',
-  padding: '2rem 0',
   position: 'relative',
 }))
 
@@ -28,6 +26,12 @@ const ContentWrapper = styled(Container)(({ theme }) => ({
   zIndex: 1,
   maxWidth: '1200px',
   textAlign: 'center',
+  flex: 1,
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
+  padding: '2rem 0',
 }))
 
 const HeaderWrapper = styled(Box)(({ theme }) => ({
@@ -41,10 +45,15 @@ const HeaderContainer = styled(Box)(({ theme }) => ({
   background: 'linear-gradient(145deg, rgba(0, 0, 0, 0.08), rgba(255, 215, 0, 0.03))',
   padding: '1.5rem',
   backdropFilter: 'blur(10px)',
-  width: '100vw',
+  width: '100%',
   marginTop: '-2rem',
-  marginLeft: 'calc(-50vw + 50%)',
   marginBottom: '2rem',
+  borderRadius: '0 0 15px 15px',
+  border: '1px solid rgba(255, 215, 0, 0.1)',
+
+  [theme.breakpoints.down('md')]: {
+    paddingBottom: '3rem',
+  },
 }))
 
 const LogoContainer = styled(Box)(({ theme }) => ({
@@ -135,6 +144,7 @@ const FeaturesContainer = styled(Box)(({ theme }) => ({
   [theme.breakpoints.down('md')]: {
     gap: '1.5rem',
     alignItems: 'center',
+    marginTop: '0',
     marginBottom: '0',
   },
 }))
@@ -200,6 +210,7 @@ const ListsContainer = styled(Box)(({ theme }) => ({
     gap: '2rem',
   },
 }))
+
 
 
 export default function Home() {
@@ -296,6 +307,8 @@ export default function Home() {
           />
         </ListsContainer>
       </ContentWrapper>
+
+      <Footer />
 
       <AuthModal 
         isOpen={showAuthModal} 
