@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import { Inter, Cinzel, Orbitron } from 'next/font/google'
 import { AuthProvider } from '@/contexts/AuthContext'
 import { TRPCProvider } from '@/client/trpc-provider'
+import Umami from '@/components/Umami'
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -45,6 +46,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             {children}
           </AuthProvider>
         </TRPCProvider>
+        <Umami />
       </body>
     </html>
   )
