@@ -8,7 +8,7 @@ import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Plus, Share2, DollarSign } from 'lucide-react'
 import { styled } from '@mui/material/styles'
-import { Box, Container, Typography, useMediaQuery, useTheme } from '@mui/material'
+import { Box, Container, Typography } from '@mui/material'
 import { CaretCircleRightIcon, UserIcon } from '@phosphor-icons/react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
@@ -37,6 +37,16 @@ const HeaderWrapper = styled(Box)(({ theme }) => ({
   zIndex: 10,
 }))
 
+const HeaderContainer = styled(Box)(({ theme }) => ({
+  background: 'linear-gradient(145deg, rgba(0, 0, 0, 0.08), rgba(255, 215, 0, 0.03))',
+  padding: '1.5rem',
+  backdropFilter: 'blur(10px)',
+  width: '100vw',
+  marginTop: '-2rem',
+  marginLeft: 'calc(-50vw + 50%)',
+  marginBottom: '2rem',
+}))
+
 const LogoContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   justifyContent: 'center',
@@ -49,8 +59,8 @@ const LogoContainer = styled(Box)(({ theme }) => ({
 
 const Subtitle = styled(Typography)(({ theme }) => ({
   fontFamily: 'var(--font-orbitron), monospace',
-  fontSize: 'clamp(1rem, 3vw, 1.5rem)',
-  color: '#ffffff',
+  fontSize: 'clamp(1rem, 3vw, 1.4rem)',
+  color: '#ffd700',
   lineHeight: 1.6,
   textAlign: 'center',
   marginBottom: '3rem',
@@ -64,7 +74,7 @@ const ButtonContainer = styled(Box)(({ theme }) => ({
   flexDirection: 'row',
   gap: '1rem',
   justifyContent: 'center',
-  marginBottom: '4rem',
+  marginBottom: '2rem',
   
   [theme.breakpoints.down('md')]: {
     flexDirection: 'column',
@@ -120,7 +130,7 @@ const FeaturesContainer = styled(Box)(({ theme }) => ({
   justifyContent: 'center',
   gap: '4rem',
   marginTop: '2rem',
-  marginBottom: '4rem',
+  marginBottom: '2rem',
   
   [theme.breakpoints.down('md')]: {
     gap: '1.5rem',
@@ -195,8 +205,6 @@ const ListsContainer = styled(Box)(({ theme }) => ({
 export default function Home() {
   const { user } = useAuth()
   const [showAuthModal, setShowAuthModal] = useState(false)
-  const theme = useTheme()
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'))
   const router = useRouter()
 
   const handleCreateRaffle = () => {
@@ -225,32 +233,34 @@ export default function Home() {
       </HeaderWrapper>
       
       <ContentWrapper maxWidth="lg">
-        <LogoContainer>
-          <Image
-            src="/images/logo3-md.png"
-            alt="Riffita"
-            width={400}
-            height={120}
-            priority
-            style={{
-              width: 'clamp(250px, 17vw, 400px)',
-              height: 'auto',
-              maxWidth: '100%',
-            }}
-          />
-        </LogoContainer>
-        
-        <Subtitle>
-          Creá rifas y sorteos online de forma fácil.
-          Participá en los sorteos de forma segura y transparente.
-        </Subtitle>
-        
-        <ButtonContainer>
-          <PrimaryButton size="lg" onClick={handleCreateRaffle}>
-            Crear Rifa
-            <CaretCircleRightIcon className="ml-4 h-5 w-5" />
-          </PrimaryButton>
-        </ButtonContainer>
+        <HeaderContainer>
+          <LogoContainer>
+            <Image
+              src="/images/logo3-md.png"
+              alt="Riffita"
+              width={400}
+              height={120}
+              priority
+              style={{
+                width: 'clamp(250px, 17vw, 400px)',
+                height: 'auto',
+                maxWidth: '100%',
+              }}
+            />
+          </LogoContainer>
+          
+          <Subtitle>
+            Creá rifas y sorteos online de forma fácil.
+            Participá en los sorteos de forma segura y transparente.
+          </Subtitle>
+          
+          <ButtonContainer>
+            <PrimaryButton size="lg" onClick={handleCreateRaffle}>
+              Crear Rifa
+              <CaretCircleRightIcon className="ml-4 h-5 w-5" />
+            </PrimaryButton>
+          </ButtonContainer>
+        </HeaderContainer>
 
         <FeaturesContainer>
           <FeatureItem>

@@ -38,37 +38,47 @@ export function UserMenu() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-          <Avatar className="h-8 w-8">
-            <AvatarFallback className="bg-primary text-primary-foreground">
+        <Button 
+          variant="ghost" 
+          className="relative h-10 w-10 rounded-full border border-yellow-400/30 bg-gradient-to-br from-yellow-400/10 to-yellow-400/5 backdrop-blur-sm hover:from-yellow-400/20 hover:to-yellow-400/10 transition-all duration-300 hover:shadow-lg hover:shadow-yellow-400/20"
+        >
+          <Avatar className="h-8 w-8 border border-yellow-400/30">
+            <AvatarFallback className="bg-gradient-to-br from-yellow-400 to-yellow-500 text-black font-bold text-sm shadow-lg">
               {getUserInitials(user.email || '')}
             </AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56" align="end" forceMount>
-        <DropdownMenuLabel className="font-normal">
+      <DropdownMenuContent 
+        className="w-64 bg-gradient-to-br from-black/90 to-gray-900/90 backdrop-blur-xl border border-yellow-400/30 shadow-2xl shadow-yellow-400/10" 
+        align="end" 
+        forceMount
+      >
+        <DropdownMenuLabel className="font-normal p-3">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">
+            <p className="text-sm font-medium leading-none text-yellow-400 font-mono">
               {user.email}
             </p>
-            <p className="text-xs leading-none text-muted-foreground">
-              Usuario autenticado
+            <p className="text-xs text-gray-400 font-mono">
+              Usuario activo
             </p>
           </div>
         </DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem disabled>
-          <User className="mr-2 h-4 w-4" />
+        <DropdownMenuSeparator className="bg-yellow-400/20" />
+        <DropdownMenuItem 
+          disabled
+          className="text-gray-300 hover:text-yellow-400 hover:bg-yellow-400/10 focus:bg-yellow-400/10 focus:text-yellow-400 transition-all duration-200 font-mono"
+        >
+          <User className="mr-3 h-4 w-4 text-yellow-400" />
           <span>Perfil</span>
         </DropdownMenuItem>
-        <DropdownMenuSeparator />
+        <DropdownMenuSeparator className="bg-yellow-400/20" />
         <DropdownMenuItem 
           onClick={handleSignOut}
           disabled={isSigningOut}
-          className="text-red-600 focus:text-red-600"
+          className="text-red-400 hover:text-red-300 hover:bg-red-500/10 focus:bg-red-500/10 focus:text-red-300 transition-all duration-200 font-mono"
         >
-          <LogOut className="mr-2 h-4 w-4" />
+          <LogOut className="mr-3 h-4 w-4" />
           <span>{isSigningOut ? 'Cerrando sesión...' : 'Cerrar sesión'}</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
