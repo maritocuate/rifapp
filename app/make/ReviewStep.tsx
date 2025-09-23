@@ -1,8 +1,9 @@
 'use client'
 
 import { styled } from '@mui/material/styles'
-import { Box, Typography, Card, CardContent, Divider } from '@mui/material'
+import { Box, Typography, Card, CardContent, Divider, FormControlLabel, Checkbox, Link } from '@mui/material'
 import { User, FileText, Gift, DollarSign, Image as ImageIcon, CheckCircle } from 'lucide-react'
+import { useState } from 'react'
 
 const StepContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -113,6 +114,33 @@ const StyledDivider = styled(Divider)(({ theme }) => ({
   margin: '1rem 0',
 }))
 
+const TermsContainer = styled(Box)(({ theme }) => ({
+  background: 'rgba(255, 255, 255, 0.05)',
+  border: '1px solid rgba(255, 215, 0, 0.2)',
+  borderRadius: '10px',
+  padding: '1rem',
+  marginTop: '1rem',
+}))
+
+const StyledCheckbox = styled(Checkbox)(({ theme }) => ({
+  color: '#ffd700',
+  '&.Mui-checked': {
+    color: '#ffd700',
+  },
+  '&:hover': {
+    backgroundColor: 'rgba(255, 215, 0, 0.1)',
+  },
+}))
+
+const TermsLink = styled(Link)(({ theme }) => ({
+  color: '#ffd700',
+  textDecoration: 'underline',
+  '&:hover': {
+    color: '#ffed4e',
+    textDecoration: 'underline',
+  },
+}))
+
 interface ReviewStepProps {
   data: {
     title: string
@@ -122,10 +150,18 @@ interface ReviewStepProps {
     number_cost: number
   }
   errors: Record<string, string>
+  onTermsAccepted?: (accepted: boolean) => void
 }
 
-export function ReviewStep({ data, errors }: ReviewStepProps) {
+export function ReviewStep({ data, errors, onTermsAccepted }: ReviewStepProps) {
   const totalPrize = data.number_cost * 100
+  const [termsAccepted, setTermsAccepted] = useState(false)
+
+  const handleTermsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const accepted = event.target.checked
+    setTermsAccepted(accepted)
+    onTermsAccepted?.(accepted)
+  }
 
   return (
     <StepContainer>
@@ -191,7 +227,7 @@ export function ReviewStep({ data, errors }: ReviewStepProps) {
               Resumen de la Rifa
             </SummaryTitle>
             <SummaryText>
-              • <strong>100 números</strong> disponibles (00-99)<br/>
+              • <strong>100 números</strong> disponibles (01-100)<br/>
               • <strong>${data.number_cost.toLocaleString()}</strong> por número<br/>
               • <strong>Premio total:</strong> ${totalPrize.toLocaleString()}<br/>
               • <strong>Estado:</strong> Activa (lista para recibir participantes)
@@ -199,6 +235,57 @@ export function ReviewStep({ data, errors }: ReviewStepProps) {
           </SummaryBox>
         </CardContentStyled>
       </ReviewCard>
+
+      <TermsContainer>
+        <FormControlLabel
+          control={
+            <StyledCheckbox
+              checked={termsAccepted}
+              onChange={handleTermsChange}
+              name="termsAccepted"
+            />
+          }
+          label={
+            <Typography sx={{
+              fontFamily: 'var(--font-orbitron), monospace',
+              fontSize: '0.9rem',
+              color: 'rgba(255, 255, 255, 0.9)',
+              lineHeight: 1.4
+            }}>
+              Acepto los{' '}
+              <TermsLink 
+                href="/terminos" 
+                target="_blank"
+                sx={{ fontFamily: 'var(--font-orbitron), monospace' }}
+              >
+                términos y condiciones
+              </TermsLink>
+              {' '}para crear esta rifa
+            </Typography>
+          }
+          sx={{ 
+            alignItems: 'center',
+            margin: 0,
+            '& .MuiFormControlLabel-label': {
+              marginLeft: '0.5rem'
+            }
+          }}
+        />
+        {errors.terms && (
+          <Typography sx={{
+            fontFamily: 'var(--font-orbitron), monospace',
+            fontSize: '0.8rem',
+            color: '#ff6b6b',
+            marginTop: '0.5rem',
+            marginLeft: '2rem',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.25rem'
+          }}>
+            ⚠️ {errors.terms}
+          </Typography>
+        )}
+      </TermsContainer>
     </StepContainer>
   )
 }

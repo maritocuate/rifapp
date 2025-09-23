@@ -169,6 +169,7 @@ export function CreateRaffleWizard() {
     number_cost: 0,
   })
   const [errors, setErrors] = useState<Record<string, string>>({})
+  const [termsAccepted, setTermsAccepted] = useState(false)
 
   const createRaffleMutation = trpc.raffles.create.useMutation({
     onSuccess: (data) => {
@@ -225,6 +226,11 @@ export function CreateRaffleWizard() {
           newErrors.number_cost = 'El costo por número debe ser mayor a 0'
         }
         break
+      case 2:
+        if (!termsAccepted) {
+          newErrors.terms = 'Debes aceptar los términos y condiciones para continuar'
+        }
+        break
     }
 
     setErrors(newErrors)
@@ -233,6 +239,10 @@ export function CreateRaffleWizard() {
 
   const updateRaffleData = (updates: Partial<RaffleData>) => {
     setRaffleData(prev => ({ ...prev, ...updates }))
+  }
+
+  const handleTermsAccepted = (accepted: boolean) => {
+    setTermsAccepted(accepted)
   }
 
   const renderStepContent = () => {
@@ -258,6 +268,7 @@ export function CreateRaffleWizard() {
           <ReviewStep
             data={raffleData}
             errors={errors}
+            onTermsAccepted={handleTermsAccepted}
           />
         )
       default:

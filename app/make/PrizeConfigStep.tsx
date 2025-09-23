@@ -99,6 +99,13 @@ const CostInfoText = styled(Typography)(({ theme }) => ({
   lineHeight: 1.5,
 }))
 
+const DetailsText = styled(Typography)(({ theme }) => ({
+  fontFamily: 'var(--font-orbitron), monospace',
+  fontSize: '0.6rem',
+  color: 'rgba(255, 255, 255, 0.8)',
+  lineHeight: 1.5,
+}))
+
 interface PrizeConfigStepProps {
   data: {
     prize_description: string
@@ -114,12 +121,12 @@ interface PrizeConfigStepProps {
 }
 
 export function PrizeConfigStep({ data, onUpdate, errors }: PrizeConfigStepProps) {
+  const comision = 0.05
+  const gananciaNeta = data.number_cost * 100 * (1 - comision)
+  
   return (
     <StepContainer>
-      <StepTitle>Configuración del Premio</StepTitle>
-      <StepDescription>
-        Definí los detalles del premio y el costo por número
-      </StepDescription>
+      <StepTitle>Configuración del Sorteo</StepTitle>
 
       <FieldContainer>
         <FieldLabel>
@@ -182,11 +189,12 @@ export function PrizeConfigStep({ data, onUpdate, errors }: PrizeConfigStepProps
         <CostInfo>
           <CostInfoText>
             💡 <strong>Información importante:</strong><br/>
-            • Cada rifa tiene 100 números disponibles (00-99)<br/>
-            • El premio total será: ${(data.number_cost * 100).toLocaleString()}<br/>
-            • Los participantes podrán comprar múltiples números
+            • Cada rifa tiene 100 números disponibles (01-100)<br/>
+            • Los participantes podrán comprar hasta 10 números<br/>
+            • Tu ganancia neta será de: <strong className="text-yellow-400">${gananciaNeta.toLocaleString()}</strong>*<br/>
           </CostInfoText>
         </CostInfo>
+        <DetailsText>* {comision * 100}% de comisión.</DetailsText>
       </FieldContainer>
     </StepContainer>
   )
