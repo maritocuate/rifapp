@@ -204,6 +204,8 @@ const ListsContainer = styled(Box)(({ theme }) => ({
   gridTemplateColumns: '1fr 1fr',
   gap: '3rem',
   marginTop: '2rem',
+  width: '100%',
+  maxWidth: '1200px',
   
   [theme.breakpoints.down('md')]: {
     gridTemplateColumns: '1fr',
