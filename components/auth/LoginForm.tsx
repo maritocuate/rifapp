@@ -126,9 +126,10 @@ const StyledAlert = styled(Alert)(({ theme }) => ({
 
 interface LoginFormProps {
   onToggleMode: () => void
+  redirectTo?: string
 }
 
-export function LoginForm({ onToggleMode }: LoginFormProps) {
+export function LoginForm({ onToggleMode, redirectTo }: LoginFormProps) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
@@ -144,6 +145,9 @@ export function LoginForm({ onToggleMode }: LoginFormProps) {
     
     if (error) {
       setError(error.message)
+    } else if (redirectTo) {
+      // Redirigir después del login exitoso
+      window.location.href = redirectTo
     }
     
     setLoading(false)

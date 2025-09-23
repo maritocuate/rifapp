@@ -301,6 +301,7 @@ export default function Home() {
         isOpen={showAuthModal} 
         onClose={() => setShowAuthModal(false)}
         defaultMode="login"
+        redirectTo="/make"
       />
     </PageContainer>
   )

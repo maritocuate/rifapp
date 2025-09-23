@@ -9,9 +9,10 @@ interface AuthModalProps {
   isOpen: boolean
   onClose: () => void
   defaultMode?: 'login' | 'register'
+  redirectTo?: string
 }
 
-export function AuthModal({ isOpen, onClose, defaultMode = 'login' }: AuthModalProps) {
+export function AuthModal({ isOpen, onClose, defaultMode = 'login', redirectTo }: AuthModalProps) {
   const [mode, setMode] = useState<'login' | 'register'>(defaultMode)
 
   const toggleMode = () => {
@@ -27,7 +28,7 @@ export function AuthModal({ isOpen, onClose, defaultMode = 'login' }: AuthModalP
           </DialogTitle>
         </DialogHeader>
         {mode === 'login' ? (
-          <LoginForm onToggleMode={toggleMode} />
+          <LoginForm onToggleMode={toggleMode} redirectTo={redirectTo} />
         ) : (
           <RegisterForm onToggleMode={toggleMode} />
         )}
