@@ -1,8 +1,9 @@
 'use client'
 
 import { styled } from '@mui/material/styles'
-import { Box, Typography, TextField } from '@mui/material'
-import { User, FileText } from 'lucide-react'
+import { Box, Typography, TextField, Alert } from '@mui/material'
+import { User, FileText, AlertTriangle } from 'lucide-react'
+import { CHARACTER_LIMITS, validateField } from '@/hooks/useProfanityFilter'
 
 const StepContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -93,6 +94,18 @@ interface BasicInfoStepProps {
 }
 
 export function BasicInfoStep({ data, onUpdate, errors }: BasicInfoStepProps) {
+  // Validación optimizada en tiempo real
+  const titleValidation = validateField(data.title, 'title')
+  const descriptionValidation = validateField(data.description, 'description')
+
+  const handleTitleChange = (value: string) => {
+    onUpdate({ title: value })
+  }
+
+  const handleDescriptionChange = (value: string) => {
+    onUpdate({ description: value })
+  }
+
   return (
     <StepContainer>
       <StepTitle>Información Básica</StepTitle>
@@ -109,10 +122,16 @@ export function BasicInfoStep({ data, onUpdate, errors }: BasicInfoStepProps) {
           fullWidth
           placeholder="Ej: Rifa iPhone 15 Pro Max"
           value={data.title}
-          onChange={(e) => onUpdate({ title: e.target.value })}
-          error={!!errors.title}
-          helperText={errors.title}
+          onChange={(e) => handleTitleChange(e.target.value)}
+          error={!!errors.title || !titleValidation.isValid}
+          helperText={
+            errors.title || 
+            (titleValidation.profanity.hasProfanity ? `Se detectaron palabras inapropiadas: ${titleValidation.profanity.detectedWords.join(', ')}` : null) ||
+            (titleValidation.errors.length > 0 && !titleValidation.profanity.hasProfanity ? titleValidation.errors[0] : null) ||
+            (!titleValidation.profanity.hasProfanity ? `${titleValidation.characterLimit.currentLength}/${titleValidation.characterLimit.maxLength} caracteres` : null)
+          }
           variant="outlined"
+          inputProps={{ maxLength: CHARACTER_LIMITS.title.max }}
         />
       </FieldContainer>
 
@@ -127,10 +146,16 @@ export function BasicInfoStep({ data, onUpdate, errors }: BasicInfoStepProps) {
           rows={4}
           placeholder="Describe tu rifa, incluye detalles importantes, reglas, etc..."
           value={data.description}
-          onChange={(e) => onUpdate({ description: e.target.value })}
-          error={!!errors.description}
-          helperText={errors.description}
+          onChange={(e) => handleDescriptionChange(e.target.value)}
+          error={!!errors.description || !descriptionValidation.isValid}
+          helperText={
+            errors.description || 
+            (descriptionValidation.profanity.hasProfanity ? `Se detectaron palabras inapropiadas: ${descriptionValidation.profanity.detectedWords.join(', ')}` : null) ||
+            (descriptionValidation.errors.length > 0 && !descriptionValidation.profanity.hasProfanity ? descriptionValidation.errors[0] : null) ||
+            (!descriptionValidation.profanity.hasProfanity ? `${descriptionValidation.characterLimit.currentLength}/${descriptionValidation.characterLimit.maxLength} caracteres` : null)
+          }
           variant="outlined"
+          inputProps={{ maxLength: CHARACTER_LIMITS.description.max }}
         />
       </FieldContainer>
     </StepContainer>

@@ -10,6 +10,7 @@ import { ArrowLeft, ArrowRight, Check } from 'lucide-react'
 import { BasicInfoStep } from './BasicInfoStep'
 import { PrizeConfigStep } from './PrizeConfigStep'
 import { ReviewStep } from './ReviewStep'
+import { useProfanityFilter, CHARACTER_LIMITS, validateField } from '@/hooks/useProfanityFilter'
 
 const WizardContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -220,18 +221,49 @@ export function CreateRaffleWizard() {
 
     switch (activeStep) {
       case 0:
+        // Validar título (requerido)
         if (!raffleData.title.trim()) {
           newErrors.title = 'El título es requerido'
+        } else {
+          const titleValidation = validateField(raffleData.title, 'title')
+          if (!titleValidation.isValid) {
+            newErrors.title = titleValidation.errors[0]
+          }
+        }
+        
+        // Validar descripción (opcional pero con límites si se proporciona)
+        if (raffleData.description.trim()) {
+          const descriptionValidation = validateField(raffleData.description, 'description')
+          if (!descriptionValidation.isValid) {
+            newErrors.description = descriptionValidation.errors[0]
+          }
         }
         break
+
       case 1:
+        // Validar descripción del premio (requerido)
         if (!raffleData.prize_description.trim()) {
           newErrors.prize_description = 'La descripción del premio es requerida'
+        } else {
+          const prizeValidation = validateField(raffleData.prize_description, 'prize_description')
+          if (!prizeValidation.isValid) {
+            newErrors.prize_description = prizeValidation.errors[0]
+          }
         }
+        
+        // Validar URL de imagen (opcional pero con límites si se proporciona)
+        if (raffleData.prize_image_url.trim()) {
+          const imageUrlValidation = validateField(raffleData.prize_image_url, 'prize_image_url')
+          if (!imageUrlValidation.isValid) {
+            newErrors.prize_image_url = imageUrlValidation.errors[0]
+          }
+        }
+        
         if (raffleData.number_cost <= 0) {
           newErrors.number_cost = 'El costo por número debe ser mayor a 0'
         }
         break
+
       case 2:
         if (!termsAccepted) {
           newErrors.terms = 'Debes aceptar los términos y condiciones para continuar'

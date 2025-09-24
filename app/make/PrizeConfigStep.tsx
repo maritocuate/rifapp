@@ -1,8 +1,10 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { styled } from '@mui/material/styles'
-import { Box, Typography, TextField, InputAdornment } from '@mui/material'
-import { Gift, DollarSign, Image as ImageIcon } from 'lucide-react'
+import { Box, Typography, TextField, InputAdornment, Alert } from '@mui/material'
+import { Gift, DollarSign, Image as ImageIcon, AlertTriangle } from 'lucide-react'
+import { useProfanityFilter, CHARACTER_LIMITS, validateField } from '@/hooks/useProfanityFilter'
 
 const StepContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -121,8 +123,20 @@ interface PrizeConfigStepProps {
 }
 
 export function PrizeConfigStep({ data, onUpdate, errors }: PrizeConfigStepProps) {
+  // Validación optimizada en tiempo real
+  const prizeValidation = validateField(data.prize_description, 'prize_description')
+  const imageUrlValidation = validateField(data.prize_image_url, 'prize_image_url')
+  
   const comision = 0.05
   const gananciaNeta = data.number_cost * 100 * (1 - comision)
+
+  const handlePrizeDescriptionChange = (value: string) => {
+    onUpdate({ prize_description: value })
+  }
+
+  const handleImageUrlChange = (value: string) => {
+    onUpdate({ prize_image_url: value })
+  }
   
   return (
     <StepContainer>
@@ -139,11 +153,26 @@ export function PrizeConfigStep({ data, onUpdate, errors }: PrizeConfigStepProps
           rows={3}
           placeholder="Ej: iPhone 15 Pro Max 256GB Color Natural Titanio, nuevo en caja sellada"
           value={data.prize_description}
-          onChange={(e) => onUpdate({ prize_description: e.target.value })}
-          error={!!errors.prize_description}
-          helperText={errors.prize_description}
+          onChange={(e) => handlePrizeDescriptionChange(e.target.value)}
+          error={!!errors.prize_description || !prizeValidation.isValid}
+          helperText={
+            errors.prize_description || 
+            prizeValidation.errors[0] ||
+            `${prizeValidation.characterLimit.currentLength}/${prizeValidation.characterLimit.maxLength} caracteres`
+          }
           variant="outlined"
+          inputProps={{ maxLength: CHARACTER_LIMITS.prize_description.max }}
         />
+        {prizeValidation.profanity.hasProfanity && (
+          <Alert severity="warning" sx={{ mt: 1 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <AlertTriangle className="h-4 w-4" />
+              <Typography variant="body2">
+                Se detectaron palabras inapropiadas: {prizeValidation.profanity.detectedWords.join(', ')}
+              </Typography>
+            </Box>
+          </Alert>
+        )}
       </FieldContainer>
 
       <FieldContainer>
@@ -155,10 +184,15 @@ export function PrizeConfigStep({ data, onUpdate, errors }: PrizeConfigStepProps
           fullWidth
           placeholder="https://ejemplo.com/imagen-premio.jpg"
           value={data.prize_image_url}
-          onChange={(e) => onUpdate({ prize_image_url: e.target.value })}
-          error={!!errors.prize_image_url}
-          helperText={errors.prize_image_url}
+          onChange={(e) => handleImageUrlChange(e.target.value)}
+          error={!!errors.prize_image_url || !imageUrlValidation.isValid}
+          helperText={
+            errors.prize_image_url || 
+            imageUrlValidation.errors[0] ||
+            `${imageUrlValidation.characterLimit.currentLength}/${imageUrlValidation.characterLimit.maxLength} caracteres`
+          }
           variant="outlined"
+          inputProps={{ maxLength: CHARACTER_LIMITS.prize_image_url.max }}
         />
       </FieldContainer>
 
