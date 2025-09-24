@@ -170,6 +170,7 @@ export function CreateRaffleWizard() {
   })
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [termsAccepted, setTermsAccepted] = useState(false)
+  const [captchaVerified, setCaptchaVerified] = useState(false)
 
   const createRaffleMutation = trpc.raffles.create.useMutation({
     onSuccess: (data) => {
@@ -230,6 +231,9 @@ export function CreateRaffleWizard() {
         if (!termsAccepted) {
           newErrors.terms = 'Debes aceptar los términos y condiciones para continuar'
         }
+        if (!captchaVerified) {
+          newErrors.captcha = 'Debes completar la verificación de seguridad para continuar'
+        }
         break
     }
 
@@ -243,6 +247,10 @@ export function CreateRaffleWizard() {
 
   const handleTermsAccepted = (accepted: boolean) => {
     setTermsAccepted(accepted)
+  }
+
+  const handleCaptchaVerified = (verified: boolean) => {
+    setCaptchaVerified(verified)
   }
 
   const renderStepContent = () => {
@@ -269,6 +277,7 @@ export function CreateRaffleWizard() {
             data={raffleData}
             errors={errors}
             onTermsAccepted={handleTermsAccepted}
+            onCaptchaVerified={handleCaptchaVerified}
           />
         )
       default:

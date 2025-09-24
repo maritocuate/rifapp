@@ -4,6 +4,7 @@ import { styled } from '@mui/material/styles'
 import { Box, Typography, Card, CardContent, Divider, FormControlLabel, Checkbox, Link } from '@mui/material'
 import { User, FileText, Gift, DollarSign, Image as ImageIcon, CheckCircle } from 'lucide-react'
 import { useState } from 'react'
+import { Captcha } from '@/components/Captcha'
 
 const StepContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -151,16 +152,29 @@ interface ReviewStepProps {
   }
   errors: Record<string, string>
   onTermsAccepted?: (accepted: boolean) => void
+  onCaptchaVerified?: (verified: boolean) => void
 }
 
-export function ReviewStep({ data, errors, onTermsAccepted }: ReviewStepProps) {
+export function ReviewStep({ data, errors, onTermsAccepted, onCaptchaVerified }: ReviewStepProps) {
   const totalPrize = data.number_cost * 100
   const [termsAccepted, setTermsAccepted] = useState(false)
+  const [captchaVerified, setCaptchaVerified] = useState(false)
 
   const handleTermsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const accepted = event.target.checked
     setTermsAccepted(accepted)
     onTermsAccepted?.(accepted)
+  }
+
+  const handleCaptchaVerify = (token: string | null) => {
+    const verified = !!token
+    setCaptchaVerified(verified)
+    onCaptchaVerified?.(verified)
+  }
+
+  const handleCaptchaExpire = () => {
+    setCaptchaVerified(false)
+    onCaptchaVerified?.(false)
   }
 
   return (
@@ -286,6 +300,12 @@ export function ReviewStep({ data, errors, onTermsAccepted }: ReviewStepProps) {
           </Typography>
         )}
       </TermsContainer>
+
+      <Captcha
+        onVerify={handleCaptchaVerify}
+        onExpire={handleCaptchaExpire}
+        error={errors.captcha}
+      />
     </StepContainer>
   )
 }
