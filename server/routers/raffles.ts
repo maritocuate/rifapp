@@ -155,6 +155,22 @@ export const rafflesRouter = router({
       return soldNumbers
     }),
 
+  // Obtener el número de rifas creadas por un usuario
+  getUserRaffleCount: publicProcedure
+    .input(z.object({ author_id: z.string().uuid() }))
+    .query(async ({ ctx, input }) => {
+      const { count, error } = await ctx.supabase
+        .from('raffles')
+        .select('*', { count: 'exact', head: true })
+        .eq('author_id', input.author_id)
+
+      if (error) {
+        throw new Error(`Error al contar rifas del usuario: ${error.message}`)
+      }
+
+      return count || 0
+    }),
+
   // Crear una nueva rifa
   create: publicProcedure
     .input(z.object({
@@ -166,6 +182,20 @@ export const rafflesRouter = router({
       author_id: z.string().uuid(),
     }))
     .mutation(async ({ ctx, input }) => {
+      // Verificar el límite de rifas por usuario (máximo 3)
+      const { count, error: countError } = await ctx.supabase
+        .from('raffles')
+        .select('*', { count: 'exact', head: true })
+        .eq('author_id', input.author_id)
+
+      if (countError) {
+        throw new Error(`Error al verificar límite de rifas: ${countError.message}`)
+      }
+
+      if (count && count >= 3) {
+        throw new Error('Has alcanzado el límite máximo de 3 rifas por usuario')
+      }
+
       const { data: raffle, error } = await ctx.supabase
         .from('raffles')
         .insert({

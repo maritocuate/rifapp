@@ -172,6 +172,11 @@ export function CreateRaffleWizard() {
   const [termsAccepted, setTermsAccepted] = useState(false)
   const [captchaVerified, setCaptchaVerified] = useState(false)
 
+  const { data: userRaffleCount, isLoading: isLoadingCount } = trpc.raffles.getUserRaffleCount.useQuery(
+    { author_id: user?.id || '' },
+    { enabled: !!user }
+  )
+
   const createRaffleMutation = trpc.raffles.create.useMutation({
     onSuccess: (data) => {
       router.push(`/${data.id}`)
@@ -285,6 +290,9 @@ export function CreateRaffleWizard() {
     }
   }
 
+  const hasReachedLimit = userRaffleCount !== undefined && userRaffleCount >= 3
+  const isNearLimit = userRaffleCount !== undefined && userRaffleCount >= 2
+
   return (
     <WizardContainer>
       <WizardTitle>Crear Nuevo Sorteo</WizardTitle>
@@ -300,6 +308,21 @@ export function CreateRaffleWizard() {
       </StepperContainer>
 
       <ContentContainer>
+        {/* Mostrar información del límite de rifas */}
+        {!isLoadingCount && userRaffleCount !== undefined && (
+          <Alert 
+            severity={hasReachedLimit ? "error" : isNearLimit ? "warning" : "info"} 
+            sx={{ marginBottom: '1rem' }}
+          >
+            {hasReachedLimit 
+              ? `Has alcanzado el límite máximo de 3 rifas por usuario. No puedes crear más rifas.`
+              : isNearLimit 
+                ? `Tienes ${userRaffleCount} rifas creadas. Te queda 1 rifa disponible.`
+                : `Tienes ${userRaffleCount} rifas creadas. Límite: 3 rifas por usuario.`
+            }
+          </Alert>
+        )}
+
         {errors.general && (
           <Alert severity="error" sx={{ marginBottom: '1rem' }}>
             {errors.general}
@@ -321,10 +344,10 @@ export function CreateRaffleWizard() {
           {activeStep === steps.length - 1 ? (
             <PrimaryButton
               onClick={handleFinish}
-              disabled={createRaffleMutation.isPending}
+              disabled={createRaffleMutation.isPending || hasReachedLimit}
               endIcon={createRaffleMutation.isPending ? null : <Check className="h-4 w-4" />}
             >
-              {createRaffleMutation.isPending ? 'Creando...' : 'Crear Rifa'}
+              {createRaffleMutation.isPending ? 'Creando...' : hasReachedLimit ? 'Límite Alcanzado' : 'Crear Rifa'}
             </PrimaryButton>
           ) : (
             <PrimaryButton
