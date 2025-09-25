@@ -325,6 +325,27 @@ export function CreateRaffleWizard() {
   const hasReachedLimit = userRaffleCount !== undefined && userRaffleCount >= 3
   const isNearLimit = userRaffleCount !== undefined && userRaffleCount >= 2
 
+  if (hasReachedLimit) {
+    return (
+      <WizardContainer>
+        <WizardTitle>Límite de Rifas Alcanzado</WizardTitle>
+        
+        <ContentContainer>
+          <Alert severity="error" sx={{ marginBottom: '2rem' }}>
+            Has alcanzado el límite máximo de 3 rifas por usuario. No puedes crear más sorteos.
+          </Alert>
+
+          <StyledButton
+            onClick={() => router.push('/')}
+            startIcon={<ArrowLeft className="h-4 w-4" />}
+          >
+            Volver al Inicio
+          </StyledButton>
+        </ContentContainer>
+      </WizardContainer>
+    )
+  }
+
   return (
     <WizardContainer>
       <WizardTitle>Crear Nuevo Sorteo</WizardTitle>
@@ -340,18 +361,13 @@ export function CreateRaffleWizard() {
       </StepperContainer>
 
       <ContentContainer>
-        {/* Mostrar información del límite de rifas */}
-        {!isLoadingCount && userRaffleCount !== undefined && (
+        {/* Mostrar información del límite de rifas solo si está cerca del límite */}
+        {!isLoadingCount && userRaffleCount !== undefined && isNearLimit && !hasReachedLimit && (
           <Alert 
-            severity={hasReachedLimit ? "error" : isNearLimit ? "warning" : "info"} 
+            severity="warning" 
             sx={{ marginBottom: '1rem' }}
           >
-            {hasReachedLimit 
-              ? `Has alcanzado el límite máximo de 3 rifas por usuario. No puedes crear más rifas.`
-              : isNearLimit 
-                ? `Tienes ${userRaffleCount} rifas creadas. Te queda 1 rifa disponible.`
-                : `Tienes ${userRaffleCount} rifas creadas. Límite: 3 rifas por usuario.`
-            }
+            Tienes {userRaffleCount} rifas creadas. Te queda {3 - userRaffleCount} rifa{3 - userRaffleCount > 1 ? 's' : ''} disponible{3 - userRaffleCount > 1 ? 's' : ''}.
           </Alert>
         )}
 
@@ -376,10 +392,10 @@ export function CreateRaffleWizard() {
           {activeStep === steps.length - 1 ? (
             <PrimaryButton
               onClick={handleFinish}
-              disabled={createRaffleMutation.isPending || hasReachedLimit}
+              disabled={createRaffleMutation.isPending}
               endIcon={createRaffleMutation.isPending ? null : <Check className="h-4 w-4" />}
             >
-              {createRaffleMutation.isPending ? 'Creando...' : hasReachedLimit ? 'Límite Alcanzado' : 'Crear Rifa'}
+              {createRaffleMutation.isPending ? 'Creando...' : 'Crear Rifa'}
             </PrimaryButton>
           ) : (
             <PrimaryButton

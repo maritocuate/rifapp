@@ -10,6 +10,12 @@ interface TitleFieldProps {
 
 export function TitleField({ value, onChange, error }: TitleFieldProps) {
   const titleValidation = validateField(value, 'title')
+  
+  // Solo mostrar errores si hay un error explícito o si el campo tiene contenido y hay errores
+  const shouldShowError = !!error || (value.trim().length > 0 && !titleValidation.isValid)
+  const shouldShowHelperText = error || 
+    (value.trim().length > 0 && titleValidation.profanity.hasProfanity ? `Se detectaron palabras inapropiadas: ${titleValidation.profanity.detectedWords.join(', ')}` : null) ||
+    (value.trim().length > 0 && titleValidation.errors.length > 0 && !titleValidation.profanity.hasProfanity ? titleValidation.errors[0] : null)
 
   return (
     <FieldContainer>
@@ -22,13 +28,8 @@ export function TitleField({ value, onChange, error }: TitleFieldProps) {
         placeholder="Ej: Rifa iPhone 15 Pro Max"
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        error={!!error || !titleValidation.isValid}
-        helperText={
-          error || 
-          (titleValidation.profanity.hasProfanity ? `Se detectaron palabras inapropiadas: ${titleValidation.profanity.detectedWords.join(', ')}` : null) ||
-          (titleValidation.errors.length > 0 && !titleValidation.profanity.hasProfanity ? titleValidation.errors[0] : null) ||
-          (!titleValidation.profanity.hasProfanity ? `${titleValidation.characterLimit.currentLength}/${titleValidation.characterLimit.maxLength} caracteres` : null)
-        }
+        error={shouldShowError}
+        helperText={shouldShowHelperText}
         variant="outlined"
         inputProps={{ maxLength: CHARACTER_LIMITS.title.max }}
       />

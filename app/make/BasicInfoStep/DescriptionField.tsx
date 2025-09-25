@@ -10,6 +10,11 @@ interface DescriptionFieldProps {
 
 export function DescriptionField({ value, onChange, error }: DescriptionFieldProps) {
   const descriptionValidation = validateField(value, 'description')
+  
+  const shouldShowError = !!error || (value.trim().length > 0 && !descriptionValidation.isValid)
+  const shouldShowHelperText = error || 
+    (value.trim().length > 0 && descriptionValidation.profanity.hasProfanity ? `Se detectaron palabras inapropiadas: ${descriptionValidation.profanity.detectedWords.join(', ')}` : null) ||
+    (value.trim().length > 0 && descriptionValidation.errors.length > 0 && !descriptionValidation.profanity.hasProfanity ? descriptionValidation.errors[0] : null)
 
   return (
     <FieldContainer>
@@ -24,13 +29,8 @@ export function DescriptionField({ value, onChange, error }: DescriptionFieldPro
         placeholder="Describe tu rifa, incluye detalles importantes, reglas, etc..."
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        error={!!error || !descriptionValidation.isValid}
-        helperText={
-          error || 
-          (descriptionValidation.profanity.hasProfanity ? `Se detectaron palabras inapropiadas: ${descriptionValidation.profanity.detectedWords.join(', ')}` : null) ||
-          (descriptionValidation.errors.length > 0 && !descriptionValidation.profanity.hasProfanity ? descriptionValidation.errors[0] : null) ||
-          (!descriptionValidation.profanity.hasProfanity ? `${descriptionValidation.characterLimit.currentLength}/${descriptionValidation.characterLimit.maxLength} caracteres` : null)
-        }
+        error={shouldShowError}
+        helperText={shouldShowHelperText}
         variant="outlined"
         inputProps={{ maxLength: CHARACTER_LIMITS.description.max }}
       />
