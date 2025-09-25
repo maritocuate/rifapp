@@ -180,7 +180,7 @@ export function CreateRaffleWizard() {
 
   const createRaffleMutation = trpc.raffles.create.useMutation({
     onSuccess: (data) => {
-      router.push(`/${data.id}`)
+      router.push(`/${data.alias}`)
     },
     onError: (error) => {
       setErrors({ general: error.message })

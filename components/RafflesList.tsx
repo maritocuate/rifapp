@@ -105,8 +105,8 @@ export function RafflesList({ type, title }: RafflesListProps) {
   const raffles = type === 'recent' ? recentRaffles : almostFinishedRaffles
   const isLoading = type === 'recent' ? isLoadingRecent : isLoadingAlmostFinished
 
-  const handleRaffleClick = (raffleId: string) => {
-    router.push(`/${raffleId}`)
+  const handleRaffleClick = (raffleAlias: string) => {
+    router.push(`/${raffleAlias}`)
   }
 
   if (isLoading) {
@@ -163,7 +163,7 @@ export function RafflesList({ type, title }: RafflesListProps) {
       {raffles.slice(0, 7).map((raffle) => (
         <ListItem 
           key={raffle.id}
-          onClick={() => handleRaffleClick(raffle.id)}
+          onClick={() => handleRaffleClick(raffle.alias)}
         >
           <RifaName>{raffle.title}</RifaName>
           <RifaStats>

@@ -111,6 +111,28 @@ export const rafflesRouter = router({
       return raffle
     }),
 
+  // Obtener una rifa por alias
+  getByAlias: publicProcedure
+    .input(z.object({ alias: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const { data: raffle, error } = await ctx.supabase
+        .from('raffles')
+        .select(`
+          *,
+          profiles:author_id (
+            username
+          )
+        `)
+        .eq('alias', input.alias)
+        .single()
+
+      if (error) {
+        throw new Error(`Error al obtener rifa: ${error.message}`)
+      }
+
+      return raffle
+    }),
+
   // Obtener estadísticas de tickets de una rifa
   getTicketStats: publicProcedure
     .input(z.object({ raffleId: z.string().uuid() }))
@@ -217,10 +239,43 @@ export const rafflesRouter = router({
         throw new Error('Has alcanzado el límite máximo de 3 rifas por usuario')
       }
 
+      // Generar alias basado en el título
+      const generateAlias = (title: string): string => {
+        return title
+          .toLowerCase()
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '') // Remover acentos
+          .replace(/[^a-z0-9\s-]/g, '') // Solo letras, números, espacios y guiones
+          .replace(/\s+/g, '-') // Reemplazar espacios con guiones
+          .replace(/-+/g, '-') // Reemplazar múltiples guiones con uno solo
+          .replace(/^-|-$/g, '') // Remover guiones al inicio y final
+      }
+
+      let baseAlias = generateAlias(input.title)
+      let alias = baseAlias
+      let counter = 1
+
+      // Verificar que el alias sea único
+      while (true) {
+        const { data: existingRaffle } = await ctx.supabase
+          .from('raffles')
+          .select('id')
+          .eq('alias', alias)
+          .single()
+
+        if (!existingRaffle) {
+          break // El alias está disponible
+        }
+
+        alias = `${baseAlias}-${counter}`
+        counter++
+      }
+
       const { data: raffle, error } = await ctx.supabase
         .from('raffles')
         .insert({
           ...input,
+          alias,
           status: 'activo', // Establecer como activa por defecto
         })
         .select()

@@ -16,19 +16,19 @@ import { ErrorState } from './ErrorState'
 import { NumberBoardStepProps } from './types'
 import { useAuth } from '@/contexts/AuthContext'
 
-export function NumberBoardStep({ raffleId }: NumberBoardStepProps) {
+export function NumberBoardStep({ raffleAlias }: NumberBoardStepProps) {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
   const [selectedNumbers, setSelectedNumbers] = useState<Set<number>>(new Set())
   const { user } = useAuth()
   
   // Obtener datos de la rifa
-  const { data: raffle, isLoading: isLoadingRaffle } = trpc.raffles.getById.useQuery({ id: raffleId })
-  const { data: ticketStats, isLoading: isLoadingStats } = trpc.raffles.getTicketStats.useQuery({ raffleId })
-  const { data: soldNumbers, isLoading: isLoadingSoldNumbers } = trpc.raffles.getSoldNumbers.useQuery({ raffleId })
+  const { data: raffle, isLoading: isLoadingRaffle } = trpc.raffles.getByAlias.useQuery({ alias: raffleAlias })
+  const { data: ticketStats, isLoading: isLoadingStats } = trpc.raffles.getTicketStats.useQuery({ raffleId: raffle?.id || '' })
+  const { data: soldNumbers, isLoading: isLoadingSoldNumbers } = trpc.raffles.getSoldNumbers.useQuery({ raffleId: raffle?.id || '' })
   const { data: userNumbers, isLoading: isLoadingUserNumbers } = trpc.raffles.getUserNumbers.useQuery(
-    { raffleId, userId: user?.id || '' },
-    { enabled: !!user?.id }
+    { raffleId: raffle?.id || '', userId: user?.id || '' },
+    { enabled: !!user?.id && !!raffle?.id }
   )
 
   const handleSelectionChange = (newSelection: Set<number>) => {

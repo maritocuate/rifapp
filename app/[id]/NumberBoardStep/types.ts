@@ -1,5 +1,5 @@
 export interface NumberBoardStepProps {
-  raffleId: string
+  raffleAlias: string
 }
 
 export interface PageContainerProps {

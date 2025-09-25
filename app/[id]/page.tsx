@@ -8,7 +8,7 @@ interface DynamicPageProps {
 
 const DynamicPage = async ({ params }: DynamicPageProps) => {
   const { id } = await params
-  return <NumberBoardStep raffleId={id} />
+  return <NumberBoardStep raffleAlias={id} />
 }
 
 export default DynamicPage
