@@ -1,8 +1,4 @@
-import NumberBoard from '@/app/[id]/NumberBoard'
-
-export async function generateStaticParams() {
-  return [{ id: '2' }]
-}
+import { NumberBoardStep } from './NumberBoardStep'
 
 interface DynamicPageProps {
   params: Promise<{
@@ -12,7 +8,7 @@ interface DynamicPageProps {
 
 const DynamicPage = async ({ params }: DynamicPageProps) => {
   const { id } = await params
-  return <NumberBoard raffleId={id} />
+  return <NumberBoardStep raffleId={id} />
 }
 
 export default DynamicPage
