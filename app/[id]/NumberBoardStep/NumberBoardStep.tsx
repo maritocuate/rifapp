@@ -14,16 +14,22 @@ import { RaffleInfo } from './RaffleInfo'
 import { LoadingState } from './LoadingState'
 import { ErrorState } from './ErrorState'
 import { NumberBoardStepProps } from './types'
+import { useAuth } from '@/contexts/AuthContext'
 
 export function NumberBoardStep({ raffleId }: NumberBoardStepProps) {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
   const [selectedNumbers, setSelectedNumbers] = useState<Set<number>>(new Set())
+  const { user } = useAuth()
   
   // Obtener datos de la rifa
   const { data: raffle, isLoading: isLoadingRaffle } = trpc.raffles.getById.useQuery({ id: raffleId })
   const { data: ticketStats, isLoading: isLoadingStats } = trpc.raffles.getTicketStats.useQuery({ raffleId })
   const { data: soldNumbers, isLoading: isLoadingSoldNumbers } = trpc.raffles.getSoldNumbers.useQuery({ raffleId })
+  const { data: userNumbers, isLoading: isLoadingUserNumbers } = trpc.raffles.getUserNumbers.useQuery(
+    { raffleId, userId: user?.id || '' },
+    { enabled: !!user?.id }
+  )
 
   const handleSelectionChange = (newSelection: Set<number>) => {
     setSelectedNumbers(newSelection)
@@ -35,7 +41,7 @@ export function NumberBoardStep({ raffleId }: NumberBoardStepProps) {
   }
 
   // Mostrar loading mientras se cargan los datos
-  if (isLoadingRaffle || isLoadingStats || isLoadingSoldNumbers) {
+  if (isLoadingRaffle || isLoadingStats || isLoadingSoldNumbers || isLoadingUserNumbers) {
     return <LoadingState />
   }
 
@@ -61,12 +67,14 @@ export function NumberBoardStep({ raffleId }: NumberBoardStepProps) {
             <NumberGridMobile 
               onSelectionChange={handleSelectionChange} 
               soldNumbers={soldNumbers || []} 
+              userNumbers={userNumbers || []}
               prizeImageUrl={raffle.prize_image_url}
             />
           ) : (
             <NumberGrid 
               onSelectionChange={handleSelectionChange} 
               soldNumbers={soldNumbers || []} 
+              userNumbers={userNumbers || []}
               prizeImageUrl={raffle.prize_image_url}
             />
           )}

@@ -1,9 +1,10 @@
 'use client'
 
 import { styled } from '@mui/material/styles'
-import { Box, Grid, Typography } from '@mui/material'
+import { Box, Grid, Typography, Tooltip } from '@mui/material'
 import React, { useState, useEffect } from 'react'
 import { LimitModal } from './LimitModal'
+import { CheckCircleIcon } from '@phosphor-icons/react'
 
 const GridContainer = styled(Box)(({ theme }) => ({
   maxWidth: '800px',
@@ -35,8 +36,8 @@ const GridInner = styled(Box, {
 }))
 
 const NumberButton = styled(Box, {
-  shouldForwardProp: (prop) => prop !== 'selected' && prop !== 'sold',
-})<{ selected: boolean; sold: boolean }>(({ theme, selected, sold }) => ({
+  shouldForwardProp: (prop) => prop !== 'selected' && prop !== 'sold' && prop !== 'userOwned',
+})<{ selected: boolean; sold: boolean; userOwned: boolean }>(({ theme, selected, sold, userOwned }) => ({
   width: '70px',
   height: '70px',
   display: 'flex',
@@ -47,16 +48,22 @@ const NumberButton = styled(Box, {
   position: 'relative',
   background: sold
     ? 'linear-gradient(145deg, rgba(102, 102, 102, 0.3), rgba(68, 68, 68, 0.3))'
+    : userOwned
+    ? 'linear-gradient(145deg, #4CAF50, #45a049)'
     : selected
     ? 'linear-gradient(145deg, #ffd700, #ffed4e)'
     : 'linear-gradient(145deg, #4a0e4e, #2d1b69)',
   border: sold
     ? '2px solid rgba(102, 102, 102, 0.5)'
+    : userOwned
+    ? '3px solid #4CAF50'
     : selected 
     ? '3px solid #ffd700' 
     : '2px solid rgba(255, 215, 0, 0.3)',
   boxShadow: sold
     ? '0 0 5px rgba(102, 102, 102, 0.2)'
+    : userOwned
+    ? '0 0 25px rgba(76, 175, 80, 0.8), inset 0 0 15px rgba(76, 175, 80, 0.3)'
     : selected
     ? '0 0 30px rgba(255, 215, 0, 0.8), inset 0 0 20px rgba(255, 215, 0, 0.3)'
     : '0 0 10px rgba(255, 215, 0, 0.2), inset 0 0 10px rgba(255, 255, 255, 0.1)',
@@ -78,27 +85,39 @@ const NumberButton = styled(Box, {
 }))
 
 const NumberText = styled(Typography, {
-  shouldForwardProp: (prop) => prop !== 'selected' && prop !== 'sold',
-})<{ selected: boolean; sold: boolean }>(({ theme, selected, sold }) => ({
+  shouldForwardProp: (prop) => prop !== 'selected' && prop !== 'sold' && prop !== 'userOwned',
+})<{ selected: boolean; sold: boolean; userOwned: boolean }>(({ theme, selected, sold, userOwned }) => ({
   fontFamily: 'var(--font-orbitron), monospace',
   fontWeight: 900,
   fontSize: '1.5rem',
-  color: sold ? '#999' : selected ? '#2d1b69' : '#ffd700',
+  color: sold ? '#999' : userOwned ? '#ffffff' : selected ? '#2d1b69' : '#ffd700',
   textShadow: sold 
     ? '0 0 5px rgba(153, 153, 153, 0.5)' 
+    : userOwned
+    ? '0 0 10px rgba(255, 255, 255, 0.8)'
     : selected 
     ? '0 0 10px rgba(45, 27, 105, 0.8)' 
     : '0 0 10px rgba(255, 215, 0, 0.8)',
   userSelect: 'none',
 }))
 
+const UserIcon = styled(CheckCircleIcon)(({ theme }) => ({
+  position: 'absolute',
+  top: '4px',
+  right: '4px',
+  fontSize: '20px',
+  color: '#ffffff',
+  filter: 'drop-shadow(0 0 3px rgba(255, 230, 0, 1))',
+}))
+
 interface NumberGridProps {
   onSelectionChange?: (selectedNumbers: Set<number>) => void
   soldNumbers?: number[]
+  userNumbers?: number[]
   prizeImageUrl?: string
 }
 
-const NumberGrid: React.FC<NumberGridProps> = ({ onSelectionChange, soldNumbers = [], prizeImageUrl }) => {
+const NumberGrid: React.FC<NumberGridProps> = ({ onSelectionChange, soldNumbers = [], userNumbers = [], prizeImageUrl }) => {
   const [selectedNumbers, setSelectedNumbers] = useState<Set<number>>(new Set())
   const [showLimitModal, setShowLimitModal] = useState(false)
 
@@ -137,18 +156,36 @@ const NumberGrid: React.FC<NumberGridProps> = ({ onSelectionChange, soldNumbers 
             {numbers.map((num) => {
               const isSold = soldNumbers.includes(num)
               const isSelected = selectedNumbers.has(num)
+              const isUserOwned = userNumbers.includes(num)
               
               return (
                 <Grid size={{ xs: 1.2 }} key={num}>
-                  <NumberButton
-                    selected={isSelected}
-                    sold={isSold}
-                    onClick={() => handleNumberClick(num)}
-                  >
-                    <NumberText selected={isSelected} sold={isSold}>
-                      {num}
-                    </NumberText>
-                  </NumberButton>
+                  {isUserOwned ? (
+                    <Tooltip title="Este número es tuyo" arrow placement="top">
+                      <NumberButton
+                        selected={isSelected}
+                        sold={isSold}
+                        userOwned={isUserOwned}
+                        onClick={() => handleNumberClick(num)}
+                      >
+                        <NumberText selected={isSelected} sold={isSold} userOwned={isUserOwned}>
+                          {num}
+                        </NumberText>
+                        <UserIcon />
+                      </NumberButton>
+                    </Tooltip>
+                  ) : (
+                    <NumberButton
+                      selected={isSelected}
+                      sold={isSold}
+                      userOwned={isUserOwned}
+                      onClick={() => handleNumberClick(num)}
+                    >
+                      <NumberText selected={isSelected} sold={isSold} userOwned={isUserOwned}>
+                        {num}
+                      </NumberText>
+                    </NumberButton>
+                  )}
                 </Grid>
               )
             })}

@@ -155,6 +155,27 @@ export const rafflesRouter = router({
       return soldNumbers
     }),
 
+  // Obtener números comprados por el usuario actual en una rifa específica
+  getUserNumbers: publicProcedure
+    .input(z.object({ raffleId: z.string().uuid(), userId: z.string().uuid() }))
+    .query(async ({ ctx, input }) => {
+      const { data: tickets, error } = await ctx.supabase
+        .from('tickets')
+        .select('number')
+        .eq('raffle_id', input.raffleId)
+        .eq('buyer_id', input.userId)
+        .eq('is_sold', true)
+
+      if (error) {
+        throw new Error(`Error al obtener números del usuario: ${error.message}`)
+      }
+
+      // Extraer solo los números comprados por el usuario
+      const userNumbers = tickets?.map(ticket => ticket.number) || []
+      
+      return userNumbers
+    }),
+
   // Obtener el número de rifas creadas por un usuario
   getUserRaffleCount: publicProcedure
     .input(z.object({ author_id: z.string().uuid() }))

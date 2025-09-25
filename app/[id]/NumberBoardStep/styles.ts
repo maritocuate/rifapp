@@ -1,3 +1,5 @@
+'use client'
+
 import styled from '@emotion/styled'
 import { Box, Container } from '@mui/material'
 
@@ -48,10 +50,15 @@ export const RaffleInfoContainer = styled(Box)(({ theme }) => ({
   justifyContent: 'center',
   alignItems: 'center',
   flexWrap: 'wrap',
-  gap: { xs: '0.5rem', md: '1rem' },
+  gap: '1rem',
   fontSize: '1.1rem',
   color: 'rgba(255, 255, 255, 0.8)',
   textShadow: '0 0 5px rgba(255, 255, 255, 0.2)',
+  
+  '@media (max-width: 900px)': {
+    flexDirection: 'column',
+    gap: '0.5rem',
+  },
 }))
 
 export const CostInfo = styled(Box)(({ theme }) => ({
@@ -65,7 +72,11 @@ export const CostInfo = styled(Box)(({ theme }) => ({
 export const Separator = styled(Box)(({ theme }) => ({
   color: 'rgba(255, 255, 255, 0.6)',
   fontSize: '1.2rem',
-  display: { xs: 'none', md: 'block' },
+  display: 'none',
+  
+  '@media (min-width: 900px)': {
+    display: 'block',
+  },
 }))
 
 export const UserInfo = styled(Box)(({ theme }) => ({

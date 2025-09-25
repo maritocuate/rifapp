@@ -4,6 +4,7 @@ import { styled } from '@mui/material/styles'
 import { Box, Grid, Typography } from '@mui/material'
 import React, { useState, useEffect } from 'react'
 import { LimitModal } from './LimitModal'
+import { CheckCircleIcon } from '@phosphor-icons/react'
 
 const GridContainer = styled(Box)(({ theme }) => ({
   maxWidth: '400px',
@@ -32,7 +33,7 @@ const GridInner = styled(Box)<{ prizeImageUrl?: string }>(({ theme, prizeImageUr
   position: 'relative',
 }))
 
-const NumberButton = styled(Box)<{ selected: boolean; sold: boolean }>(({ theme, selected, sold }) => ({
+const NumberButton = styled(Box)<{ selected: boolean; sold: boolean; userOwned: boolean }>(({ theme, selected, sold, userOwned }) => ({
   width: '100%',
   height: '60px',
   display: 'flex',
@@ -43,16 +44,22 @@ const NumberButton = styled(Box)<{ selected: boolean; sold: boolean }>(({ theme,
   position: 'relative',
   background: sold
     ? 'linear-gradient(145deg, rgba(102, 102, 102, 0.3), rgba(68, 68, 68, 0.3))'
+    : userOwned
+    ? 'linear-gradient(145deg, #4CAF50, #45a049)'
     : selected
     ? 'linear-gradient(145deg, #ffd700, #ffed4e)'
     : 'linear-gradient(145deg, #4a0e4e, #2d1b69)',
   border: sold
     ? '1px solid rgba(102, 102, 102, 0.5)'
+    : userOwned
+    ? '2px solid #4CAF50'
     : selected 
     ? '2px solid #ffd700' 
     : '1px solid rgba(255, 215, 0, 0.3)',
   boxShadow: sold
     ? '0 0 5px rgba(102, 102, 102, 0.2)'
+    : userOwned
+    ? '0 0 20px rgba(76, 175, 80, 0.8), inset 0 0 12px rgba(76, 175, 80, 0.3)'
     : selected
     ? '0 0 20px rgba(255, 215, 0, 0.8), inset 0 0 15px rgba(255, 215, 0, 0.3)'
     : '0 0 8px rgba(255, 215, 0, 0.2), inset 0 0 8px rgba(255, 255, 255, 0.1)',
@@ -73,26 +80,38 @@ const NumberButton = styled(Box)<{ selected: boolean; sold: boolean }>(({ theme,
   },
 }))
 
-const NumberText = styled(Typography)<{ selected: boolean; sold: boolean }>(({ theme, selected, sold }) => ({
+const NumberText = styled(Typography)<{ selected: boolean; sold: boolean; userOwned: boolean }>(({ theme, selected, sold, userOwned }) => ({
   fontFamily: 'var(--font-orbitron), monospace',
   fontWeight: 900,
   fontSize: '1.1rem',
-  color: sold ? '#999' : selected ? '#2d1b69' : '#ffd700',
+  color: sold ? '#999' : userOwned ? '#ffffff' : selected ? '#2d1b69' : '#ffd700',
   textShadow: sold 
     ? '0 0 5px rgba(153, 153, 153, 0.5)' 
+    : userOwned
+    ? '0 0 8px rgba(255, 255, 255, 0.8)'
     : selected 
     ? '0 0 8px rgba(45, 27, 105, 0.8)' 
     : '0 0 8px rgba(255, 215, 0, 0.8)',
   userSelect: 'none',
 }))
 
+const UserIcon = styled(CheckCircleIcon)(({ theme }) => ({
+  position: 'absolute',
+  top: '3px',
+  right: '3px',
+  fontSize: '20px',
+  color: '#ffffff',
+  filter: 'drop-shadow(0 0 2px rgba(0, 0, 0, 0.9))',
+}))
+
 interface NumberGridMobileProps {
   onSelectionChange?: (selectedNumbers: Set<number>) => void
   soldNumbers?: number[]
+  userNumbers?: number[]
   prizeImageUrl?: string
 }
 
-const NumberGridMobile: React.FC<NumberGridMobileProps> = ({ onSelectionChange, soldNumbers = [], prizeImageUrl }) => {
+const NumberGridMobile: React.FC<NumberGridMobileProps> = ({ onSelectionChange, soldNumbers = [], userNumbers = [], prizeImageUrl }) => {
   const [selectedNumbers, setSelectedNumbers] = useState<Set<number>>(new Set())
   const [showLimitModal, setShowLimitModal] = useState(false)
 
@@ -134,17 +153,20 @@ const NumberGridMobile: React.FC<NumberGridMobileProps> = ({ onSelectionChange, 
             {numbers.map((num) => {
               const isSold = soldNumbers.includes(num)
               const isSelected = selectedNumbers.has(num)
+              const isUserOwned = userNumbers.includes(num)
               
               return (
                 <Grid size={{ xs: 2.4 }} key={num}>
                   <NumberButton
                     selected={isSelected}
                     sold={isSold}
+                    userOwned={isUserOwned}
                     onClick={() => handleNumberClick(num)}
                   >
-                    <NumberText selected={isSelected} sold={isSold}>
+                    <NumberText selected={isSelected} sold={isSold} userOwned={isUserOwned}>
                       {num}
                     </NumberText>
+                    {isUserOwned && <UserIcon />}
                   </NumberButton>
                 </Grid>
               )
