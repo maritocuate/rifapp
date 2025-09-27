@@ -4,7 +4,6 @@ import { useAuth } from '@/contexts/AuthContext'
 import { AuthModal } from '@/components/auth/AuthModal'
 import { UserMenu } from '@/components/auth/UserMenu'
 import { RafflesList } from '@/components/RafflesList'
-import Footer from '@/components/Footer'
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Plus, Share2, DollarSign } from 'lucide-react'
@@ -229,7 +228,7 @@ export default function Home() {
   }
 
   return (
-    <PageContainer className="geometric-bg">
+    <PageContainer>
       <HeaderWrapper>
         {user ? (
           <UserMenu />
@@ -309,8 +308,6 @@ export default function Home() {
           />
         </ListsContainer>
       </ContentWrapper>
-
-      <Footer />
 
       <AuthModal 
         isOpen={showAuthModal} 

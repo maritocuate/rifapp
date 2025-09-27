@@ -4,6 +4,7 @@ import { Inter, Cinzel, Orbitron } from 'next/font/google'
 import { AuthProvider } from '@/contexts/AuthContext'
 import { TRPCProvider } from '@/client/trpc-provider'
 import Umami from '@/components/Umami'
+import Footer from '@/components/Footer'
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -40,10 +41,11 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="es">
-      <body className={`${inter.variable} ${cinzel.variable} ${orbitron.variable}`}>
+      <body className={`${inter.variable} ${cinzel.variable} ${orbitron.variable} geometric-bg`}>
         <TRPCProvider>
           <AuthProvider>
             {children}
+            <Footer />
           </AuthProvider>
         </TRPCProvider>
         <Umami />

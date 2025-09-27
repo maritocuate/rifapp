@@ -22,6 +22,21 @@ const FooterContainer = styled(Box)(({ theme }) => ({
   },
 }))
 
+const FooterContent = styled(Box)(({ theme }) => ({
+  maxWidth: '1200px',
+  width: '100%',
+  padding: '0 2rem',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  gap: '1rem',
+  
+  [theme.breakpoints.down('md')]: {
+    flexDirection: 'column',
+    gap: '0.5rem',
+  },
+}))
+
 const FooterText = styled(Typography)(({ theme }) => ({
   fontFamily: 'var(--font-orbitron), monospace',
   fontSize: '0.6rem',
@@ -65,13 +80,15 @@ const FooterLink = styled('a')(({ theme }) => ({
 export default function Footer() {
   return (
     <FooterContainer>
-      <FooterText>v0.9</FooterText>
-      <FooterSeparator>•</FooterSeparator>
-      <FooterText>{new Date().getFullYear()}</FooterText>
-      <FooterSeparator>•</FooterSeparator>
-      <FooterLink href="/terminos">
-        Bases y Condiciones
-      </FooterLink>
+      <FooterContent>
+        <FooterText>v0.9</FooterText>
+        <FooterSeparator>•</FooterSeparator>
+        <FooterLink href="/terminos">
+          Bases y Condiciones
+        </FooterLink>
+        <FooterSeparator>•</FooterSeparator>
+        <FooterText>{new Date().getFullYear()}</FooterText>
+      </FooterContent>
     </FooterContainer>
   )
 }

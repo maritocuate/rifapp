@@ -6,7 +6,7 @@ import { Box, Typography, Container, Card, CardContent, Divider } from '@mui/mat
 const PageContainer = styled(Container)(({ theme }) => ({
   minHeight: '100vh',
   padding: '2rem 1rem',
-  color: 'black',
+  color: 'white',
 }))
 
 const Title = styled(Typography)(({ theme }) => ({
@@ -27,6 +27,7 @@ const TermsCard = styled(Card)(({ theme }) => ({
   background: 'rgba(255, 255, 255, 0.05)',
   border: '1px solid rgba(255, 215, 0, 0.2)',
   borderRadius: '15px',
+  color: 'white',
   marginBottom: '2rem',
 }))
 
@@ -38,6 +39,7 @@ const SectionTitle = styled(Typography)(({ theme }) => ({
   fontSize: '1.5rem',
   fontWeight: 600,
   marginBottom: '1rem',
+  color: 'white',
   marginTop: '2rem',
   display: 'flex',
   alignItems: 'center',
@@ -178,7 +180,7 @@ export default function TerminosPage() {
 
           <HighlightBox>
             <HighlightText>
-              ⚠️ IMPORTANTE: Al marcar la casilla de aceptación, confirmas que has leído, 
+              ⚠️ IMPORTANTE: Al registrarte en la plataforma, confirmas que has leído, 
               entendido y aceptado todos estos términos y condiciones.
             </HighlightText>
           </HighlightBox>
