@@ -214,6 +214,68 @@ export const rafflesRouter = router({
       return count || 0
     }),
 
+  // Obtener rifas creadas por un usuario
+  getUserRaffles: publicProcedure
+    .input(z.object({ author_id: z.string().uuid() }))
+    .query(async ({ ctx, input }) => {
+      const { data: raffles, error } = await ctx.supabase
+        .from('raffles')
+        .select(`
+          *,
+          profiles:author_id (
+            username
+          )
+        `)
+        .eq('author_id', input.author_id)
+        .order('created_at', { ascending: false })
+
+      if (error) {
+        throw new Error(`Error al obtener rifas del usuario: ${error.message}`)
+      }
+
+      return raffles || []
+    }),
+
+  // Obtener números comprados por un usuario en todas las rifas
+  getUserPurchasedNumbers: publicProcedure
+    .input(z.object({ userId: z.string().uuid() }))
+    .query(async ({ ctx, input }) => {
+      const { data: tickets, error } = await ctx.supabase
+        .from('tickets')
+        .select(`
+          number,
+          raffle_id,
+          raffles (
+            id,
+            title,
+            alias,
+            number_cost,
+            status
+          )
+        `)
+        .eq('buyer_id', input.userId)
+        .eq('is_sold', true)
+
+      if (error) {
+        throw new Error(`Error al obtener números comprados: ${error.message}`)
+      }
+
+      // Agrupar por rifa
+      const groupedByRaffle = tickets?.reduce((acc, ticket) => {
+        const raffleId = ticket.raffle_id
+        if (!acc[raffleId]) {
+          acc[raffleId] = {
+            raffle: ticket.raffles,
+            numbers: []
+          }
+        }
+        acc[raffleId].numbers.push(ticket.number)
+        return acc
+      }, {} as Record<string, { raffle: any, numbers: string[] }>)
+
+      return Object.values(groupedByRaffle || {})
+    }),
+
   // Crear una nueva rifa
   create: publicProcedure
     .input(z.object({

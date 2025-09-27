@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { useAuth } from '@/contexts/AuthContext'
 import { Button } from '@/components/ui/button'
 import {
@@ -17,6 +18,7 @@ import { LogOut, User } from 'lucide-react'
 export function UserMenu() {
   const { user, signOut } = useAuth()
   const [isSigningOut, setIsSigningOut] = useState(false)
+  const router = useRouter()
 
   if (!user) return null
 
@@ -24,6 +26,10 @@ export function UserMenu() {
     setIsSigningOut(true)
     await signOut()
     setIsSigningOut(false)
+  }
+
+  const handleProfileClick = () => {
+    router.push('/profile')
   }
 
   const getUserInitials = (email: string) => {
@@ -66,8 +72,8 @@ export function UserMenu() {
         </DropdownMenuLabel>
         <DropdownMenuSeparator className="bg-yellow-400/20" />
         <DropdownMenuItem 
-          disabled
-          className="text-gray-300 hover:text-yellow-400 hover:bg-yellow-400/10 focus:bg-yellow-400/10 focus:text-yellow-400 transition-all duration-200 font-mono"
+          onClick={handleProfileClick}
+          className="text-gray-300 hover:text-yellow-400 hover:bg-yellow-400/10 focus:bg-yellow-400/10 focus:text-yellow-400 transition-all duration-200 font-mono cursor-pointer"
         >
           <User className="mr-3 h-4 w-4 text-yellow-400" />
           <span>Perfil</span>
