@@ -92,3 +92,26 @@ export const AvailableInfo = styled(Box)(({ theme }) => ({
   gap: '0.5rem',
   color: 'rgba(255, 255, 255, 0.9)',
 }))
+
+export const HeaderContainer = styled(Box)({
+  background: 'linear-gradient(145deg, rgba(0, 0, 0, 0.08), rgba(255, 215, 0, 0.03))',
+  padding: '1.5rem',
+  backdropFilter: 'blur(10px)',
+  width: '100%',
+  marginTop: '-2rem',
+  marginBottom: '2rem',
+  borderRadius: '0 0 15px 15px',
+  border: '1px solid rgba(255, 215, 0, 0.1)',
+  position: 'relative',
+
+  '@media (max-width: 900px)': {
+    paddingBottom: '3rem',
+  },
+})
+
+export const LoginButtonWrapper = styled(Box)({
+  position: 'absolute',
+  top: '1rem',
+  right: '1rem',
+  zIndex: 10,
+})

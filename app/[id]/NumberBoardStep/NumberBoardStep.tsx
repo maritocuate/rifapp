@@ -9,17 +9,20 @@ import EventDetails from '@/components/EventDetails'
 import {TotalPopup} from '../TotalPopup'
 import { trpc } from '@/client/trpc'
 import { formatPrice } from '@/lib/utils'
-import { PageContainer, ContentWrapper, GridSection } from './styles'
+import { PageContainer, ContentWrapper, GridSection, LoginButtonWrapper, HeaderContainer } from './styles'
 import { RaffleInfo } from './RaffleInfo'
 import { LoadingState } from './LoadingState'
 import { ErrorState } from './ErrorState'
 import { NumberBoardStepProps } from './types'
 import { useAuth } from '@/contexts/AuthContext'
+import { LoginButton } from '@/components/LoginButton'
+import { AuthModal } from '@/components/auth/AuthModal'
 
 export function NumberBoardStep({ raffleAlias }: NumberBoardStepProps) {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
   const [selectedNumbers, setSelectedNumbers] = useState<Set<number>>(new Set())
+  const [showAuthModal, setShowAuthModal] = useState(false)
   const { user } = useAuth()
   
   // Obtener datos de la rifa
@@ -53,7 +56,13 @@ export function NumberBoardStep({ raffleAlias }: NumberBoardStepProps) {
   return (
     <PageContainer className="geometric-bg">
       <ContentWrapper maxWidth="lg">
-        <MainTitle className="glow-text">{raffle.title}</MainTitle>
+        <HeaderContainer>
+          <LoginButtonWrapper>
+            <LoginButton onShowAuthModal={() => setShowAuthModal(true)} />
+          </LoginButtonWrapper>
+          
+          <MainTitle className="glow-text">{raffle.title}</MainTitle>
+        </HeaderContainer>
         
         {/* Información de la rifa */}
         <RaffleInfo
@@ -90,6 +99,13 @@ export function NumberBoardStep({ raffleAlias }: NumberBoardStepProps) {
           prize={raffle.prize_description || "Premio especial"}
         />
       </ContentWrapper>
+
+      <AuthModal 
+        isOpen={showAuthModal} 
+        onClose={() => setShowAuthModal(false)}
+        defaultMode="login"
+        redirectTo={`/${raffleAlias}`}
+      />
     </PageContainer>
   )
 }

@@ -1,12 +1,12 @@
 'use client'
 
 import { useAuth } from '@/contexts/AuthContext'
-import { UserMenu } from '@/components/auth/UserMenu'
+import { LoginButton } from '@/components/LoginButton'
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { styled } from '@mui/material/styles'
 import { Box, Container, Typography } from '@mui/material'
-import { CaretCircleRightIcon, UserIcon } from '@phosphor-icons/react'
+import { CaretCircleRightIcon } from '@phosphor-icons/react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 
@@ -143,17 +143,7 @@ export function HeroSection({ onShowAuthModal }: HeroSectionProps) {
     <ContentWrapper maxWidth="lg">
       <HeaderContainer>
         <LoginButtonWrapper>
-          {user ? (
-            <UserMenu />
-          ) : (
-            <Button 
-              onClick={onShowAuthModal}
-              variant="ghost"
-              className="relative p-0 h-11 w-11 rounded-full border border-yellow-400/30 bg-gradient-to-br from-yellow-400/10 to-yellow-400/5 backdrop-blur-sm hover:from-yellow-400/20 hover:to-yellow-400/10 transition-all duration-300 hover:shadow-lg hover:shadow-yellow-400/20"
-            >
-              <UserIcon className="h-4 w-4 text-yellow-400" />
-            </Button>
-          )}
+          <LoginButton onShowAuthModal={onShowAuthModal} />
         </LoginButtonWrapper>
         
         <LogoContainer>
