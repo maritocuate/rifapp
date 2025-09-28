@@ -15,7 +15,7 @@ export function RaffleInfo({ numberCost, username, availableNumbers }: RaffleInf
   return (
     <RaffleInfoContainer>
       <CostInfo>
-        💰 ${formatPrice(numberCost)} por número
+        💰 {formatPrice(numberCost)} por número
       </CostInfo>
       
       <Separator>

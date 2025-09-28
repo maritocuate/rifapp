@@ -32,6 +32,7 @@ export function UserMenu() {
     router.push('/profile')
   }
 
+
   const getUserInitials = (email: string) => {
     return email
       .split('@')[0]

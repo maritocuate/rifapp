@@ -1,7 +1,7 @@
 'use client'
 
 import { useMediaQuery, useTheme } from '@mui/material'
-import { useState } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import NumberGrid from '@/components/NumberGrid'
 import NumberGridMobile from '@/components/NumberGridMobile'
 import MainTitle from '@/components/MainTitle'
@@ -23,6 +23,7 @@ export function NumberBoardStep({ raffleAlias }: NumberBoardStepProps) {
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
   const [selectedNumbers, setSelectedNumbers] = useState<Set<number>>(new Set())
   const [showAuthModal, setShowAuthModal] = useState(false)
+  const [pendingPurchase, setPendingPurchase] = useState(false)
   const { user } = useAuth()
   
   // Obtener datos de la rifa
@@ -34,13 +35,96 @@ export function NumberBoardStep({ raffleAlias }: NumberBoardStepProps) {
     { enabled: !!user?.id && !!raffle?.id }
   )
 
+  const purchaseNumbersMutation = trpc.raffles.purchaseNumbers.useMutation()
+
   const handleSelectionChange = (newSelection: Set<number>) => {
     setSelectedNumbers(newSelection)
   }
 
-  const handleConfirmSelection = () => {
-    const totalCost = selectedNumbers.size * (raffle.number_cost || 0)
-    alert(`Has seleccionado ${selectedNumbers.size} números por un total de $${formatPrice(totalCost)}`)
+  const handleConfirmSelection = async () => {
+    if (!user) {
+      setPendingPurchase(true)
+      setShowAuthModal(true)
+      return
+    }
+
+    if (selectedNumbers.size === 0) {
+      alert('Por favor selecciona al menos un número')
+      return
+    }
+
+    if (!raffle) {
+      alert('Error: No se pudo obtener información de la rifa')
+      return
+    }
+
+    const numbersArray = Array.from(selectedNumbers)
+    
+    try {
+      const preference = await purchaseNumbersMutation.mutateAsync({
+        raffleId: raffle.id,
+        numbers: numbersArray,
+        buyerId: user.id,
+        buyerEmail: user.email || '',
+      })
+
+      // Redirigir a MercadoPago
+      if (preference.init_point) {
+        window.location.href = preference.init_point
+      }
+    } catch (error) {
+      console.error('Error al procesar compra:', error)
+      alert(error instanceof Error ? error.message : 'Error al procesar la compra')
+    }
+  }
+
+  // Función para manejar la compra después del login
+  const handlePurchaseAfterLogin = useCallback(async () => {
+    if (!user) return
+
+    if (selectedNumbers.size === 0) {
+      alert('Por favor selecciona al menos un número')
+      return
+    }
+
+    if (!raffle) {
+      alert('Error: No se pudo obtener información de la rifa')
+      return
+    }
+
+    const numbersArray = Array.from(selectedNumbers)
+    
+    try {
+      const preference = await purchaseNumbersMutation.mutateAsync({
+        raffleId: raffle.id,
+        numbers: numbersArray,
+        buyerId: user.id,
+        buyerEmail: user.email || '',
+      })
+
+      // Redirigir a MercadoPago
+      if (preference.init_point) {
+        window.location.href = preference.init_point
+      }
+    } catch (error) {
+      console.error('Error al procesar compra:', error)
+      alert(error instanceof Error ? error.message : 'Error al procesar la compra')
+    }
+  }, [user, selectedNumbers, raffle, purchaseNumbersMutation])
+
+  // Efecto para manejar la compra después del login
+  useEffect(() => {
+    if (user && pendingPurchase) {
+      setPendingPurchase(false)
+      setShowAuthModal(false)
+      handlePurchaseAfterLogin()
+    }
+  }, [user, pendingPurchase, handlePurchaseAfterLogin])
+
+  // Función para cancelar la compra pendiente
+  const handleCancelPendingPurchase = () => {
+    setPendingPurchase(false)
+    setShowAuthModal(false)
   }
 
   // Mostrar loading mientras se cargan los datos
@@ -102,7 +186,7 @@ export function NumberBoardStep({ raffleAlias }: NumberBoardStepProps) {
 
       <AuthModal 
         isOpen={showAuthModal} 
-        onClose={() => setShowAuthModal(false)}
+        onClose={handleCancelPendingPurchase}
         defaultMode="login"
         redirectTo={`/${raffleAlias}`}
       />

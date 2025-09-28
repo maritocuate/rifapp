@@ -365,4 +365,103 @@ export const rafflesRouter = router({
 
       return raffle
     }),
+
+  // Comprar números de una rifa
+  purchaseNumbers: publicProcedure
+    .input(z.object({
+      raffleId: z.string().uuid(),
+      numbers: z.array(z.number().min(1).max(100)),
+      buyerId: z.string().uuid(),
+      buyerEmail: z.string().email(),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      // Verificar que los números estén disponibles
+      const { data: tickets, error: ticketsError } = await ctx.supabase
+        .from('tickets')
+        .select('number, is_sold')
+        .eq('raffle_id', input.raffleId)
+        .in('number', input.numbers.map(n => n.toString()))
+
+      if (ticketsError) {
+        throw new Error(`Error al verificar disponibilidad: ${ticketsError.message}`)
+      }
+
+      const soldNumbers = tickets?.filter(t => t.is_sold).map(t => t.number) || []
+      if (soldNumbers.length > 0) {
+        throw new Error(`Los números ${soldNumbers.join(', ')} ya están vendidos`)
+      }
+
+      // Obtener el costo por número de la rifa
+      const { data: raffle, error: raffleError } = await ctx.supabase
+        .from('raffles')
+        .select('number_cost')
+        .eq('id', input.raffleId)
+        .single()
+
+      if (raffleError || !raffle) {
+        throw new Error('Rifa no encontrada')
+      }
+
+      const totalAmount = input.numbers.length * raffle.number_cost
+
+      // Crear preferencia de MercadoPago
+      try {
+        const { MercadoPagoConfig, Preference } = await import('mercadopago')
+        
+        const client = new MercadoPagoConfig({
+          accessToken: process.env.MERCADOLIBRE_TOKEN || '',
+        })
+
+        const preference = new Preference(client)
+        
+        const result = await preference.create({
+          body: {
+            items: [
+              {
+                id: input.raffleId,
+                title: `Riffita - Números de Rifa`,
+                currency_id: 'ARS',
+                picture_url: '/favicon.ico',
+                description: `Números: ${input.numbers.join(', ')}`,
+                category_id: 'tickets',
+                quantity: 1,
+                unit_price: totalAmount,
+              },
+            ],
+            payer: {
+              email: input.buyerEmail,
+            },
+            back_urls: {
+              success: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/callback?status=success&raffleId=${input.raffleId}&numbers=${input.numbers.join(',')}`,
+              failure: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/callback?status=failure&raffleId=${input.raffleId}`,
+              pending: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/callback?status=pending&raffleId=${input.raffleId}`,
+            },
+            auto_return: 'approved',
+            payment_methods: {
+              excluded_payment_methods: [
+                { id: 'argencard' },
+                { id: 'cabal' },
+                { id: 'cmr' },
+              ],
+              excluded_payment_types: [
+                { id: 'ticket' },
+              ],
+              installments: 1,
+            },
+            notification_url: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/tickets/webhook`,
+            statement_descriptor: 'RIFFITA',
+            external_reference: `${input.raffleId}-${input.numbers.join(',')}-${input.buyerId}`,
+            expires: true,
+            expiration_date_from: new Date().toISOString(),
+            expiration_date_to: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
+          },
+        })
+
+        return result
+      } catch (error) {
+        console.error('Error creating MercadoPago preference:', error)
+        throw new Error(`Error al crear preferencia de pago: ${error instanceof Error ? error.message : 'Error desconocido'}`)
+      }
+    }),
+
 })

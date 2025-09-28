@@ -34,7 +34,7 @@ export const TotalDisplay: React.FC<TotalDisplayProps> = ({
   return (
     <>
       <LabelText>Total</LabelText>
-      <AmountText ref={amountTextRef}>${formatPrice(totalAmount)}</AmountText>
+      <AmountText ref={amountTextRef}>{formatPrice(totalAmount)}</AmountText>
       <ActionButton onClick={handleCheckout}>
         <ShoppingCartIcon size={20} weight="bold" />
       </ActionButton>
