@@ -181,6 +181,7 @@ export function NumberBoardStep({ raffleAlias }: NumberBoardStepProps) {
         <EventDetails
           description={raffle.description || "¡Participa en nuestra emocionante rifa! Un evento único donde podrás ganar increíbles premios mientras disfrutas de la mejor experiencia de entretenimiento. Cada número tiene la oportunidad de llevarse el gran premio."}
           prize={raffle.prize_description || "Premio especial"}
+          prizeImageUrl={raffle.prize_image_url}
         />
       </ContentWrapper>
 
