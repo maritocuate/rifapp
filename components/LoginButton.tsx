@@ -4,6 +4,29 @@ import { useAuth } from '@/contexts/AuthContext'
 import { UserMenu } from '@/components/auth/UserMenu'
 import { Button } from '@/components/ui/button'
 import { UserIcon } from '@phosphor-icons/react'
+import { styled } from '@mui/material/styles'
+
+const StyledButton = styled(Button)(({ theme }) => ({
+  position: 'relative',
+  padding: 0,
+  height: '44px',
+  width: '44px',
+  borderRadius: '50%',
+  border: '1px solid rgba(250, 204, 21, 0.3)',
+  background: 'linear-gradient(135deg, rgba(250, 204, 21, 0.1), rgba(250, 204, 21, 0.05))',
+  backdropFilter: 'blur(4px)',
+  transition: 'all 0.3s ease',
+  '&:hover': {
+    background: 'linear-gradient(135deg, rgba(250, 204, 21, 0.2), rgba(250, 204, 21, 0.1))',
+    boxShadow: '0 10px 15px -3px rgba(250, 204, 21, 0.2), 0 4px 6px -2px rgba(250, 204, 21, 0.1)',
+  },
+}))
+
+const StyledIcon = styled(UserIcon)({
+  height: '16px',
+  width: '16px',
+  color: '#facc15',
+})
 
 interface LoginButtonProps {
   onShowAuthModal: () => void
@@ -18,12 +41,12 @@ export function LoginButton({ onShowAuthModal, className = "" }: LoginButtonProp
   }
 
   return (
-    <Button 
+    <StyledButton 
       onClick={onShowAuthModal}
       variant="ghost"
-      className={`relative p-0 h-11 w-11 rounded-full border border-yellow-400/30 bg-gradient-to-br from-yellow-400/10 to-yellow-400/5 backdrop-blur-sm hover:from-yellow-400/20 hover:to-yellow-400/10 transition-all duration-300 hover:shadow-lg hover:shadow-yellow-400/20 ${className}`}
+      className={className}
     >
-      <UserIcon className="h-4 w-4 text-yellow-400" />
-    </Button>
+      <StyledIcon />
+    </StyledButton>
   )
 }

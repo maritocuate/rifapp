@@ -105,7 +105,7 @@ export const HeaderContainer = styled(Box)({
   position: 'relative',
 
   '@media (max-width: 900px)': {
-    paddingBottom: '3rem',
+    padding: '3rem 0 0.5rem 0',
   },
 })
 
