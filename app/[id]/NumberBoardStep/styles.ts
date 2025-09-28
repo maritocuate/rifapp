@@ -6,10 +6,10 @@ import { Box, Container } from '@mui/material'
 export const PageContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
-  justifyContent: 'center',
+  justifyContent: 'flex-start',
   alignItems: 'center',
   minHeight: '100vh',
-  padding: '2rem 0',
+  padding: '1rem 0 2rem 0',
   position: 'relative',
 }))
 

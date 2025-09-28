@@ -1,7 +1,6 @@
 'use client'
 
 import { useAuth } from '@/contexts/AuthContext'
-import { trpc } from '@/client/trpc'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { ProfilePage } from './ProfilePage'
@@ -28,5 +27,9 @@ export default function Profile() {
     return null
   }
 
-  return <ProfilePage userId={user.id} userEmail={user.email || ''} />
+  return <ProfilePage 
+    userId={user.id} 
+    userEmail={user.email || ''} 
+    username={user.user_metadata?.username || user.user_metadata?.display_name}
+  />
 }
