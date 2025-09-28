@@ -98,14 +98,14 @@ export const HeaderContainer = styled(Box)({
   padding: '1.5rem',
   backdropFilter: 'blur(10px)',
   width: '100%',
-  marginTop: '-2rem',
+  marginTop: '-1rem',
   marginBottom: '2rem',
   borderRadius: '0 0 15px 15px',
   border: '1px solid rgba(255, 215, 0, 0.1)',
   position: 'relative',
 
   '@media (max-width: 900px)': {
-    padding: '3rem 0 0.5rem 0',
+    paddingTop: '4rem',
   },
 })
 
@@ -113,5 +113,12 @@ export const LoginButtonWrapper = styled(Box)({
   position: 'absolute',
   top: '1rem',
   right: '1rem',
+  zIndex: 10,
+})
+
+export const HomeButtonWrapper = styled(Box)({
+  position: 'absolute',
+  top: '1rem',
+  left: '1rem',
   zIndex: 10,
 })

@@ -8,14 +8,14 @@ import MainTitle from '@/components/MainTitle'
 import EventDetails from '@/components/EventDetails'
 import {TotalPopup} from '../TotalPopup'
 import { trpc } from '@/client/trpc'
-import { formatPrice } from '@/lib/utils'
-import { PageContainer, ContentWrapper, GridSection, LoginButtonWrapper, HeaderContainer } from './styles'
+import { PageContainer, ContentWrapper, GridSection, LoginButtonWrapper, HomeButtonWrapper, HeaderContainer } from './styles'
 import { RaffleInfo } from './RaffleInfo'
 import { LoadingState } from './LoadingState'
 import { ErrorState } from './ErrorState'
 import { NumberBoardStepProps } from './types'
 import { useAuth } from '@/contexts/AuthContext'
 import { LoginButton } from '@/components/LoginButton'
+import { HomeButton } from '@/components/HomeButton'
 import { AuthModal } from '@/components/auth/AuthModal'
 
 export function NumberBoardStep({ raffleAlias }: NumberBoardStepProps) {
@@ -141,6 +141,10 @@ export function NumberBoardStep({ raffleAlias }: NumberBoardStepProps) {
     <PageContainer className="geometric-bg">
       <ContentWrapper maxWidth="lg">
         <HeaderContainer>
+          <HomeButtonWrapper>
+            <HomeButton />
+          </HomeButtonWrapper>
+          
           <LoginButtonWrapper>
             <LoginButton onShowAuthModal={() => setShowAuthModal(true)} />
           </LoginButtonWrapper>
