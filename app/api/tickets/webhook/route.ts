@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
       const [raffleId, numbersStr, buyerId] = externalRef.split('-')
       const numbers = numbersStr.split(',').map(Number)
 
-      const supabase = createClient()
+      const supabase = await createClient()
 
       if (payment.status === 'approved') {
         // Marcar tickets como vendidos
@@ -39,7 +39,7 @@ export async function POST(req: NextRequest) {
             buyer_id: buyerId 
           })
           .eq('raffle_id', raffleId)
-          .in('number', numbers.map(n => n.toString()))
+          .in('number', numbers.map((n: number) => n.toString()))
 
         if (updateError) {
           console.error('Error updating tickets:', updateError)
