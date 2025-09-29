@@ -113,7 +113,17 @@ export const rafflesRouter = router({
       }) || []
     )
 
-    return rafflesWithStats
+    // Ordenar por número de tickets vendidos (descendente) para mostrar las más cerca de finalizar primero
+    const sortedRaffles = rafflesWithStats.sort((a, b) => {
+      // Primero por número de tickets vendidos (descendente)
+      if (b.soldNumbers !== a.soldNumbers) {
+        return b.soldNumbers - a.soldNumbers
+      }
+      // Si tienen el mismo número de tickets vendidos, ordenar por fecha de creación (descendente)
+      return new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+    })
+
+    return sortedRaffles
   }),
 
   // Obtener una rifa por ID
