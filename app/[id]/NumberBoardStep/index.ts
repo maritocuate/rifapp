@@ -3,6 +3,7 @@ export { NumberBoardStep } from './NumberBoardStep'
 
 // Componentes individuales
 export { RaffleInfo } from './RaffleInfo'
+export { RaffleFinished } from './RaffleFinished'
 export { LoadingState } from './LoadingState'
 export { ErrorState } from './ErrorState'
 
@@ -16,7 +17,13 @@ export {
   CostInfo,
   Separator,
   UserInfo,
-  AvailableInfo
+  AvailableInfo,
+  RaffleFinishedContainer,
+  FinishedIcon,
+  FinishedMessage,
+  WinnerInfo,
+  WinnerNumber,
+  WinnerUsername
 } from './styles'
 
 // Tipos e interfaces

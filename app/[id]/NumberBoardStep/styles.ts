@@ -122,3 +122,58 @@ export const HomeButtonWrapper = styled(Box)({
   left: '1rem',
   zIndex: 10,
 })
+
+export const RaffleFinishedContainer = styled(Box)(({ theme }) => ({
+  margin: '1.5rem 0',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  flexDirection: 'column',
+  gap: '1rem',
+  padding: '1.5rem',
+  background: 'linear-gradient(145deg, rgba(255, 0, 0, 0.1), rgba(255, 100, 100, 0.05))',
+  border: '2px solid rgba(255, 0, 0, 0.3)',
+  borderRadius: '15px',
+  backdropFilter: 'blur(10px)',
+}))
+
+export const FinishedIcon = styled(Box)(({ theme }) => ({
+  fontSize: '3rem',
+  filter: 'drop-shadow(0 0 10px rgba(255, 0, 0, 0.5))',
+}))
+
+export const FinishedMessage = styled(Box)(({ theme }) => ({
+  fontSize: '1.3rem',
+  fontWeight: '600',
+  color: '#FF6B6B',
+  textAlign: 'center',
+  textShadow: '0 0 10px rgba(255, 107, 107, 0.5)',
+  lineHeight: 1.4,
+}))
+
+export const WinnerInfo = styled(Box)(({ theme }) => ({
+  marginTop: '1rem',
+  padding: '1rem',
+  border: '2px solid rgba(255, 215, 0, 0.3)',
+  borderRadius: '10px',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '0.5rem',
+  alignItems: 'center',
+}))
+
+export const WinnerNumber = styled(Box)(({ theme }) => ({
+  fontSize: '1.2rem',
+  fontWeight: '700',
+  color: '#FFD700',
+  textShadow: '0 0 10px rgba(255, 215, 0, 0.7)',
+  textAlign: 'center',
+}))
+
+export const WinnerUsername = styled(Box)(({ theme }) => ({
+  fontSize: '1.1rem',
+  fontWeight: '600',
+  color: '#FFA500',
+  textShadow: '0 0 8px rgba(255, 165, 0, 0.5)',
+  textAlign: 'center',
+}))

@@ -10,6 +10,7 @@ import {TotalPopup} from '../TotalPopup'
 import { trpc } from '@/client/trpc'
 import { PageContainer, ContentWrapper, GridSection, LoginButtonWrapper, HomeButtonWrapper, HeaderContainer } from './styles'
 import { RaffleInfo } from './RaffleInfo'
+import { RaffleFinished } from './RaffleFinished'
 import { LoadingState } from './LoadingState'
 import { ErrorState } from './ErrorState'
 import { NumberBoardStepProps } from './types'
@@ -33,6 +34,10 @@ export function NumberBoardStep({ raffleAlias }: NumberBoardStepProps) {
   const { data: userNumbers, isLoading: isLoadingUserNumbers } = trpc.raffles.getUserNumbers.useQuery(
     { raffleId: raffle?.id || '', userId: user?.id || '' },
     { enabled: !!user?.id && !!raffle?.id }
+  )
+  const { data: raffleWinner, isLoading: isLoadingWinner } = trpc.winners.getRaffleWinners.useQuery(
+    { raffleId: raffle?.id || '' },
+    { enabled: !!raffle?.id }
   )
 
   const purchaseNumbersMutation = trpc.raffles.purchaseNumbers.useMutation()
@@ -128,7 +133,7 @@ export function NumberBoardStep({ raffleAlias }: NumberBoardStepProps) {
   }
 
   // Mostrar loading mientras se cargan los datos
-  if (isLoadingRaffle || isLoadingStats || isLoadingSoldNumbers || isLoadingUserNumbers) {
+  if (isLoadingRaffle || isLoadingStats || isLoadingSoldNumbers || isLoadingUserNumbers || isLoadingWinner) {
     return <LoadingState />
   }
 
@@ -152,6 +157,13 @@ export function NumberBoardStep({ raffleAlias }: NumberBoardStepProps) {
           <MainTitle className="glow-text">{raffle.title}</MainTitle>
         </HeaderContainer>
         
+        {/* Mostrar mensaje de rifa terminada si no hay números disponibles */}
+        {(100 - (ticketStats?.soldNumbers || 0)) <= 0 && (
+          <RaffleFinished 
+            winner={raffleWinner && raffleWinner.length > 0 ? raffleWinner[0] : null}
+          />
+        )}
+
         {/* Información de la rifa */}
         <RaffleInfo
           numberCost={raffle.number_cost || 0}
