@@ -1,79 +1,17 @@
 'use client'
 
 import { trpc } from '@/client/trpc'
-import { styled } from '@mui/material/styles'
-import { Box, Typography, Skeleton } from '@mui/material'
 import { useRouter } from 'next/navigation'
-
-const ListSection = styled(Box)(({ theme }) => ({
-  background: 'linear-gradient(145deg, rgba(255, 215, 0, 0.08), rgba(255, 215, 0, 0.03))',
-  borderRadius: '15px',
-  border: '1px solid rgba(255, 215, 0, 0.2)',
-  padding: '1.5rem',
-  backdropFilter: 'blur(10px)',
-}))
-
-const ListTitle = styled(Typography)(({ theme }) => ({
-  fontFamily: 'var(--font-cinzel), serif',
-  fontWeight: 600,
-  fontSize: '1.3rem',
-  color: '#ffd700',
-  textShadow: '0 0 10px rgba(255, 215, 0, 0.8)',
-  marginBottom: '1.5rem',
-  textAlign: 'center',
-}))
-
-const ListItem = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  padding: '0.75rem 0',
-  borderBottom: '1px solid rgba(255, 215, 0, 0.1)',
-  cursor: 'pointer',
-  transition: 'all 0.2s ease-in-out',
-  
-  '&:last-child': {
-    borderBottom: 'none',
-  },
-  
-  '&:hover': {
-    background: 'rgba(255, 215, 0, 0.1)',
-    borderRadius: '8px',
-    padding: '0.75rem',
-    margin: '0 -0.75rem',
-    transform: 'translateX(4px)',
-    boxShadow: '0 0 15px rgba(255, 215, 0, 0.2)',
-  },
-}))
-
-const RifaName = styled(Typography)(({ theme }) => ({
-  fontFamily: 'var(--font-orbitron), monospace',
-  fontSize: '0.9rem',
-  color: '#ffffff',
-  textShadow: '0 0 5px rgba(255, 255, 255, 0.3)',
-  flex: 1,
-  marginRight: '1rem',
-}))
-
-const RifaStats = styled(Typography)(({ theme }) => ({
-  fontFamily: 'var(--font-orbitron), monospace',
-  fontSize: '0.8rem',
-  color: '#ffd700',
-  textShadow: '0 0 5px rgba(255, 215, 0, 0.5)',
-  fontWeight: 600,
-}))
-
-const SkeletonItem = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  padding: '0.75rem 0',
-  borderBottom: '1px solid rgba(255, 215, 0, 0.1)',
-  
-  '&:last-child': {
-    borderBottom: 'none',
-  },
-}))
+import { Typography, Skeleton } from '@mui/material'
+import { 
+  ListSection, 
+  ListTitle, 
+  ListItem, 
+  RifaName, 
+  RifaStats, 
+  SkeletonItem,
+  RifaNameContainer
+} from './styles'
 
 const formatTimeAgo = (dateString: string) => {
   const date = new Date(dateString)
@@ -90,6 +28,15 @@ const formatTimeAgo = (dateString: string) => {
 
 const formatStats = (soldNumbers: number, totalNumbers: number) => {
   return `${soldNumbers}/${totalNumbers}`
+}
+
+const isRaffleFinished = (raffle: any) => {
+  // Una rifa está finalizada solo cuando se vendieron todos los números (100)
+  if (raffle.soldNumbers !== undefined && raffle.totalNumbers !== undefined) {
+    return raffle.soldNumbers >= raffle.totalNumbers
+  }
+  
+  return false
 }
 
 interface RafflesListProps {
@@ -165,7 +112,10 @@ export function RafflesList({ type, title }: RafflesListProps) {
           key={raffle.id}
           onClick={() => handleRaffleClick(raffle.alias)}
         >
-          <RifaName>{raffle.title}</RifaName>
+          <RifaNameContainer>
+            {isRaffleFinished(raffle) && <span style={{ fontSize: '14px', marginRight: '4px' }}>🎉</span>}
+            <RifaName>{raffle.title}</RifaName>
+          </RifaNameContainer>
           <RifaStats>
             {type === 'recent' 
               ? formatTimeAgo(raffle.created_at)

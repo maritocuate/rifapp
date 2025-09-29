@@ -18,7 +18,34 @@ export const rafflesRouter = router({
       throw new Error(`Error al obtener rifas: ${error.message}`)
     }
 
-    return raffles || []
+    // Obtener estadísticas reales de tickets vendidos para todas las rifas
+    const rafflesWithStats = await Promise.all(
+      raffles?.map(async (raffle) => {
+        const { data: tickets, error: ticketsError } = await ctx.supabase
+          .from('tickets')
+          .select('is_sold')
+          .eq('raffle_id', raffle.id)
+
+        if (ticketsError) {
+          console.error(`Error obteniendo tickets para rifa ${raffle.id}:`, ticketsError)
+          return {
+            ...raffle,
+            totalNumbers: 100,
+            soldNumbers: 0,
+          }
+        }
+
+        const soldNumbers = tickets?.filter(ticket => ticket.is_sold).length || 0
+
+        return {
+          ...raffle,
+          totalNumbers: 100,
+          soldNumbers,
+        }
+      }) || []
+    )
+
+    return rafflesWithStats
   }),
 
   // Obtener rifas activas

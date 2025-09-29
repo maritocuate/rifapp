@@ -1,6 +1,6 @@
 'use client'
 
-import { RafflesList } from '@/components/RafflesList'
+import { RafflesList } from '../RafflesList'
 import { styled } from '@mui/material/styles'
 import { Box, Container } from '@mui/material'
 
