@@ -84,7 +84,7 @@ export default function Footer() {
         <FooterText>v0.9</FooterText>
         <FooterSeparator>•</FooterSeparator>
         <FooterLink href="/terminos">
-          Bases y Condiciones
+          Términos
         </FooterLink>
         <FooterSeparator>•</FooterSeparator>
         <FooterText>{new Date().getFullYear()}</FooterText>

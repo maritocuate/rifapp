@@ -149,9 +149,10 @@ export default function TerminosPage() {
           <SectionText>
             El Organizador notificará al ganador mediante email una vez que se conozcan los resultados 
             oficiales de la Quiniela de la Ciudad de Buenos Aires. La entrega del premio se coordinará 
-            directamente con el ganador. En caso de no poder ser contactado dentro de los 30 días hábiles 
-            siguientes a la fecha del sorteo, el premio podrá ser declarado vacante o redistribuido conforme 
-            determine el Organizador.
+            directamente con el ganador. <strong>Es importante aclarar que los gastos de envío y entrega del premio 
+            corren por cuenta del ganador</strong>, salvo que el Organizador disponga lo contrario. En caso de no poder 
+            ser contactado dentro de los 30 días hábiles siguientes a la fecha del sorteo, el premio podrá 
+            ser declarado vacante o redistribuido conforme determine el Organizador.
           </SectionText>
           <SectionText>
             <strong>Transferencia de recaudación:</strong> La recaudación total de la rifa será transferida 
