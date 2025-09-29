@@ -2,7 +2,7 @@
 
 import { StepContainer } from './styles'
 import { PrizeDescriptionField } from './PrizeDescriptionField'
-import { ImageUrlField } from './ImageUrlField'
+import { ImageUploadField } from './ImageUploadField'
 import { NumberCostField } from './NumberCostField'
 import { PrizeConfigStepProps } from './types'
 
@@ -27,7 +27,7 @@ export function PrizeConfigStep({ data, onUpdate, errors }: PrizeConfigStepProps
         error={errors.prize_description}
       />
       
-      <ImageUrlField
+      <ImageUploadField
         value={data.prize_image_url}
         onChange={handleImageUrlChange}
         error={errors.prize_image_url}

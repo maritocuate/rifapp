@@ -1,4 +1,5 @@
 import { User, Gift } from 'lucide-react'
+import Image from 'next/image'
 import { ReviewCard as StyledReviewCard, CardContentStyled, SectionTitle, InfoRow, InfoLabel, InfoValue, HighlightValue, SummaryBox, SummaryTitle, SummaryText, StyledDivider } from './styles'
 import { ReviewCardProps } from './types'
 
@@ -51,12 +52,24 @@ export function ReviewCardComponent({ data }: ReviewCardComponentProps) {
           <InfoRow>
             <InfoLabel>Imagen del Premio</InfoLabel>
             <InfoValue sx={{ 
-              color: '#4ade80',
               display: 'flex',
               alignItems: 'center',
-              gap: '0.5rem'
+              justifyContent: 'center',
+              gap: '0.75rem',
+              padding: '0.5rem 0'
             }}>
-              <span>URL proporcionada</span>
+              <Image 
+                src={data.prize_image_url} 
+                alt="Imagen del premio" 
+                width={130}
+                height={80}
+                style={{
+                  objectFit: 'cover',
+                  borderRadius: '8px',
+                  border: '2px solid rgba(255, 215, 0, 0.3)',
+                  boxShadow: '0 0 10px rgba(255, 215, 0, 0.2)'
+                }}
+              />
             </InfoValue>
           </InfoRow>
         )}
