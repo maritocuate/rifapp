@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react'
 import { Box, Container, Typography, CircularProgress } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import MainTitle from '@/components/MainTitle'
-import { HomeButton } from '@/components/HomeButton'
 
 const PageContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -24,35 +23,12 @@ const ContentWrapper = styled(Container)(({ theme }) => ({
   textAlign: 'center',
 }))
 
-const HeaderContainer = styled(Box)(({ theme }) => ({
-  background: 'linear-gradient(145deg, rgba(0, 0, 0, 0.08), rgba(255, 215, 0, 0.03))',
-  padding: '1.5rem',
-  backdropFilter: 'blur(10px)',
-  width: '100%',
-  marginTop: '-1rem',
-  marginBottom: '2rem',
-  borderRadius: '0 0 15px 15px',
-  border: '1px solid rgba(255, 215, 0, 0.1)',
-  position: 'relative',
-
-  [theme.breakpoints.down('md')]: {
-    paddingTop: '4rem',
-  },
-}))
-
-const HomeButtonWrapper = styled(Box)({
-  position: 'absolute',
-  top: '1rem',
-  left: '1rem',
-  zIndex: 10,
-})
-
 const StatusContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
-  minHeight: '40vh',
+  minHeight: '80vh',
   textAlign: 'center',
   padding: '2rem',
   background: 'linear-gradient(145deg, rgba(0, 0, 0, 0.08), rgba(255, 215, 0, 0.03))',
@@ -93,21 +69,18 @@ const LoadingText = styled(Typography)(({ theme }) => ({
 }))
 
 const SuccessTitle = styled(MainTitle)(({ theme }) => ({
-  background: 'linear-gradient(145deg, #4ade80 0%, #22c55e 30%, #16a34a 60%, #15803d 100%)',
   WebkitBackgroundClip: 'text',
   WebkitTextFillColor: 'transparent',
   textShadow: '0 0 20px rgba(74, 222, 128, 0.5)',
 }))
 
 const FailureTitle = styled(MainTitle)(({ theme }) => ({
-  background: 'linear-gradient(145deg, #ef4444 0%, #dc2626 30%, #b91c1c 60%, #991b1b 100%)',
   WebkitBackgroundClip: 'text',
   WebkitTextFillColor: 'transparent',
   textShadow: '0 0 20px rgba(239, 68, 68, 0.5)',
 }))
 
 const PendingTitle = styled(MainTitle)(({ theme }) => ({
-  background: 'linear-gradient(145deg, #f59e0b 0%, #d97706 30%, #b45309 60%, #92400e 100%)',
   WebkitBackgroundClip: 'text',
   WebkitTextFillColor: 'transparent',
   textShadow: '0 0 20px rgba(245, 158, 11, 0.5)',
@@ -174,18 +147,11 @@ export default function Status() {
   }
 
   return (
-    <PageContainer className="geometric-bg">
-      <ContentWrapper maxWidth="lg">
-        <HeaderContainer>
-          <HomeButtonWrapper>
-            <HomeButton />
-          </HomeButtonWrapper>
-          
-          {renderTitle()}
-        </HeaderContainer>
-        
+    <PageContainer>
+      <ContentWrapper maxWidth="xl">
         <StatusContainer>
           <StatusInfo>
+            {renderTitle()}
             {info}
           </StatusInfo>
           
