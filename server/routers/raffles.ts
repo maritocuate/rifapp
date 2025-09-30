@@ -428,10 +428,10 @@ export const rafflesRouter = router({
         throw new Error(`Los números ${soldNumbers.join(', ')} ya están vendidos`)
       }
 
-      // Obtener el costo por número de la rifa
+      // Obtener el costo por número y alias de la rifa
       const { data: raffle, error: raffleError } = await ctx.supabase
         .from('raffles')
-        .select('number_cost')
+        .select('number_cost, alias')
         .eq('id', input.raffleId)
         .single()
 
@@ -487,7 +487,7 @@ export const rafflesRouter = router({
             },
             notification_url: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/tickets/webhook`,
             statement_descriptor: 'RIFFITA',
-            external_reference: `${input.raffleId}-${input.numbers.join(',')}-${input.buyerId}`,
+            external_reference: `${raffle.alias}-${input.numbers.join(',')}-${input.buyerId}`,
             expires: true,
             expiration_date_from: new Date().toISOString(),
             expiration_date_to: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),

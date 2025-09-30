@@ -25,10 +25,22 @@ export async function POST(req: NextRequest) {
       
       // Extraer información del external_reference
       const externalRef = payment.external_reference
-      const [raffleId, numbersStr, buyerId] = externalRef.split('-')
+      const [raffleAlias, numbersStr, buyerId] = externalRef.split('-')
       const numbers = numbersStr.split(',').map(Number)
 
       const supabase = await createClient()
+
+      // Obtener el ID de la rifa usando el alias
+      const { data: raffle, error: raffleError } = await supabase
+        .from('raffles')
+        .select('id')
+        .eq('alias', raffleAlias)
+        .single()
+
+      if (raffleError || !raffle) {
+        console.error('Error finding raffle by alias:', raffleError)
+        return NextResponse.json({ error: 'Raffle not found' }, { status: 404 })
+      }
 
       if (payment.status === 'approved') {
         // Marcar tickets como vendidos
@@ -38,7 +50,7 @@ export async function POST(req: NextRequest) {
             is_sold: true, 
             buyer_id: buyerId 
           })
-          .eq('raffle_id', raffleId)
+          .eq('raffle_id', raffle.id)
           .in('number', numbers.map((n: number) => n.toString()))
 
         if (updateError) {
@@ -46,7 +58,7 @@ export async function POST(req: NextRequest) {
           return NextResponse.json({ error: 'Error updating tickets' }, { status: 500 })
         }
 
-        console.log(`Tickets ${numbers.join(', ')} vendidos para rifa ${raffleId}`)
+        console.log(`Tickets ${numbers.join(', ')} vendidos para rifa ${raffleAlias}`)
       }
 
       return NextResponse.json({ success: true })
