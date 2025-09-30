@@ -469,9 +469,9 @@ export const rafflesRouter = router({
               email: input.buyerEmail,
             },
             back_urls: {
-              success: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/callback?status=success&raffleId=${input.raffleId}&numbers=${input.numbers.join(',')}`,
-              failure: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/callback?status=failure&raffleId=${input.raffleId}`,
-              pending: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/callback?status=pending&raffleId=${input.raffleId}`,
+              success: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/callback?status=success&raffleId=${input.raffleId}&raffleAlias=${raffle.alias}&numbers=${input.numbers.join(',')}`,
+              failure: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/callback?status=failure&raffleId=${input.raffleId}&raffleAlias=${raffle.alias}`,
+              pending: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/callback?status=pending&raffleId=${input.raffleId}&raffleAlias=${raffle.alias}`,
             },
             auto_return: 'approved',
             payment_methods: {
@@ -487,7 +487,7 @@ export const rafflesRouter = router({
             },
             notification_url: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/tickets/webhook`,
             statement_descriptor: 'RIFFITA',
-            external_reference: `${raffle.alias}-${input.numbers.join(',')}-${input.buyerId}`,
+            external_reference: `${input.raffleId}-${input.numbers.join(',')}-${input.buyerId}`,
             expires: true,
             expiration_date_from: new Date().toISOString(),
             expiration_date_to: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
