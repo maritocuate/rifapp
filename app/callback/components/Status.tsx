@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { Box, Container, Typography, CircularProgress } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import MainTitle from '@/components/MainTitle'
+import { useAuth } from '@/contexts/AuthContext'
 
 const PageContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -92,6 +93,7 @@ export default function Status() {
   const [statusType, setStatusType] = useState<'success' | 'failure' | 'pending'>('success')
   const router = useRouter()
   const searchParams = useSearchParams()
+  const { user } = useAuth()
   const status = searchParams.get('status')
   const raffleId = searchParams.get('raffleId')
   const raffleAlias = searchParams.get('raffleAlias')
@@ -155,7 +157,7 @@ export default function Status() {
     //     router.push('/')
     //   }
     // }, 4000)
-  }, [status, raffleId, raffleAlias, numbers, router])
+  }, [status, raffleId, raffleAlias, numbers, router, user?.id])
 
   const renderTitle = () => {
     switch (statusType) {
