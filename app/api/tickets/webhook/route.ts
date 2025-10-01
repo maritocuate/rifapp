@@ -25,16 +25,16 @@ export async function POST(req: NextRequest) {
       
       // Extraer información del external_reference
       const externalRef = payment.external_reference
-      const [raffleAlias, numbersStr, buyerId] = externalRef.split('-')
+      const [raffleId, numbersStr, buyerId] = externalRef.split('-')
       const numbers = numbersStr.split(',').map(Number)
 
       const supabase = await createClient()
 
-      // Obtener el ID de la rifa usando el alias
+      // Verificar que la rifa existe
       const { data: raffle, error: raffleError } = await supabase
         .from('raffles')
         .select('id')
-        .eq('alias', raffleAlias)
+        .eq('id', raffleId)
         .single()
 
       if (raffleError || !raffle) {
@@ -43,50 +43,24 @@ export async function POST(req: NextRequest) {
       }
 
       if (payment.status === 'approved') {
-        console.log(`Procesando pago aprobado para rifa ${raffleAlias}, números: ${numbers.join(', ')}, buyer: ${buyerId}`)
-        
-        // Verificar que los tickets existan antes de actualizarlos
-        const { data: existingTickets, error: checkError } = await supabase
+        // Crear nuevos registros de tickets vendidos
+        const ticketRecords = numbers.map((number: number) => ({
+          raffle_id: raffle.id,
+          number: number,
+          is_sold: true,
+          buyer_id: buyerId
+        }))
+
+        const { error: insertError } = await supabase
           .from('tickets')
-          .select('number, is_sold')
-          .eq('raffle_id', raffle.id)
-          .in('number', numbers.map((n: number) => n.toString()))
+          .insert(ticketRecords)
 
-        if (checkError) {
-          console.error('Error verificando tickets existentes:', checkError)
-          return NextResponse.json({ error: 'Error verificando tickets' }, { status: 500 })
+        if (insertError) {
+          console.error('Error creating ticket records:', insertError)
+          return NextResponse.json({ error: 'Error creating ticket records' }, { status: 500 })
         }
 
-        if (!existingTickets || existingTickets.length === 0) {
-          console.error(`No se encontraron tickets para los números: ${numbers.join(', ')}`)
-          return NextResponse.json({ error: 'Tickets no encontrados' }, { status: 404 })
-        }
-
-        // Verificar que los tickets no estén ya vendidos
-        const soldTickets = existingTickets.filter(ticket => ticket.is_sold)
-        if (soldTickets.length > 0) {
-          console.error(`Algunos tickets ya están vendidos: ${soldTickets.map(t => t.number).join(', ')}`)
-          return NextResponse.json({ error: 'Algunos tickets ya están vendidos' }, { status: 409 })
-        }
-
-        // Marcar tickets como vendidos
-        const { error: updateError } = await supabase
-          .from('tickets')
-          .update({ 
-            is_sold: true, 
-            buyer_id: buyerId 
-          })
-          .eq('raffle_id', raffle.id)
-          .in('number', numbers.map((n: number) => n.toString()))
-
-        if (updateError) {
-          console.error('Error updating tickets:', updateError)
-          return NextResponse.json({ error: 'Error updating tickets' }, { status: 500 })
-        }
-
-        console.log(`✅ Tickets ${numbers.join(', ')} vendidos exitosamente para rifa ${raffleAlias}`)
-      } else {
-        console.log(`Pago con estado: ${payment.status} - No se procesarán los tickets`)
+        console.log(`Nuevos tickets ${numbers.join(', ')} creados para rifa ${raffleId}`)
       }
 
       return NextResponse.json({ success: true })

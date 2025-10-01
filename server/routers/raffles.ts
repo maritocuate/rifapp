@@ -25,6 +25,7 @@ export const rafflesRouter = router({
           .from('tickets')
           .select('is_sold')
           .eq('raffle_id', raffle.id)
+          .eq('is_sold', true)
 
         if (ticketsError) {
           console.error(`Error obteniendo tickets para rifa ${raffle.id}:`, ticketsError)
@@ -35,7 +36,7 @@ export const rafflesRouter = router({
           }
         }
 
-        const soldNumbers = tickets?.filter(ticket => ticket.is_sold).length || 0
+        const soldNumbers = tickets?.length || 0
 
         return {
           ...raffle,
@@ -93,6 +94,7 @@ export const rafflesRouter = router({
           .from('tickets')
           .select('is_sold')
           .eq('raffle_id', raffle.id)
+          .eq('is_sold', true)
 
         if (ticketsError) {
           console.error(`Error obteniendo tickets para rifa ${raffle.id}:`, ticketsError)
@@ -103,7 +105,7 @@ export const rafflesRouter = router({
           }
         }
 
-        const soldNumbers = tickets?.filter(ticket => ticket.is_sold).length || 0
+        const soldNumbers = tickets?.length || 0
 
         return {
           ...raffle,
@@ -178,12 +180,13 @@ export const rafflesRouter = router({
         .from('tickets')
         .select('is_sold')
         .eq('raffle_id', input.raffleId)
+        .eq('is_sold', true)
 
       if (error) {
         throw new Error(`Error al obtener estadísticas de tickets: ${error.message}`)
       }
 
-      const soldNumbers = tickets?.filter(ticket => ticket.is_sold).length || 0
+      const soldNumbers = tickets?.length || 0
       const totalNumbers = 100 // Asumiendo que todas las rifas tienen 100 números
 
       return {
@@ -384,21 +387,7 @@ export const rafflesRouter = router({
         throw new Error(`Error al crear rifa: ${error.message}`)
       }
 
-      // Crear los 100 tickets para la rifa
-      const tickets = Array.from({ length: 100 }, (_, index) => ({
-        raffle_id: raffle.id,
-        number: index.toString().padStart(2, '0'),
-        is_sold: false,
-      }))
-
-      const { error: ticketsError } = await ctx.supabase
-        .from('tickets')
-        .insert(tickets)
-
-      if (ticketsError) {
-        console.error('Error creando tickets:', ticketsError)
-        // No lanzamos error aquí para no fallar la creación de la rifa
-      }
+      // Los tickets se crearán automáticamente cuando se compren números
 
       return raffle
     }),
@@ -413,17 +402,18 @@ export const rafflesRouter = router({
     }))
     .mutation(async ({ ctx, input }) => {
       // Verificar que los números estén disponibles
-      const { data: tickets, error: ticketsError } = await ctx.supabase
+      const { data: soldTickets, error: ticketsError } = await ctx.supabase
         .from('tickets')
-        .select('number, is_sold')
+        .select('number')
         .eq('raffle_id', input.raffleId)
+        .eq('is_sold', true)
         .in('number', input.numbers.map(n => n.toString()))
 
       if (ticketsError) {
         throw new Error(`Error al verificar disponibilidad: ${ticketsError.message}`)
       }
 
-      const soldNumbers = tickets?.filter(t => t.is_sold).map(t => t.number) || []
+      const soldNumbers = soldTickets?.map(t => t.number) || []
       if (soldNumbers.length > 0) {
         throw new Error(`Los números ${soldNumbers.join(', ')} ya están vendidos`)
       }
