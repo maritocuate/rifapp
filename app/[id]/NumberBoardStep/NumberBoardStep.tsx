@@ -41,7 +41,6 @@ export function NumberBoardStep({ raffleAlias }: NumberBoardStepProps) {
   )
 
   const purchaseNumbersMutation = trpc.raffles.purchaseNumbers.useMutation()
-  const createTestTicketMutation = trpc.raffles.createTestTicket.useMutation()
 
   const handleSelectionChange = (newSelection: Set<number>) => {
     setSelectedNumbers(newSelection)
@@ -133,31 +132,6 @@ export function NumberBoardStep({ raffleAlias }: NumberBoardStepProps) {
     setShowAuthModal(false)
   }
 
-  // Función temporal para crear ticket de prueba (SOLO PARA DESARROLLO)
-  const handleCreateTestTicket = async () => {
-    if (!user || !raffle) {
-      alert('Debes estar logueado y tener una rifa válida')
-      return
-    }
-
-    const testNumber = Math.floor(Math.random() * 100) + 1 // Número aleatorio del 1 al 100
-    
-    try {
-      await createTestTicketMutation.mutateAsync({
-        raffleId: raffle.id,
-        number: testNumber,
-        buyerId: user.id
-      })
-      
-      alert(`¡Ticket de prueba creado! Número: ${testNumber}`)
-      
-      // Refrescar los datos
-      window.location.reload()
-    } catch (error) {
-      console.error('Error al crear ticket de prueba:', error)
-      alert(error instanceof Error ? error.message : 'Error al crear ticket de prueba')
-    }
-  }
 
   // Mostrar loading mientras se cargan los datos
   if (isLoadingRaffle || isLoadingStats || isLoadingSoldNumbers || isLoadingUserNumbers || isLoadingWinner) {
@@ -198,35 +172,6 @@ export function NumberBoardStep({ raffleAlias }: NumberBoardStepProps) {
           availableNumbers={100 - (ticketStats?.soldNumbers || 0)}
         />
         
-        {/* BOTÓN TEMPORAL PARA PRUEBAS - SOLO DESARROLLO */}
-        {user && (
-          <div style={{ 
-            display: 'flex', 
-            justifyContent: 'center', 
-            margin: '20px 0',
-            padding: '10px',
-            backgroundColor: 'rgba(255, 0, 0, 0.1)',
-            border: '2px dashed #ff0000',
-            borderRadius: '8px'
-          }}>
-            <button
-              onClick={handleCreateTestTicket}
-              disabled={createTestTicketMutation.isPending}
-              style={{
-                backgroundColor: '#ff4444',
-                color: 'white',
-                border: 'none',
-                padding: '10px 20px',
-                borderRadius: '5px',
-                cursor: createTestTicketMutation.isPending ? 'not-allowed' : 'pointer',
-                fontSize: '14px',
-                fontWeight: 'bold'
-              }}
-            >
-              {createTestTicketMutation.isPending ? 'Creando...' : '🧪 CREAR TICKET DE PRUEBA (DESARROLLO)'}
-            </button>
-          </div>
-        )}
         
         <GridSection>
           {isMobile ? (

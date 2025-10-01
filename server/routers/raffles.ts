@@ -491,48 +491,5 @@ export const rafflesRouter = router({
       }
     }),
 
-  // Función temporal para crear tickets de prueba (SOLO PARA DESARROLLO)
-  createTestTicket: publicProcedure
-    .input(z.object({
-      raffleId: z.string().uuid(),
-      number: z.number().min(1).max(100),
-      buyerId: z.string().uuid(),
-    }))
-    .mutation(async ({ ctx, input }) => {
-      // Verificar que el número no esté ya vendido
-      const { data: existingTicket, error: checkError } = await ctx.supabase
-        .from('tickets')
-        .select('id')
-        .eq('raffle_id', input.raffleId)
-        .eq('number', input.number)
-        .eq('is_sold', true)
-        .single()
-
-      if (checkError && checkError.code !== 'PGRST116') {
-        throw new Error(`Error al verificar disponibilidad: ${checkError.message}`)
-      }
-
-      if (existingTicket) {
-        throw new Error(`El número ${input.number} ya está vendido`)
-      }
-
-      // Crear el ticket de prueba
-      const { data: ticket, error: insertError } = await ctx.supabase
-        .from('tickets')
-        .insert({
-          raffle_id: input.raffleId,
-          number: input.number,
-          is_sold: true,
-          buyer_id: input.buyerId
-        })
-        .select()
-        .single()
-
-      if (insertError) {
-        throw new Error(`Error al crear ticket de prueba: ${insertError.message}`)
-      }
-
-      return ticket
-    }),
 
 })
