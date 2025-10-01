@@ -98,25 +98,36 @@ export default function Status() {
   const numbers = searchParams.get('numbers')
 
   useEffect(() => {
+    console.log('🔍 CALLBACK DEBUG - Parámetros recibidos:')
+    console.log('  - Status:', status)
+    console.log('  - RaffleId:', raffleId)
+    console.log('  - RaffleAlias:', raffleAlias)
+    console.log('  - Numbers:', numbers)
+    
     if (status === 'success') {
       if (raffleId && numbers) {
+        console.log('✅ Callback SUCCESS con datos completos')
         setTitle('¡Números Comprados!')
         setInfo(`Has comprado exitosamente los números: ${numbers}`)
         setStatusType('success')
       } else {
+        console.log('⚠️ Callback SUCCESS pero sin datos completos')
         setTitle('¡Gracias!')
         setInfo('Tu pago fue procesado exitosamente.')
         setStatusType('success')
       }
     } else if (status === 'failure') {
+      console.log('❌ Callback FAILURE')
       setTitle('Algo falló :(')
       setInfo('Tu pago no pudo ser procesado.')
       setStatusType('failure')
     } else if (status === 'pending') {
+      console.log('⏳ Callback PENDING')
       setTitle('Procesando...')
       setInfo('Tu pago se está procesando.')
       setStatusType('pending')
     } else {
+      console.log('❓ Callback sin status válido, redirigiendo a home')
       router.push('/')
       return
     }
