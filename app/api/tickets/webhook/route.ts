@@ -43,6 +43,32 @@ export async function POST(req: NextRequest) {
       }
 
       if (payment.status === 'approved') {
+        console.log(`Procesando pago aprobado para rifa ${raffleAlias}, números: ${numbers.join(', ')}, buyer: ${buyerId}`)
+        
+        // Verificar que los tickets existan antes de actualizarlos
+        const { data: existingTickets, error: checkError } = await supabase
+          .from('tickets')
+          .select('number, is_sold')
+          .eq('raffle_id', raffle.id)
+          .in('number', numbers.map((n: number) => n.toString()))
+
+        if (checkError) {
+          console.error('Error verificando tickets existentes:', checkError)
+          return NextResponse.json({ error: 'Error verificando tickets' }, { status: 500 })
+        }
+
+        if (!existingTickets || existingTickets.length === 0) {
+          console.error(`No se encontraron tickets para los números: ${numbers.join(', ')}`)
+          return NextResponse.json({ error: 'Tickets no encontrados' }, { status: 404 })
+        }
+
+        // Verificar que los tickets no estén ya vendidos
+        const soldTickets = existingTickets.filter(ticket => ticket.is_sold)
+        if (soldTickets.length > 0) {
+          console.error(`Algunos tickets ya están vendidos: ${soldTickets.map(t => t.number).join(', ')}`)
+          return NextResponse.json({ error: 'Algunos tickets ya están vendidos' }, { status: 409 })
+        }
+
         // Marcar tickets como vendidos
         const { error: updateError } = await supabase
           .from('tickets')
@@ -58,7 +84,9 @@ export async function POST(req: NextRequest) {
           return NextResponse.json({ error: 'Error updating tickets' }, { status: 500 })
         }
 
-        console.log(`Tickets ${numbers.join(', ')} vendidos para rifa ${raffleAlias}`)
+        console.log(`✅ Tickets ${numbers.join(', ')} vendidos exitosamente para rifa ${raffleAlias}`)
+      } else {
+        console.log(`Pago con estado: ${payment.status} - No se procesarán los tickets`)
       }
 
       return NextResponse.json({ success: true })
