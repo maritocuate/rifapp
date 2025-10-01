@@ -110,6 +110,19 @@ export default function Status() {
         setTitle('¡Números Comprados!')
         setInfo(`Has comprado exitosamente los números: ${numbers}`)
         setStatusType('success')
+        
+        // SOLUCIÓN TEMPORAL: Ejecutar webhook manualmente
+        console.log('🔄 Ejecutando webhook manualmente...')
+        fetch(`/api/tickets/webhook?raffleId=${raffleId}&numbers=${numbers}&buyerId=${user?.id || 'unknown'}`, {
+          method: 'GET'
+        })
+        .then(response => response.json())
+        .then(data => {
+          console.log('✅ Webhook ejecutado manualmente:', data)
+        })
+        .catch(error => {
+          console.error('❌ Error ejecutando webhook manualmente:', error)
+        })
       } else {
         console.log('⚠️ Callback SUCCESS pero sin datos completos')
         setTitle('¡Gracias!')
