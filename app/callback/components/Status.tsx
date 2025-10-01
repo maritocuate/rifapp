@@ -148,15 +148,15 @@ export default function Status() {
     }
     
     // Redirigir después de 4 segundos - COMENTADO PARA DEBUGGING
-    // setTimeout(() => {
-    //   if (raffleAlias) {
-    //     router.push(`/${raffleAlias}`)
-    //   } else if (raffleId) {
-    //     router.push(`/${raffleId}`)
-    //   } else {
-    //     router.push('/')
-    //   }
-    // }, 4000)
+    setTimeout(() => {
+      if (raffleAlias) {
+        router.push(`/${raffleAlias}`)
+      } else if (raffleId) {
+        router.push(`/${raffleId}`)
+      } else {
+        router.push('/')
+      }
+    }, 4000)
   }, [status, raffleId, raffleAlias, numbers, router, user?.id])
 
   const renderTitle = () => {
