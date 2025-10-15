@@ -20,42 +20,42 @@ import {
 const testimonials = [
   {
     id: 1,
-    name: 'María González',
+    name: 'MarcoGamer',
     rating: 5,
     review: 'Riffita ha sido una herramienta increíble para organizar la rifa de mi negocio. La interfaz es muy fácil de usar y los participantes pudieron comprar sus números sin problemas. Definitivamente la recomiendo.',
     initial: 'M'
   },
   {
     id: 2,
-    name: 'Carlos Rodríguez',
+    name: 'Cande23',
     rating: 5,
     review: 'Excelente plataforma para crear sorteos. El proceso de configuración es muy intuitivo y la gestión de participantes es muy sencilla. Los resultados fueron exactamente lo que esperaba.',
     initial: 'C'
   },
   {
     id: 3,
-    name: 'Ana Martínez',
+    name: 'Anitaa',
     rating: 5,
     review: 'Muy buena experiencia usando Riffita. La plataforma es confiable y el soporte al cliente es excelente. Solo le faltan algunas opciones de personalización, pero en general está muy bien.',
     initial: 'A'
   },
   {
     id: 4,
-    name: 'Luis Fernández',
+    name: 'Casla_Luis',
     rating: 5,
     review: 'He usado Riffita para varias rifas de mi organización sin fines de lucro. Es perfecta para recaudar fondos de manera transparente y profesional. Los participantes confían en la plataforma.',
     initial: 'L'
   },
   {
     id: 5,
-    name: 'Sofia Herrera',
+    name: 'Sofiiia',
     rating: 5,
     review: 'La mejor plataforma para sorteos que he usado. La configuración es rápida, los pagos se procesan correctamente y la experiencia del usuario es excelente. Muy recomendada.',
     initial: 'S'
   },
   {
     id: 6,
-    name: 'Diego Morales',
+    name: 'Lautaro_2005',
     rating: 5,
     review: 'Riffita me ayudó a organizar un sorteo para mi comunidad. La plataforma es fácil de usar y los resultados fueron transparentes. Solo me gustaría ver más opciones de diseño para las tarjetas.',
     initial: 'D'
