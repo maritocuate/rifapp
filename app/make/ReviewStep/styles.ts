@@ -14,7 +14,7 @@ export const StepTitle = styled(Typography)(({ theme }) => ({
   fontWeight: 600,
   color: '#ffd700',
   textAlign: 'center',
-  marginBottom: '1rem',
+  marginBottom: '0.5rem',
   textShadow: '0 0 5px rgba(255, 215, 0, 0.3)',
 }))
 
@@ -23,7 +23,7 @@ export const StepDescription = styled(Typography)(({ theme }) => ({
   fontSize: '1rem',
   color: 'rgba(255, 255, 255, 0.8)',
   textAlign: 'center',
-  marginBottom: '2rem',
+  marginBottom: '0.5rem',
   lineHeight: 1.6,
 }))
 

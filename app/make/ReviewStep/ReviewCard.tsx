@@ -86,8 +86,8 @@ export function ReviewCardComponent({ data }: ReviewCardComponentProps) {
           <SummaryText>
             • <strong>100 números</strong> disponibles (01-100)<br/>
             • <strong>${data.number_cost.toLocaleString()}</strong> por número<br/>
-            • <strong>Premio total:</strong> ${totalPrize.toLocaleString()}<br/>
-            • <strong>Estado:</strong> Activa (lista para recibir participantes)
+            • <strong>Tu ganancia:</strong> ${totalPrize.toLocaleString()}<br/>
+            • <strong>Premio:</strong> {data.prize_description}
           </SummaryText>
         </SummaryBox>
       </CardContentStyled>
