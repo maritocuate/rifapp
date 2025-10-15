@@ -51,6 +51,32 @@ export async function POST(req: NextRequest) {
       const paymentId = data.id
       console.log('🆔 Payment ID:', paymentId)
       
+      // Detectar si es un pago de prueba
+      const isTestPayment = paymentId === '123456' || 
+                           paymentId.startsWith('test_') || 
+                           paymentId.startsWith('TEST_') ||
+                           paymentId.includes('test')
+      
+      if (isTestPayment) {
+        console.log('🧪 PAGO DE PRUEBA DETECTADO')
+        console.log('📊 Simulando procesamiento para pago de prueba...')
+        console.log('  - Payment ID:', paymentId)
+        console.log('  - Type:', type)
+        console.log('  - Action:', action)
+        console.log('  - Data:', data)
+        console.log('✅ Pago de prueba procesado exitosamente (sin crear tickets)')
+        
+        // Para pagos de prueba, solo logueamos y retornamos éxito
+        return NextResponse.json({ 
+          success: true, 
+          message: 'Test payment processed successfully',
+          test_payment: true
+        })
+      }
+      
+      // Solo procesar pagos reales
+      console.log('💰 Procesando pago real...')
+      
       // Validar token de MercadoPago
       const token = process.env.MERCADOLIBRE_TOKEN
       if (!token) {
