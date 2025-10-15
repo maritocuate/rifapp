@@ -3,7 +3,7 @@
 import { useAuth } from '@/contexts/AuthContext'
 import { AuthModal } from './AuthModal'
 import { useState, useEffect } from 'react'
-import { Loader2 } from 'lucide-react'
+import { LoadingSpinner } from '@/components/LoadingSpinner'
 
 interface ProtectedRouteProps {
   children: React.ReactNode
@@ -21,14 +21,7 @@ export function ProtectedRoute({ children, fallback }: ProtectedRouteProps) {
   }, [user, loading])
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="flex flex-col items-center space-y-4">
-          <Loader2 className="h-8 w-8 animate-spin" />
-          <p className="text-muted-foreground">Cargando...</p>
-        </div>
-      </div>
-    )
+    return <LoadingSpinner message="Cargando..." size="md" fullScreen />
   }
 
   if (!user) {

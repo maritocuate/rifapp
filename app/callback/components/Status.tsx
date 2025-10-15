@@ -2,10 +2,11 @@
 
 import { useSearchParams, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { Box, Container, Typography, CircularProgress } from '@mui/material'
+import { Box, Container, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import MainTitle from '@/components/MainTitle'
 import { useAuth } from '@/contexts/AuthContext'
+import { LoadingSpinner } from '@/components/LoadingSpinner'
 
 const PageContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -170,17 +171,10 @@ export default function Status() {
           </StatusInfo>
           
           <LoadingContainer>
-            <CircularProgress 
-              size={40} 
-              thickness={4}
-              sx={{ 
-                color: '#FFD700',
-                filter: 'drop-shadow(0 0 10px rgba(255, 215, 0, 0.5))'
-              }} 
+            <LoadingSpinner 
+              message="En breve serás redireccionado..."
+              size="md"
             />
-            <LoadingText>
-              En breve serás redireccionado...
-            </LoadingText>
           </LoadingContainer>
         </StatusContainer>
       </ContentWrapper>
