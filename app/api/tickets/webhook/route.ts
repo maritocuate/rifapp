@@ -16,12 +16,19 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   console.log('🔔 WEBHOOK RECIBIDO:', new Date().toISOString())
+  console.log('🔗 URL:', req.url)
+  console.log('📋 Headers:', Object.fromEntries(req.headers.entries()))
+  console.log('🌐 User Agent:', req.headers.get('user-agent'))
   
   try {
     const body = await req.json()
     console.log('📦 Body recibido:', JSON.stringify(body, null, 2))
     
-    const { type, data } = body
+    const { type, data, action } = body
+    console.log('📊 Datos del webhook:')
+    console.log('  - Type:', type)
+    console.log('  - Action:', action)
+    console.log('  - Data:', data)
 
     if (type === 'payment') {
       console.log('💳 Procesando notificación de pago')
@@ -48,6 +55,11 @@ export async function POST(req: NextRequest) {
       // Extraer información del external_reference
       const externalRef = payment.external_reference
       console.log('🔗 External reference:', externalRef)
+      
+      if (!externalRef) {
+        console.error('❌ No se encontró external_reference en el pago')
+        return NextResponse.json({ error: 'No external reference found' }, { status: 400 })
+      }
       
       const [raffleId, numbersStr, buyerId] = externalRef.split('|')
       const numbers = numbersStr.split(',').map(Number)
@@ -102,12 +114,21 @@ export async function POST(req: NextRequest) {
       }
 
       return NextResponse.json({ success: true })
+    } else if (type === 'merchant_order') {
+      console.log('📦 Procesando merchant_order:', data)
+      console.log('📊 Merchant Order ID:', data.id)
+      console.log('📊 Status:', data.status)
+      
+      // Por ahora solo logueamos merchant_order, no procesamos tickets
+      // Los tickets se procesan solo con payment webhooks
+      return NextResponse.json({ success: true })
+    } else {
+      console.log('ℹ️ Tipo de notificación no manejado:', type)
+      return NextResponse.json({ success: true })
     }
-
-    console.log('ℹ️ Tipo de notificación no es payment:', type)
-    return NextResponse.json({ success: true })
   } catch (error) {
     console.error('❌ Webhook error:', error)
+    console.error('❌ Error details:', error instanceof Error ? error.message : 'Unknown error')
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }
