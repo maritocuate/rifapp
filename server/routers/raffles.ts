@@ -477,7 +477,7 @@ export const rafflesRouter = router({
             },
             notification_url: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/tickets/webhook`,
             statement_descriptor: 'RIFFITA',
-            external_reference: `${input.raffleId}-${input.numbers.join(',')}-${input.buyerId}`,
+            external_reference: `${input.raffleId}|${input.numbers.join(',')}|${input.buyerId}`,
             expires: true,
             expiration_date_from: new Date().toISOString(),
             expiration_date_to: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),

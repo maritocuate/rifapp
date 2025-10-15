@@ -1,6 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase-server'
 
+// Endpoint GET para debugging - verificar que el webhook es accesible
+export async function GET(req: NextRequest) {
+  console.log('🧪 WEBHOOK GET ACCESSED:', new Date().toISOString())
+  console.log('🔗 URL:', req.url)
+  console.log('📋 Headers:', Object.fromEntries(req.headers.entries()))
+  
+  return NextResponse.json({ 
+    message: 'Webhook endpoint is working',
+    timestamp: new Date().toISOString(),
+    url: req.url
+  })
+}
+
 export async function POST(req: NextRequest) {
   console.log('🔔 WEBHOOK RECIBIDO:', new Date().toISOString())
   
@@ -36,7 +49,7 @@ export async function POST(req: NextRequest) {
       const externalRef = payment.external_reference
       console.log('🔗 External reference:', externalRef)
       
-      const [raffleId, numbersStr, buyerId] = externalRef.split('-')
+      const [raffleId, numbersStr, buyerId] = externalRef.split('|')
       const numbers = numbersStr.split(',').map(Number)
       
       console.log('📊 Datos extraídos:')
