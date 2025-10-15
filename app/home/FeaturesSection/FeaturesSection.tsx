@@ -22,14 +22,11 @@ const FeaturesContainer = styled(Box)(({ theme }) => ({
 const FeatureItem = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
-  gap: '1rem',
+  justifyContent: 'center',
+  gap: '0.5rem',
   padding: '1rem',
   borderRadius: '10px',
   transition: 'all 0.3s ease',
-  
-  '&:hover': {
-    background: 'rgba(255, 215, 0, 0.05)',
-  },
   
   [theme.breakpoints.down('md')]: {
     flexDirection: 'column',
@@ -40,11 +37,6 @@ const FeatureItem = styled(Box)(({ theme }) => ({
 }))
 
 const FeatureIcon = styled(Box)(({ theme }) => ({
-  width: '40px',
-  height: '40px',
-  borderRadius: '50%',
-  background: 'linear-gradient(145deg, rgba(255, 215, 0, 0.2), rgba(255, 215, 0, 0.1))',
-  border: '1px solid rgba(255, 215, 0, 0.3)',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
@@ -52,8 +44,9 @@ const FeatureIcon = styled(Box)(({ theme }) => ({
 }))
 
 const FeatureText = styled(Typography)(({ theme }) => ({
-  fontFamily: 'var(--font-orbitron), monospace',
-  fontSize: '1rem',
+  fontFamily: 'var(--font-cinzel), monospace',
+  fontSize: '1.7rem',
+  marginBottom: '-0.2rem',
   color: '#ffffff',
   textShadow: '0 0 5px rgba(255, 255, 255, 0.3)',
   
@@ -67,9 +60,7 @@ export function FeaturesSection() {
   return (
     <FeaturesContainer>
       <FeatureItem>
-        <FeatureIcon>
-          <Plus className="h-5 w-5 text-yellow-400" />
-        </FeatureIcon>
+        <Plus className="h-5 w-5 text-yellow-400" />
         <FeatureText>Crea</FeatureText>
       </FeatureItem>
       
