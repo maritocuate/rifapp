@@ -1,7 +1,8 @@
 import { DollarSign } from 'lucide-react'
-import { InputAdornment, Typography } from '@mui/material'
-import { FieldContainer, FieldLabel, StyledTextField, CostInfo, CostInfoText, DetailsText } from './styles'
+import { Typography } from '@mui/material'
+import { FieldContainer, FieldLabel, CostInfo, CostInfoText, DetailsText } from './styles'
 import { NumberCostFieldProps, CostInfoProps } from './types'
+import { CostSlider } from './CostSlider'
 
 function CostInfoComponent({ numberCost }: CostInfoProps) {
   const comision = 0.05
@@ -29,25 +30,23 @@ export function NumberCostField({ value, onChange, error }: NumberCostFieldProps
         <DollarSign className="h-4 w-4 text-yellow-400" />
         Costo por Número
       </FieldLabel>
-      <StyledTextField
-        fullWidth
-        type="number"
-        placeholder="1000"
-        value={value || ''}
-        onChange={(e) => onChange(parseFloat(e.target.value) || 0)}
-        error={!!error}
-        helperText={error}
-        variant="outlined"
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <Typography sx={{ color: '#ffd700', fontFamily: 'var(--font-orbitron), monospace' }}>
-                $
-              </Typography>
-            </InputAdornment>
-          ),
-        }}
+      <CostSlider
+        value={value || 1000}
+        onChange={onChange}
+        min={1000}
+        max={100000}
+        step={1000}
       />
+      {error && (
+        <Typography sx={{ 
+          color: '#ff6b6b', 
+          fontFamily: 'var(--font-orbitron), monospace',
+          fontSize: '0.85rem',
+          marginTop: '0.5rem'
+        }}>
+          {error}
+        </Typography>
+      )}
       <CostInfoComponent numberCost={value} />
     </FieldContainer>
   )

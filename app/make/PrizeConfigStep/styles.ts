@@ -1,5 +1,5 @@
 import { styled } from '@mui/material/styles'
-import { Box, Typography, TextField, Alert } from '@mui/material'
+import { Box, Typography, TextField, Alert, Slider } from '@mui/material'
 
 export const StepContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -105,4 +105,69 @@ export const DetailsText = styled(Typography)(({ theme }) => ({
 
 export const ProfanityAlert = styled(Alert)(({ theme }) => ({
   marginTop: '0.5rem',
+}))
+
+export const SliderContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '1rem',
+  padding: '1rem 2rem',
+  background: 'rgba(255, 255, 255, 0.05)',
+  borderRadius: '10px',
+  border: '1px solid rgba(255, 215, 0, 0.2)',
+}))
+
+export const StyledSlider = styled(Slider)(({ theme }) => ({
+  color: '#ffd700',
+  height: 8,
+  
+  '& .MuiSlider-track': {
+    border: 'none',
+    background: 'linear-gradient(90deg, #ffd700 0%, #ffed4e 100%)',
+    height: 8,
+    borderRadius: 4,
+  },
+  
+  '& .MuiSlider-rail': {
+    opacity: 0.3,
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    height: 8,
+    borderRadius: 4,
+  },
+  
+  '& .MuiSlider-thumb': {
+    height: 24,
+    width: 24,
+    backgroundColor: '#ffd700',
+    border: '2px solid #ffffff',
+    boxShadow: '0 0 10px rgba(255, 215, 0, 0.5)',
+  },
+  
+  '& .MuiSlider-valueLabel': {
+    backgroundColor: '#ffd700',
+    color: '#000000',
+    fontFamily: 'var(--font-orbitron), monospace',
+    fontWeight: 'bold',
+    fontSize: '0.8rem',
+    borderRadius: '6px',
+    padding: '4px 8px',
+    
+    '&:before': {
+      borderTopColor: '#ffd700',
+    },
+  },
+}))
+
+export const SliderValueDisplay = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  paddingTop: '1rem',
+}))
+
+export const SliderValueText = styled(Typography)(({ theme }) => ({
+  color: '#ffd700',
+  fontFamily: 'var(--font-orbitron), monospace',
+  fontSize: '1.2rem',
+  fontWeight: 'bold',
 }))
