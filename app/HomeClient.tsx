@@ -5,6 +5,7 @@ import { AuthModal } from '@/components/auth/AuthModal'
 import { HeroSection } from './home/HeroSection'
 import { FeaturesSection } from './home/FeaturesSection'
 import { RafflesSection } from './home/RafflesSection'
+import { TestimonialsSection } from './home/TestimonialsSection'
 import { PageContainer } from '@/components/HomePage.styles'
 import { StructuredData } from '@/components/StructuredData'
 
@@ -43,6 +44,7 @@ export default function HomeClient() {
       <HeroSection onShowAuthModal={() => setShowAuthModal(true)} />
       <FeaturesSection />
       <RafflesSection />
+      <TestimonialsSection />
 
       <AuthModal
         isOpen={showAuthModal}
