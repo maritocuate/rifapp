@@ -137,7 +137,7 @@ export const Dot = styled(Box)<{ active: boolean }>(({ theme, active }) => ({
 
 // TestimonialCard styles
 export const CardContainer = styled(Box)(({ theme }) => ({
-  background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05))',
+  background: 'linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.3))',
   backdropFilter: 'blur(10px)',
   border: '1px solid rgba(255, 215, 0, 0.2)',
   borderRadius: '15px',
