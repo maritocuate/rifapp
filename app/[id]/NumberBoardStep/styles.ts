@@ -177,3 +177,15 @@ export const WinnerUsername = styled(Box)(({ theme }) => ({
   textShadow: '0 0 8px rgba(255, 165, 0, 0.5)',
   textAlign: 'center',
 }))
+
+export const ShareSection = styled(Box)(({ theme }) => ({
+  marginTop: '1rem',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  width: '100%',
+  
+  '@media (max-width: 900px)': {
+    marginTop: '0.5rem',
+  },
+}))

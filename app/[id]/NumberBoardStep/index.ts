@@ -1,37 +1,5 @@
-// Componente principal
-export { NumberBoardStep } from './NumberBoardStep'
-
-// Componentes individuales
-export { RaffleInfo } from './RaffleInfo'
-export { RaffleFinished } from './RaffleFinished'
-export { LoadingState } from './LoadingState'
-export { ErrorState } from './ErrorState'
-
-// Estilos
-export {
-  PageContainer,
-  ContentWrapper,
-  LogoContainer,
-  GridSection,
-  RaffleInfoContainer,
-  CostInfo,
-  Separator,
-  UserInfo,
-  AvailableInfo,
-  RaffleFinishedContainer,
-  FinishedIcon,
-  FinishedMessage,
-  WinnerInfo,
-  WinnerNumber,
-  WinnerUsername
-} from './styles'
-
-// Tipos e interfaces
-export type {
-  NumberBoardStepProps,
-  PageContainerProps,
-  ContentWrapperProps,
-  LogoContainerProps,
-  GridSectionProps,
-  RaffleInfoProps
-} from './types'
+export { default as NumberBoardStep } from './NumberBoardStep'
+export { default as RaffleInfo } from './RaffleInfo'
+export { default as RaffleFinished } from './RaffleFinished'
+export { default as LoadingState } from './LoadingState'
+export { default as ErrorState } from './ErrorState'

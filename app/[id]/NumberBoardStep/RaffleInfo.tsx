@@ -2,16 +2,18 @@
 
 import { Box } from '@mui/material'
 import { formatPrice } from '@/lib/utils'
+import { ShareButtons } from './share'
 import { 
   RaffleInfoContainer, 
   CostInfo, 
   Separator, 
   UserInfo, 
-  AvailableInfo 
+  AvailableInfo,
+  ShareSection
 } from './styles'
 import { RaffleInfoProps } from './types'
 
-export function RaffleInfo({ numberCost, username, availableNumbers }: RaffleInfoProps) {
+export function RaffleInfo({ numberCost, username, availableNumbers, title, description, url }: RaffleInfoProps) {
   return (
     <RaffleInfoContainer>
       <CostInfo>
@@ -33,6 +35,14 @@ export function RaffleInfo({ numberCost, username, availableNumbers }: RaffleInf
       <AvailableInfo>
         🎫 {availableNumbers} números disponibles
       </AvailableInfo>
+
+      <ShareSection>
+        <ShareButtons 
+          title={title || "Rifa"}
+          description={description}
+          url={url || window.location.href}
+        />
+      </ShareSection>
     </RaffleInfoContainer>
   )
 }

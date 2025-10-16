@@ -170,6 +170,9 @@ export function NumberBoardStep({ raffleAlias }: NumberBoardStepProps) {
           numberCost={raffle.number_cost || 0}
           username={raffle.profiles?.username || "Organizador"}
           availableNumbers={100 - (ticketStats?.soldNumbers || 0)}
+          title={raffle.title}
+          description={raffle.description}
+          url={typeof window !== 'undefined' ? window.location.href : ''}
         />
         
         
@@ -197,7 +200,7 @@ export function NumberBoardStep({ raffleAlias }: NumberBoardStepProps) {
         </GridSection>
         
         <EventDetails
-          description={raffle.description || "¡Participa en nuestra emocionante rifa! Un evento único donde podrás ganar increíbles premios mientras disfrutas de la mejor experiencia de entretenimiento. Cada número tiene la oportunidad de llevarse el gran premio."}
+          description={raffle.description || "¡Participa en nuestra rifa! Cada número tiene la oportunidad de llevarse el gran premio."}
           prize={raffle.prize_description || "Premio especial"}
           prizeImageUrl={raffle.prize_image_url}
         />

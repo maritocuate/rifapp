@@ -1,5 +1,5 @@
 ---
-description: no ingresar comentarios en la generación de código.
+description: no ingresar comentarios en la generación de código. aplicar estilos con styled componentes de material ui. no utilizar tailwindcss. los componentes deben seguir los principios SOLID y DRY y buenas practicas.
 globs:
 alwaysApply: true
 ---

@@ -24,4 +24,7 @@ export interface RaffleInfoProps {
   numberCost: number
   username: string
   availableNumbers: number
+  title?: string
+  description?: string
+  url?: string
 }
