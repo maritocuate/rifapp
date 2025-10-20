@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/contexts/AuthContext'
 import { Button } from '@/components/ui/button'
@@ -13,12 +13,45 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
-import { LogOut, User } from 'lucide-react'
+import { LogOut, User, Shield } from 'lucide-react'
 
 export function UserMenu() {
   const { user, signOut } = useAuth()
   const [isSigningOut, setIsSigningOut] = useState(false)
+  const [isAdmin, setIsAdmin] = useState(false)
+  const [isCheckingAdmin, setIsCheckingAdmin] = useState(true)
   const router = useRouter()
+
+  useEffect(() => {
+    const checkAdminStatus = async () => {
+      if (!user) {
+        setIsAdmin(false)
+        setIsCheckingAdmin(false)
+        return
+      }
+
+      try {
+        const response = await fetch('/api/admin/check-admin', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ userId: user.id }),
+        })
+
+        if (response.ok) {
+          const data = await response.json()
+          setIsAdmin(data.isAdmin)
+        }
+      } catch (error) {
+        console.error('Error checking admin status:', error)
+      } finally {
+        setIsCheckingAdmin(false)
+      }
+    }
+
+    checkAdminStatus()
+  }, [user])
 
   if (!user) return null
 
@@ -30,6 +63,10 @@ export function UserMenu() {
 
   const handleProfileClick = () => {
     router.push('/profile')
+  }
+
+  const handleAdminClick = () => {
+    router.push('/admin')
   }
 
 
@@ -79,6 +116,18 @@ export function UserMenu() {
           <User className="mr-3 h-4 w-4 text-yellow-400" />
           <span>Perfil</span>
         </DropdownMenuItem>
+        {!isCheckingAdmin && isAdmin && (
+          <>
+            <DropdownMenuSeparator className="bg-yellow-400/20" />
+            <DropdownMenuItem 
+              onClick={handleAdminClick}
+              className="text-gray-300 hover:text-yellow-400 hover:bg-yellow-400/10 focus:bg-yellow-400/10 focus:text-yellow-400 transition-all duration-200 font-mono cursor-pointer"
+            >
+              <Shield className="mr-3 h-4 w-4 text-yellow-400" />
+              <span>Administración</span>
+            </DropdownMenuItem>
+          </>
+        )}
         <DropdownMenuSeparator className="bg-yellow-400/20" />
         <DropdownMenuItem 
           onClick={handleSignOut}

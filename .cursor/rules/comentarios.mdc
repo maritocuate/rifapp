@@ -1,5 +1,5 @@
 ---
-description: no ingresar comentarios en la generación de código. aplicar estilos con styled componentes de material ui. no utilizar tailwindcss. los componentes deben seguir los principios SOLID y DRY y buenas practicas.
+description: no ingresar comentarios en la generación de código. aplicar estilos con styled componentes de material ui. no utilizar tailwindcss. los componentes deben seguir los principios SOLID y DRY y buenas practicas. Always place type declarations immediately below the import statements in each file. Ensure that files are exclusively categorized as one of the following types: component, hook, or utility. Use px as unit (no rems, no ems). Always use functional programming (pure functions, immutability, higher-order functions, functions as first-class citizens, declarative programming, recursion, no side effects, concurrency and parallelism).
 globs:
 alwaysApply: true
 ---

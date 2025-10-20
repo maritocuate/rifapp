@@ -1,11 +1,13 @@
 import { router } from './trpc'
 import { rafflesRouter } from './routers/raffles'
 import { winnersRouter } from './routers/winners'
+import { adminRouter } from './routers/admin'
 
 // Router principal que combina todos los routers
 export const appRouter = router({
   raffles: rafflesRouter,
   winners: winnersRouter,
+  admin: adminRouter,
 })
 
 // Exportar el tipo del router para el cliente
