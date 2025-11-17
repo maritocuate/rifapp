@@ -2,11 +2,9 @@
 
 import { useAuth } from '@/contexts/AuthContext'
 import { LoginButton } from '@/components/LoginButton'
-import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { styled } from '@mui/material/styles'
 import { Box, Container, Typography } from '@mui/material'
-import { CaretCircleRightIcon } from '@phosphor-icons/react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 
@@ -49,22 +47,22 @@ const LogoContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  padding: '3rem 0',
-  marginBottom: '1rem',
+  paddingTop: '5rem',
+  marginBottom: '2.5rem',
   position: 'relative',
   filter: 'drop-shadow(0 0 15px rgba(255, 215, 0, 0.2)) drop-shadow(0 0 10px rgba(255, 215, 0, 0.2)) drop-shadow(0 0 15px rgba(255, 215, 0, 0.1))',
 }))
 
 const Subtitle = styled(Typography)(({ theme }) => ({
-  fontFamily: 'var(--font-orbitron), monospace',
-  fontSize: 'clamp(1rem, 3vw, 1.4rem)',
+  fontFamily: 'var(--font-cinzel), serif',
+  fontSize: 'clamp(1rem, 3vw, 2.8rem)',
   color: '#ffd700',
-  lineHeight: 1.6,
+  lineHeight: 1.2,
   textAlign: 'center',
   marginBottom: '3rem',
   textShadow: '0 0 5px rgba(255, 255, 255, 0.3)',
   maxWidth: '800px',
-  margin: '0 auto 3rem auto',
+  margin: '0 auto 2.8rem auto',
 }))
 
 const ButtonContainer = styled(Box)(({ theme }) => ({
@@ -84,7 +82,7 @@ const ButtonContainer = styled(Box)(({ theme }) => ({
 const StyledButton = styled(Button)(({ theme }) => ({
   fontFamily: 'var(--font-orbitron), monospace',
   fontWeight: 600,
-  padding: '1rem 2rem',
+  padding: '1rem 1rem',
   borderRadius: '15px',
   border: '1px solid rgba(255, 215, 0, 0.3)',
   background: 'linear-gradient(145deg, rgba(255, 215, 0, 0.1), rgba(255, 215, 0, 0.05))',
@@ -92,6 +90,7 @@ const StyledButton = styled(Button)(({ theme }) => ({
   backdropFilter: 'blur(10px)',
   boxShadow: '0 0 20px rgba(255, 215, 0, 0.2), inset 0 0 20px rgba(255, 215, 0, 0.1)',
   transition: 'all 0.3s ease',
+  height: '2.3rem',
   
   '&:hover': {
     background: 'linear-gradient(145deg, rgba(255, 215, 0, 0.2), rgba(255, 215, 0, 0.1))',
@@ -107,9 +106,11 @@ const StyledButton = styled(Button)(({ theme }) => ({
 }))
 
 const PrimaryButton = styled(StyledButton)(({ theme }) => ({
+  fontFamily: 'var(--font-cinzel), serif',
   background: 'linear-gradient(145deg, #ffd700, #ffed4e)',
   color: '#1a0033',
   border: '2px solid #ffd700',
+  borderRadius: '30px',
   fontSize: '1.1rem',
   marginBottom: '1rem',
   
@@ -150,11 +151,11 @@ export function HeroSection({ onShowAuthModal }: HeroSectionProps) {
           <Image
             src="/images/logo3-md.png"
             alt="Riffita"
-            width={400}
+            width={110}
             height={120}
             priority
             style={{
-              width: 'clamp(250px, 17vw, 400px)',
+              width: '110px',
               height: 'auto',
               maxWidth: '100%',
             }}
@@ -162,14 +163,12 @@ export function HeroSection({ onShowAuthModal }: HeroSectionProps) {
         </LogoContainer>
         
         <Subtitle>
-          Creá rifas y sorteos online de forma fácil.
-          Participá en los sorteos de forma segura y transparente.
+          Creá tu Rifa de Forma Fácil y de la Manera Más Transparente.
         </Subtitle>
         
         <ButtonContainer>
           <PrimaryButton size="lg" onClick={handleCreateRaffle}>
             Crear Rifa
-            <CaretCircleRightIcon className="ml-4 h-5 w-5" />
           </PrimaryButton>
         </ButtonContainer>
       </HeaderContainer>
