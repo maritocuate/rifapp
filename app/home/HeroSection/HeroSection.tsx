@@ -7,6 +7,7 @@ import { styled } from '@mui/material/styles'
 import { Box, Container, Typography } from '@mui/material'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
+import { NumberCard } from '../NumberCard'
 
 const ContentWrapper = styled(Container)(({ theme }) => ({
   position: 'relative',
@@ -139,9 +140,40 @@ export function HeroSection({ onShowAuthModal }: HeroSectionProps) {
       onShowAuthModal()
     }
   }
-
+  
   return (
     <ContentWrapper maxWidth="lg">
+      <NumberCard
+        value={8}
+        position={{ top: 100, left: 10 }}
+        scale={0.9}
+        rotation={-10}
+      />
+      <NumberCard
+        value={13}
+        position={{ top: 390, left: 180 }}
+        scale={0.8}
+        rotation={-5}
+      />
+      <NumberCard
+        value={11}
+        position={{ top: 520, left: -30 }}
+        scale={0.9}
+        rotation={-18}
+      />
+      <NumberCard
+        value={10}
+        position={{ top: 50, left: 800 }}
+        scale={0.9}
+        rotation={12}
+      />
+      <NumberCard
+        value={64}
+        position={{ top: 250, left: 1120 }}
+        scale={0.9}
+        rotation={10}
+      />
+
       <HeaderContainer>
         <LoginButtonWrapper>
           <LoginButton onShowAuthModal={onShowAuthModal} />
