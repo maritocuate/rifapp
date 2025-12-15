@@ -6,6 +6,7 @@ import { TRPCProvider } from '@/client/trpc-provider'
 import Umami from '@/components/Umami'
 import Footer from '@/components/Footer'
 import { StructuredData } from '@/components/StructuredData'
+import EmotionRegistry from '@/lib/emotion-registry'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -115,13 +116,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <StructuredData type="webapplication" />
       </head>
       <body className={`${inter.variable} ${cinzel.variable} ${orbitron.variable} geometric-bg`}>
-        <TRPCProvider>
-          <AuthProvider>
-            {children}
-            <Footer />
-          </AuthProvider>
-        </TRPCProvider>
-        <Umami />
+        <EmotionRegistry>
+          <TRPCProvider>
+            <AuthProvider>
+              {children}
+              <Footer />
+            </AuthProvider>
+          </TRPCProvider>
+          <Umami />
+        </EmotionRegistry>
       </body>
     </html>
   )
