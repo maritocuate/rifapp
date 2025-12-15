@@ -25,6 +25,7 @@ export function ImageUrlField({ value, onChange, error }: ImageUrlFieldProps) {
         error={shouldShowError}
         helperText={shouldShowHelperText}
         variant="outlined"
+        autoComplete="off"
         inputProps={{ maxLength: CHARACTER_LIMITS.prize_image_url.max }}
       />
     </FieldContainer>

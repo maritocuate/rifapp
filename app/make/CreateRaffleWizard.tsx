@@ -339,7 +339,7 @@ export function CreateRaffleWizard() {
             onClick={() => router.push('/')}
             startIcon={<ArrowLeft className="h-4 w-4" />}
           >
-            Volver al Inicio
+            Inicio
           </StyledButton>
         </ContentContainer>
       </WizardContainer>
@@ -348,7 +348,7 @@ export function CreateRaffleWizard() {
 
   return (
     <WizardContainer>
-      <WizardTitle>Crear Nuevo Sorteo</WizardTitle>
+      <WizardTitle>Crear Nuevo Rifa</WizardTitle>
       
       <StepperContainer>
         <StyledStepper activeStep={activeStep} alternativeLabel>
@@ -386,7 +386,7 @@ export function CreateRaffleWizard() {
             onClick={handleBack}
             startIcon={<ArrowLeft className="h-4 w-4" />}
           >
-            {activeStep === 0 ? 'Volver al Inicio' : 'Anterior'}
+            {activeStep === 0 ? 'Inicio' : 'Anterior'}
           </StyledButton>
 
           {activeStep === steps.length - 1 ? (

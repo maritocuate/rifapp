@@ -34,7 +34,7 @@ export const FieldContainer = styled(Box)(({ theme }) => ({
 }))
 
 export const FieldLabel = styled(Typography)(({ theme }) => ({
-  fontFamily: 'var(--font-orbitron), monospace',
+  fontFamily: 'Helvetica Neue, Helvetica, Arial, sans-serif',
   fontSize: '1rem',
   fontWeight: 500,
   color: '#ffffff',
@@ -45,7 +45,7 @@ export const FieldLabel = styled(Typography)(({ theme }) => ({
 
 export const StyledTextField = styled(TextField)(({ theme }) => ({
   '& .MuiOutlinedInput-root': {
-    fontFamily: 'var(--font-orbitron), monospace',
+    fontFamily: 'Helvetica Neue, Helvetica, Arial, sans-serif',
     color: '#ffffff',
     backgroundColor: 'rgba(255, 255, 255, 0.05)',
     borderRadius: '10px',
@@ -66,7 +66,7 @@ export const StyledTextField = styled(TextField)(({ theme }) => ({
   },
   
   '& .MuiInputLabel-root': {
-    fontFamily: 'var(--font-orbitron), monospace',
+    fontFamily: 'Helvetica Neue, Helvetica, Arial, sans-serif',
     color: 'rgba(255, 255, 255, 0.7)',
     
     '&.Mui-focused': {
@@ -75,7 +75,7 @@ export const StyledTextField = styled(TextField)(({ theme }) => ({
   },
   
   '& .MuiFormHelperText-root': {
-    fontFamily: 'var(--font-orbitron), monospace',
+    fontFamily: 'Helvetica Neue, Helvetica, Arial, sans-serif',
     color: '#ff6b6b',
     fontSize: '0.85rem',
   },
@@ -90,14 +90,14 @@ export const CostInfo = styled(Box)(({ theme }) => ({
 }))
 
 export const CostInfoText = styled(Typography)(({ theme }) => ({
-  fontFamily: 'var(--font-orbitron), monospace',
+  fontFamily: 'Helvetica Neue, Helvetica, Arial, sans-serif',
   fontSize: '0.9rem',
   color: 'rgba(255, 255, 255, 0.8)',
   lineHeight: 1.5,
 }))
 
 export const DetailsText = styled(Typography)(({ theme }) => ({
-  fontFamily: 'var(--font-orbitron), monospace',
+  fontFamily: 'Helvetica Neue, Helvetica, Arial, sans-serif',
   fontSize: '0.6rem',
   color: 'rgba(255, 255, 255, 0.8)',
   lineHeight: 1.5,

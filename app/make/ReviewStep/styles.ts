@@ -9,7 +9,7 @@ export const StepContainer = styled(Box)(({ theme }) => ({
 }))
 
 export const StepTitle = styled(Typography)(({ theme }) => ({
-  fontFamily: 'var(--font-orbitron), monospace',
+  fontFamily: 'var(--font-cinzel), serif',
   fontSize: '1.5rem',
   fontWeight: 600,
   color: '#ffd700',
@@ -19,7 +19,7 @@ export const StepTitle = styled(Typography)(({ theme }) => ({
 }))
 
 export const StepDescription = styled(Typography)(({ theme }) => ({
-  fontFamily: 'var(--font-orbitron), monospace',
+  fontFamily: 'Helvetica Neue, Helvetica, Arial, sans-serif',
   fontSize: '1rem',
   color: 'rgba(255, 255, 255, 0.8)',
   textAlign: 'center',
@@ -40,7 +40,7 @@ export const CardContentStyled = styled(CardContent)(({ theme }) => ({
 }))
 
 export const SectionTitle = styled(Typography)(({ theme }) => ({
-  fontFamily: 'var(--font-orbitron), monospace',
+  fontFamily: 'var(--font-cinzel), serif',
   fontSize: '1.2rem',
   fontWeight: 600,
   color: '#ffd700',
@@ -58,14 +58,14 @@ export const InfoRow = styled(Box)(({ theme }) => ({
 }))
 
 export const InfoLabel = styled(Typography)(({ theme }) => ({
-  fontFamily: 'var(--font-orbitron), monospace',
+  fontFamily: 'Helvetica Neue, Helvetica, Arial, sans-serif',
   fontSize: '0.9rem',
   fontWeight: 500,
   color: 'rgba(255, 255, 255, 0.7)',
 }))
 
 export const InfoValue = styled(Typography)(({ theme }) => ({
-  fontFamily: 'var(--font-orbitron), monospace',
+  fontFamily: 'Helvetica Neue, Helvetica, Arial, sans-serif',
   fontSize: '1rem',
   color: '#ffffff',
   lineHeight: 1.4,
@@ -88,7 +88,7 @@ export const SummaryBox = styled(Box)(({ theme }) => ({
 }))
 
 export const SummaryTitle = styled(Typography)(({ theme }) => ({
-  fontFamily: 'var(--font-orbitron), monospace',
+  fontFamily: 'var(--font-cinzel), serif',
   fontSize: '1rem',
   fontWeight: 600,
   color: '#ffd700',
@@ -99,7 +99,7 @@ export const SummaryTitle = styled(Typography)(({ theme }) => ({
 }))
 
 export const SummaryText = styled(Typography)(({ theme }) => ({
-  fontFamily: 'var(--font-orbitron), monospace',
+  fontFamily: 'Helvetica Neue, Helvetica, Arial, sans-serif',
   fontSize: '0.9rem',
   color: 'rgba(255, 255, 255, 0.8)',
   lineHeight: 1.5,

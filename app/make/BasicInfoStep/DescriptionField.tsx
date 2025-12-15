@@ -20,7 +20,7 @@ export function DescriptionField({ value, onChange, error }: DescriptionFieldPro
     <FieldContainer>
       <FieldLabel>
         <FileText className="h-4 w-4 text-yellow-400" />
-        Descripción (Opcional)
+        Descripción
       </FieldLabel>
       <StyledTextField
         fullWidth
@@ -32,6 +32,7 @@ export function DescriptionField({ value, onChange, error }: DescriptionFieldPro
         error={shouldShowError}
         helperText={shouldShowHelperText}
         variant="outlined"
+        autoComplete="off"
         inputProps={{ maxLength: CHARACTER_LIMITS.description.max }}
       />
     </FieldContainer>

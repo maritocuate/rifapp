@@ -270,6 +270,7 @@ export function ImageUploadField({ value, onChange, error }: ImageUrlFieldProps)
                     handleUrlSubmit((e.target as HTMLInputElement).value)
                   }
                 }}
+                autoComplete="off"
                 inputProps={{ maxLength: CHARACTER_LIMITS.prize_image_url.max }}
               />
               <UrlButtonContainer>

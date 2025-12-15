@@ -27,6 +27,7 @@ export function PrizeDescriptionField({ value, onChange, error }: PrizeDescripti
         error={shouldShowError}
         helperText={shouldShowHelperText}
         variant="outlined"
+        autoComplete="off"
         inputProps={{ maxLength: CHARACTER_LIMITS.prize_description.max }}
       />
       {value.trim().length > 0 && prizeValidation.profanity.hasProfanity && (

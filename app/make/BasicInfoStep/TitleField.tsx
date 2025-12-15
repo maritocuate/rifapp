@@ -21,7 +21,7 @@ export function TitleField({ value, onChange, error }: TitleFieldProps) {
     <FieldContainer>
       <FieldLabel>
         <User className="h-4 w-4 text-yellow-400" />
-        Título de la Rifa
+        Título
       </FieldLabel>
       <StyledTextField
         fullWidth
@@ -31,6 +31,7 @@ export function TitleField({ value, onChange, error }: TitleFieldProps) {
         error={shouldShowError}
         helperText={shouldShowHelperText}
         variant="outlined"
+        autoComplete="off"
         inputProps={{ maxLength: CHARACTER_LIMITS.title.max }}
       />
     </FieldContainer>

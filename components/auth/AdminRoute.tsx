@@ -75,7 +75,7 @@ export function AdminRoute({ children, fallback }: AdminRouteProps) {
           </p>
           <Button onClick={() => router.push('/')} className="flex items-center gap-2">
             <ArrowLeft className="h-4 w-4" />
-            Volver al Inicio
+            Inicio
           </Button>
         </div>
       </div>
@@ -99,7 +99,7 @@ export function AdminRoute({ children, fallback }: AdminRouteProps) {
           </Alert>
           <Button onClick={() => router.push('/')} className="flex items-center gap-2">
             <ArrowLeft className="h-4 w-4" />
-            Volver al Inicio
+            Inicio
           </Button>
         </div>
       </div>

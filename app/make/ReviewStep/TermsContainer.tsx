@@ -19,7 +19,7 @@ export function TermsContainerComponent({ termsAccepted, onTermsChange, error }:
         }
         label={
           <Typography sx={{
-            fontFamily: 'var(--font-orbitron), monospace',
+            fontFamily: 'Helvetica Neue, Helvetica, Arial, sans-serif',
             fontSize: '0.9rem',
             color: 'rgba(255, 255, 255, 0.9)',
             lineHeight: 1.4
@@ -28,7 +28,7 @@ export function TermsContainerComponent({ termsAccepted, onTermsChange, error }:
             <TermsLink 
               href="/terminos" 
               target="_blank"
-              sx={{ fontFamily: 'var(--font-orbitron), monospace' }}
+              sx={{ fontFamily: 'Helvetica Neue, Helvetica, Arial, sans-serif' }}
             >
               términos y condiciones
             </TermsLink>
@@ -45,7 +45,7 @@ export function TermsContainerComponent({ termsAccepted, onTermsChange, error }:
       />
       {error && (
         <Typography sx={{
-          fontFamily: 'var(--font-orbitron), monospace',
+          fontFamily: 'Helvetica Neue, Helvetica, Arial, sans-serif',
           fontSize: '0.8rem',
           color: '#ff6b6b',
           marginTop: '0.5rem',
