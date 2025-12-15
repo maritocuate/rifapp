@@ -348,7 +348,7 @@ export function CreateRaffleWizard() {
 
   return (
     <WizardContainer>
-      <WizardTitle>Crear Nuevo Rifa</WizardTitle>
+      <WizardTitle>Crear Nueva Rifa</WizardTitle>
       
       <StepperContainer>
         <StyledStepper activeStep={activeStep} alternativeLabel>
