@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { Calendar, CurrencyDollar, Users, Eye } from '@phosphor-icons/react'
 import { formatPrice } from '@/lib/utils'
 
@@ -82,11 +83,12 @@ export function UserRaffles({ raffles, onRaffleClick }: UserRafflesProps) {
               </div>
             </div>
             {raffle.prize_image_url && (
-              <div className="h-12 w-12 rounded-lg overflow-hidden border border-yellow-400/20">
-                <img 
+              <div className="h-12 w-12 rounded-lg overflow-hidden border border-yellow-400/20 relative">
+                <Image 
                   src={raffle.prize_image_url} 
                   alt="Premio" 
-                  className="h-full w-full object-cover"
+                  fill
+                  className="object-cover"
                 />
               </div>
             )}

@@ -113,7 +113,7 @@ export default function SetupAdminPage() {
             <ol className="text-sm text-yellow-700 space-y-1">
               <li>1. Asegúrate de estar registrado en la aplicación</li>
               <li>2. Ingresa tu email exacto</li>
-              <li>3. Haz clic en "Configurar como Administrador"</li>
+              <li>3. Haz clic en &quot;Configurar como Administrador&quot;</li>
               <li>4. Serás redirigido al panel de administración</li>
             </ol>
           </div>
